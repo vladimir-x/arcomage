@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game;
+package ru.dude.arcomage.game;
 
-import ru.dude.acromage.game.data.Card;
+import ru.dude.arcomage.game.data.Card;
 
 import java.util.ArrayList;
 import java.util.List;

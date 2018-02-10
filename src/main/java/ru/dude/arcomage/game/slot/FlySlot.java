@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.slot;
+package ru.dude.arcomage.game.slot;
 
-import ru.dude.acromage.game.interfaces.Actionable;
+import ru.dude.arcomage.game.interfaces.Actionable;
 import com.badlogic.gdx.math.Rectangle;
 
 /**

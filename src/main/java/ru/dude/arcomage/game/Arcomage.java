@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game;
+package ru.dude.arcomage.game;
 
-import ru.dude.acromage.game.data.Card;
-import ru.dude.acromage.game.data.Computer;
-import ru.dude.acromage.game.data.Player;
-import ru.dude.acromage.game.data.User;
-import ru.dude.acromage.game.desk.Board;
-import ru.dude.acromage.game.desk.Deskzone;
-import ru.dude.acromage.game.desk.Hand;
-import ru.dude.acromage.game.desk.ResPanel;
-import ru.dude.acromage.game.interfaces.Actionable;
-import ru.dude.acromage.game.interfaces.GameControlable;
-import ru.dude.acromage.game.interfaces.Rendereble;
-import ru.dude.acromage.game.slot.FlySlot;
+import ru.dude.arcomage.game.data.Card;
+import ru.dude.arcomage.game.data.Computer;
+import ru.dude.arcomage.game.data.Player;
+import ru.dude.arcomage.game.data.User;
+import ru.dude.arcomage.game.desk.Board;
+import ru.dude.arcomage.game.desk.Deskzone;
+import ru.dude.arcomage.game.desk.Hand;
+import ru.dude.arcomage.game.desk.ResPanel;
+import ru.dude.arcomage.game.interfaces.Actionable;
+import ru.dude.arcomage.game.interfaces.GameControlable;
+import ru.dude.arcomage.game.interfaces.Rendereble;
+import ru.dude.arcomage.game.slot.FlySlot;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

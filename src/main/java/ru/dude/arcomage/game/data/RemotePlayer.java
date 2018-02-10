@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ru.dude.acromage.game.data;
+package ru.dude.arcomage.game.data;
 
 import java.util.ArrayList;
 

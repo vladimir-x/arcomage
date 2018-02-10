@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.screen;
+package ru.dude.arcomage.game.screen;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.GameInput;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.GameInput;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**

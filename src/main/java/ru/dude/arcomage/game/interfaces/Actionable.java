@@ -1,4 +1,4 @@
-package ru.dude.acromage.game.interfaces;
+package ru.dude.arcomage.game.interfaces;
 
 /**
  *

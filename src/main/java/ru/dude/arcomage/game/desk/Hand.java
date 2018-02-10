@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.desk;
+package ru.dude.arcomage.game.desk;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.data.Card;
-import ru.dude.acromage.game.data.Player;
-import ru.dude.acromage.game.interfaces.Actionable;
-import ru.dude.acromage.game.slot.ActiveSlot;
-import ru.dude.acromage.game.slot.DeckSlot;
-import ru.dude.acromage.game.slot.FlySlot;
-import ru.dude.acromage.game.slot.HandSlot;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.Card;
+import ru.dude.arcomage.game.data.Player;
+import ru.dude.arcomage.game.interfaces.Actionable;
+import ru.dude.arcomage.game.slot.ActiveSlot;
+import ru.dude.arcomage.game.slot.DeckSlot;
+import ru.dude.arcomage.game.slot.FlySlot;
+import ru.dude.arcomage.game.slot.HandSlot;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 

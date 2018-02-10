@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game;
+package ru.dude.arcomage.game;
 
 import com.badlogic.gdx.InputProcessor;
 
@@ -40,7 +40,7 @@ public class GameInput implements InputProcessor {
         float propX = screenX * AppImpl.settings.cameraWidth / (1.0f * AppImpl.settings.windowWidth);
         float propY = (AppImpl.settings.windowHeight - screenY) * AppImpl.settings.cameraHeight / (1.0f * AppImpl.settings.windowHeight);
 
-        appImpl.acromage.promptToStep(propX, propY, button);
+        appImpl.arcomage.promptToStep(propX, propY, button);
 
         return true;
 

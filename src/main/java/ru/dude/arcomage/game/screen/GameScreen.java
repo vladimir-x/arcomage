@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.screen;
+package ru.dude.arcomage.game.screen;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.GameInput;
-import ru.dude.acromage.game.GridRender;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.GameInput;
+import ru.dude.arcomage.game.GridRender;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -43,8 +43,8 @@ public class GameScreen extends BaseScreen {
     public void render(float delta) {
         //super.render(delta);
 
-        appImpl.acromage.action(delta);
-        appImpl.acromage.render(renderer, spriteBatch);
+        appImpl.arcomage.action(delta);
+        appImpl.arcomage.render(renderer, spriteBatch);
         //gridRender.render(renderer, spriteBatch);
 
     }
@@ -54,7 +54,7 @@ public class GameScreen extends BaseScreen {
         super.resize(width, height);
         renderer.setProjectionMatrix(cam.combined);
         spriteBatch.setProjectionMatrix(cam.combined);
-        appImpl.acromage.update();
+        appImpl.arcomage.update();
         gridRender.update();
     }
 

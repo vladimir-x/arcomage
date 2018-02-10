@@ -1,8 +1,7 @@
-package ru.dude.acromage.game.interfaces;
+package ru.dude.arcomage.game.interfaces;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 
 /**
  *

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.desktop;
+package ru.dude.arcomage.desktop;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.Settings;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.Settings;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.io.File;

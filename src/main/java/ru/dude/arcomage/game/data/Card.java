@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.data;
+package ru.dude.arcomage.game.data;
 
-import ru.dude.acromage.game.AppImpl;
+import ru.dude.arcomage.game.AppImpl;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**

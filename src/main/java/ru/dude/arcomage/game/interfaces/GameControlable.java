@@ -1,8 +1,8 @@
 
-package ru.dude.acromage.game.interfaces;
+package ru.dude.arcomage.game.interfaces;
 
-import ru.dude.acromage.game.data.Card;
-import ru.dude.acromage.game.slot.FlySlot;
+import ru.dude.arcomage.game.data.Card;
+import ru.dude.arcomage.game.slot.FlySlot;
 
 /**
  *

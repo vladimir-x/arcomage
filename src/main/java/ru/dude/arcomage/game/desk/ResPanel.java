@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.desk;
+package ru.dude.arcomage.game.desk;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.slot.NameBlock;
-import ru.dude.acromage.game.slot.ResBlock;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.slot.NameBlock;
+import ru.dude.arcomage.game.slot.ResBlock;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 

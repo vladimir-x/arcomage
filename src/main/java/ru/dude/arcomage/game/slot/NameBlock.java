@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game.slot;
+package ru.dude.arcomage.game.slot;
 
-import ru.dude.acromage.game.AppImpl;
-import ru.dude.acromage.game.desk.ResPanel;
+import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.desk.ResPanel;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 

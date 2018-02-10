@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.dude.acromage.game;
+package ru.dude.arcomage.game;
 
-import ru.dude.acromage.game.interfaces.GameControlable;
-import ru.dude.acromage.game.screen.GameScreen;
-import ru.dude.acromage.game.screen.WelcomeScreen;
+import ru.dude.arcomage.game.interfaces.GameControlable;
+import ru.dude.arcomage.game.screen.GameScreen;
+import ru.dude.arcomage.game.screen.WelcomeScreen;
 import com.badlogic.gdx.Game;
 
 /**
@@ -21,7 +21,7 @@ public class AppImpl extends Game {
     public static GameControlable control;
     public static CardManager cardManager;
 
-    public Arcomage acromage;
+    public Arcomage arcomage;
     private WelcomeScreen welcomeScreen;
     private GameScreen gameScreen;
     private GameInput input;
@@ -38,15 +38,15 @@ public class AppImpl extends Game {
         AppImpl.cardManager = new CardManager();
 
         gameStart = false;
-        acromage = new Arcomage();
-        control = acromage;
+        arcomage = new Arcomage();
+        control = arcomage;
         input = new GameInput(this);
         welcomeScreen = new WelcomeScreen(input);
         gameScreen = new GameScreen(this, input);
 
         setScreen(welcomeScreen);
         
-       // acromage.startGame();
+       // arcomage.startGame();
     }
 
     @Override
@@ -60,10 +60,10 @@ public class AppImpl extends Game {
 
     public void restart() {
         gameStart = true;
-        acromage = new Arcomage();
-        control = acromage;
+        arcomage = new Arcomage();
+        control = arcomage;
         setScreen(gameScreen);
-        acromage.startGame();
+        arcomage.startGame();
     }
 
     public void end() {
