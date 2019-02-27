@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.desk;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.RoundEnum;
 import ru.dude.arcomage.game.data.Card;
 import ru.dude.arcomage.game.data.Player;
 import ru.dude.arcomage.game.interfaces.Actionable;
@@ -80,7 +81,11 @@ public class Hand extends Deskzone implements Actionable {
 
         for (int i = 0; i < slots.size(); ++i) {
             HandSlot slot = slots.get(i);
-            slot.render(renderer, spriteBatch);
+            if (waitingPlayer) {
+                slot.render(renderer, spriteBatch);
+            } else {
+                slot.renderMask(renderer, spriteBatch);
+            }
         }
     }
 
@@ -158,15 +163,18 @@ public class Hand extends Deskzone implements Actionable {
             public void run() {
                 if (atStep) {
                     player.takeCard(card);
-                    setWaitingPlayer();
+                    setWaitingPlayer(RoundEnum.USER_TURN);
                 }
             }
         });
     }
 
-    public void setWaitingPlayer() {
-        waitingPlayer = true;
-        player.ding();
+    public void setWaitingPlayer(RoundEnum round) {
+        waitingPlayer = round == RoundEnum.USER_TURN;
+
+        if (round == RoundEnum.USER_TURN) {
+            player.ding();
+        }
     }
 
 }

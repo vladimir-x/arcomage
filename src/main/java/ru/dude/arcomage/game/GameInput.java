@@ -40,7 +40,7 @@ public class GameInput implements InputProcessor {
         float propX = screenX * AppImpl.settings.cameraWidth / (1.0f * AppImpl.settings.windowWidth);
         float propY = (AppImpl.settings.windowHeight - screenY) * AppImpl.settings.cameraHeight / (1.0f * AppImpl.settings.windowHeight);
 
-        appImpl.arcomage.promptToStep(propX, propY, button);
+        appImpl.control.promptToStep(propX, propY, button);
 
         return true;
 

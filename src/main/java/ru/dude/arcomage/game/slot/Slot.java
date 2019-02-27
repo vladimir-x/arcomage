@@ -5,6 +5,7 @@
  */
 package ru.dude.arcomage.game.slot;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ru.dude.arcomage.game.data.Card;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.math.Rectangle;
  * @author elduderino
  */
 public abstract class Slot implements Rendereble {
+
+    private static Card maskCard = Card.getUndoCard();
 
     private Card card;
     Rectangle rect;
@@ -39,9 +42,21 @@ public abstract class Slot implements Rendereble {
 
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
-        if (card != null) {
+        if (card!=null) {
+            render(card.getTexture(), renderer, spriteBatch);
+        }
+    }
+
+    public void renderMask(ShapeRenderer renderer, SpriteBatch spriteBatch) {
+        if (maskCard!=null) {
+            render(maskCard.getTexture(), renderer, spriteBatch);
+        }
+    }
+
+    private void render(TextureRegion textureRegion, ShapeRenderer renderer, SpriteBatch spriteBatch) {
+        if (textureRegion != null) {
             spriteBatch.begin();
-            spriteBatch.draw(card.getTexture(), rect.x, rect.y);
+            spriteBatch.draw(textureRegion, rect.x, rect.y);
 
             spriteBatch.end();
             if (droped) {

@@ -21,4 +21,6 @@ public interface GameControlable {
     
     // узнать текущий № хода
     Integer getCurrentStepCount();
+
+    void promptToStep(float propX, float propY, int button);
 }

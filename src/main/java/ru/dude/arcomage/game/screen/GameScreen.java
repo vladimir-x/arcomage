@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.screen;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.Arcomage;
 import ru.dude.arcomage.game.GameInput;
 import ru.dude.arcomage.game.GridRender;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,13 +20,13 @@ public class GameScreen extends BaseScreen {
 
     private GameInput input;
 
-    private AppImpl appImpl;
+    private Arcomage appImpl;
     public ShapeRenderer renderer;
     public SpriteBatch spriteBatch;
 
     GridRender gridRender;
 
-    public GameScreen(AppImpl appImpl, GameInput input) {
+    public GameScreen(Arcomage appImpl, GameInput input) {
         super(input);
         this.appImpl = appImpl;
 
@@ -43,8 +44,12 @@ public class GameScreen extends BaseScreen {
     public void render(float delta) {
         //super.render(delta);
 
-        appImpl.arcomage.action(delta);
-        appImpl.arcomage.render(renderer, spriteBatch);
+        try {
+            appImpl.action(delta);
+            appImpl.render(renderer, spriteBatch);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         //gridRender.render(renderer, spriteBatch);
 
     }
@@ -54,7 +59,7 @@ public class GameScreen extends BaseScreen {
         super.resize(width, height);
         renderer.setProjectionMatrix(cam.combined);
         spriteBatch.setProjectionMatrix(cam.combined);
-        appImpl.arcomage.update();
+        appImpl.update();
         gridRender.update();
     }
 

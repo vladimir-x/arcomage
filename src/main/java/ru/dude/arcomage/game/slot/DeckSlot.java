@@ -27,7 +27,7 @@ public class DeckSlot extends Slot {
     @Override
     public void update() {
         float x = owner.getRectangle().x + owner.CARDS_SPACE_X;
-        float y = owner.getRectangle().y +owner.getRectangle().height 
+        float y = owner.getRectangle().y + owner.getRectangle().height
                 -owner.CARDS_SPACE_Y - AppImpl.settings.cardHeight;
         rect = new Rectangle(
                 x,

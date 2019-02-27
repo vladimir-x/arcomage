@@ -5,6 +5,10 @@
  */
 package ru.dude.arcomage.game;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ru.dude.arcomage.game.data.Card;
 import ru.dude.arcomage.game.data.Computer;
 import ru.dude.arcomage.game.data.Player;
@@ -17,13 +21,8 @@ import ru.dude.arcomage.game.interfaces.Actionable;
 import ru.dude.arcomage.game.interfaces.GameControlable;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import ru.dude.arcomage.game.slot.FlySlot;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- *
  * @author elduderino
  */
 public class Arcomage implements Rendereble, Actionable, GameControlable {
@@ -39,8 +38,6 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     Player player, user, opponent;
     RoundEnum round;
     CardActionEnum cardAction;
-
-    Boolean isTurning;
 
     Integer stepCounter;
 
@@ -66,7 +63,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         userHand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
         opponentHand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
 
-        isTurning = !true;//поменяется в  startGame()->swicthTurn()
+        round = RoundEnum.NOGAME;
     }
 
     public void startGame() {
@@ -74,24 +71,31 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         //user.takeCard(AppImpl.settings.cardCount);
         //opponent.takeCard(AppImpl.settings.cardCount);
         stepCounter = 0;
+        round = RoundEnum.NOGAME;
 
+        update();
+
+        hand = userHand;
         userHand.takeCard(false);
         opponentHand.takeCard(false);
-        update();
-        switchTurn();
-        hand.setWaitingPlayer();
 
     }
 
+    public void firstTurn(boolean isUser) {
+        round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
+        hand = isUser ? userHand : opponentHand;
+        player = isUser ? user : opponent;
+        stepCounter = 0;
+
+        hand.setWaitingPlayer(round);
+    }
+
     public void switchTurn() {
-        isTurning = !isTurning;
-        if (isTurning) {
-            hand = userHand;
-            player = user;
-        } else {
-            hand = opponentHand;
-            player = opponent;
-        }
+        round = (round == RoundEnum.OPPONENT_TURN) ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
+
+        hand = round == RoundEnum.USER_TURN ? userHand : opponentHand;
+        player = round == RoundEnum.USER_TURN ? user : opponent;
+
         ++stepCounter;
         //board.clearPrevStep();
         hand.takeCard(true);
@@ -133,7 +137,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     }
 
     public void promptToStep(float propX, float propY, int button) {
-        if (isTurning) {
+        if (round == RoundEnum.USER_TURN) {
 
             if (button == Input.Buttons.LEFT) {
                 hand.promptToSelect(propX, propY, false);

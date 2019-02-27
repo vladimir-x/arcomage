@@ -21,7 +21,7 @@ public class AppImpl extends Game {
     public static GameControlable control;
     public static CardManager cardManager;
 
-    public Arcomage arcomage;
+//    public Arcomage arcomage;
     private WelcomeScreen welcomeScreen;
     private GameScreen gameScreen;
     private GameInput input;
@@ -38,12 +38,10 @@ public class AppImpl extends Game {
         AppImpl.cardManager = new CardManager();
 
         gameStart = false;
-        arcomage = new Arcomage();
-        control = arcomage;
+ //       arcomage = new Arcomage();
+ //       control = arcomage;
         input = new GameInput(this);
         welcomeScreen = new WelcomeScreen(input);
-        gameScreen = new GameScreen(this, input);
-
         setScreen(welcomeScreen);
         
        // arcomage.startGame();
@@ -51,6 +49,7 @@ public class AppImpl extends Game {
 
     @Override
     public void dispose() {
+        welcomeScreen.dispose();
         gameScreen.dispose();
     }
 
@@ -60,10 +59,15 @@ public class AppImpl extends Game {
 
     public void restart() {
         gameStart = true;
-        arcomage = new Arcomage();
+        Arcomage arcomage = new Arcomage();
         control = arcomage;
-        setScreen(gameScreen);
         arcomage.startGame();
+        if (gameScreen !=null){
+            gameScreen.dispose();
+        }
+        gameScreen = new GameScreen(arcomage, input);
+        setScreen(gameScreen);
+        arcomage.firstTurn(true);
     }
 
     public void end() {
