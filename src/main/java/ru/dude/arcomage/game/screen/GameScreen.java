@@ -44,12 +44,9 @@ public class GameScreen extends BaseScreen {
     public void render(float delta) {
         //super.render(delta);
 
-        try {
-            appImpl.action(delta);
-            appImpl.render(renderer, spriteBatch);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        appImpl.action(delta);
+        appImpl.render(renderer, spriteBatch);
+
         //gridRender.render(renderer, spriteBatch);
 
     }

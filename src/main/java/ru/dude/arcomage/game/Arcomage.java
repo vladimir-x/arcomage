@@ -32,7 +32,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     ResPanel resLeft, resRight;
 
     Board board;
-    Hand hand, userHand, opponentHand;
+    Hand hand;
     ResPanel resPanels[];
 
     Player player, user, opponent;
@@ -51,17 +51,13 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         user = new User();
         opponent = new Computer();
 
-        userHand = new Hand(Deskzone.SOUTH, board.getActiveSlot(), board.getDeckSlot(), user);
-        opponentHand = new Hand(Deskzone.SOUTH, board.getActiveSlot(), board.getDeckSlot(), opponent);
-        userHand.debugstr = "user";
-        opponentHand.debugstr = "oppon";
+        hand = new Hand(Deskzone.SOUTH, board.getActiveSlot(), board.getDeckSlot());
 
         board.setColor(Color.DARK_GRAY.cpy().sub(0, 0, 0, 0.5f));
         resLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 0.5f));
         resRight.setColor(Color.RED.cpy().sub(0, 0, 0, 0.5f));
 
-        userHand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
-        opponentHand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
+        hand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
 
         round = RoundEnum.NOGAME;
     }
@@ -75,30 +71,39 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
         update();
 
-        hand = userHand;
-        userHand.takeCard(false);
-        opponentHand.takeCard(false);
+        hand.setPlayer(user,round);
+        hand.takeCard(false);
+
+        hand.setPlayer(opponent,round);
+        hand.takeCard(false);
 
     }
 
     public void firstTurn(boolean isUser) {
         round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
-        hand = isUser ? userHand : opponentHand;
         player = isUser ? user : opponent;
+        hand.setPlayer(player,round);
         stepCounter = 0;
 
-        hand.setWaitingPlayer(round);
+        //hand.setWaitingPlayer(round);
+        startTurn();
     }
 
     public void switchTurn() {
         round = (round == RoundEnum.OPPONENT_TURN) ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
 
-        hand = round == RoundEnum.USER_TURN ? userHand : opponentHand;
         player = round == RoundEnum.USER_TURN ? user : opponent;
+        hand.setPlayer(player,round);
 
         ++stepCounter;
         //board.clearPrevStep();
+        //hand.takeCard(true);
+        startTurn();
+    }
+
+    private void startTurn(){
         hand.takeCard(true);
+        player.ding();
     }
 
     @Override
@@ -123,8 +128,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         resLeft.update();
         resRight.update();
 
-        userHand.update();
-        opponentHand.update();
+        hand.update();
 
         animPool.update();
     }

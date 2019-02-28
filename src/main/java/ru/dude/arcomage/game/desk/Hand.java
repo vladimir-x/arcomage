@@ -27,40 +27,26 @@ public class Hand extends Deskzone implements Actionable {
 
     ArrayList<HandSlot> slots;
     DeckSlot deckSlot;
-    FlySlot selectedSlot;
-    FlySlot newCardSlot;
     ActiveSlot activeSlot;
     HandSlot emptySlot;
+
     Player player;
+    RoundEnum round;
 
     boolean waitingPlayer;
 
     public String debugstr;
 
-    public Hand(int zone, ActiveSlot activeSlot, DeckSlot deckSlot, Player player) {
+    public Hand(int zone, ActiveSlot activeSlot, DeckSlot deckSlot) {
         super(zone);
         this.deckSlot = deckSlot;
         this.activeSlot = activeSlot;
-        this.player = player;
+   //     this.player = player;
         slots = new ArrayList<HandSlot>();
 
-        selectedSlot = null;
-        newCardSlot = null;
-        waitingPlayer = false;
+        waitingPlayer = true;
     }
 
-    public int getCount() {
-        return player.getCards().size();
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void selectSlot() {
-
-        //selectedSlot = new FlySlot();
-    }
 
     @Override
     public void update() {
@@ -169,12 +155,16 @@ public class Hand extends Deskzone implements Actionable {
         });
     }
 
+    public void setPlayer(Player player, RoundEnum round){
+        this.player = player;
+        this.round = round;
+
+    }
+
     public void setWaitingPlayer(RoundEnum round) {
         waitingPlayer = round == RoundEnum.USER_TURN;
 
-        if (round == RoundEnum.USER_TURN) {
-            player.ding();
-        }
+        player.ding();
     }
 
 }

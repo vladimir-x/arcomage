@@ -16,7 +16,7 @@ public abstract class Card {
 
     boolean switchTurn = true;
 
-    void CardAction() {
+    void cardAction() {
         //предписание карты
     }
 
