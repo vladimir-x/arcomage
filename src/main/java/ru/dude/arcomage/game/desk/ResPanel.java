@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.desk;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.Player;
 import ru.dude.arcomage.game.slot.NameBlock;
 import ru.dude.arcomage.game.slot.ResBlock;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +24,8 @@ public class ResPanel extends Deskzone {
 
     NameBlock nameBlock;
 
+    Player player;
+
     public ResPanel(int zone) {
         super(zone);
 
@@ -33,7 +36,6 @@ public class ResPanel extends Deskzone {
         resSlots = new ResBlock[]{brickSlot, gemSlot, beastSlot};
 
         nameBlock = new NameBlock(this);
-        nameBlock.setText("text");
     }
 
     @Override
@@ -56,4 +58,8 @@ public class ResPanel extends Deskzone {
         nameBlock.render(renderer, spriteBatch);
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+        nameBlock.setText(player.getName());
+    }
 }

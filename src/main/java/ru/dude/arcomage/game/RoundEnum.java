@@ -15,4 +15,11 @@ public enum RoundEnum {
     NOGAME,
     USER_TURN,
     OPPONENT_TURN
+    ;
+
+    public RoundEnum switchTurn(){
+        if (this == USER_TURN) return OPPONENT_TURN;
+        if (this == OPPONENT_TURN ) return USER_TURN;
+        return this;
+    }
 }

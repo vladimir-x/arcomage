@@ -17,6 +17,10 @@ public class Computer extends Player {
 
     private static Random randomGen = new Random(System.currentTimeMillis());
 
+    public Computer(String name) {
+        super(name);
+    }
+
     @Override
     public void ding() {
         System.out.println("st");

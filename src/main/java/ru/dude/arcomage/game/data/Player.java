@@ -14,13 +14,16 @@ import java.util.ArrayList;
  */
 public abstract class Player {
 
+    String name;
+
     public ArrayList<Card> cards;
 
     public ArrayList<Card> maskCards;//карты обратной стороной
 
-    public Player() {
-        cards = new ArrayList<Card>();
-        maskCards = new ArrayList<Card>();
+    public Player(String name) {
+        this.name = name;
+        this.cards = new ArrayList<Card>();
+        this.maskCards = new ArrayList<Card>();
     }
 
     // при вставке первая карта - указана. 
@@ -32,7 +35,7 @@ public abstract class Player {
     }
 
     // взять карты в начале игры
-    public Card takeCard() {
+    public Card takeCards() {
 
         Card lastCard = null;
         for (int i = cards.size(); i < AppImpl.settings.cardCount; ++i) {
@@ -61,4 +64,11 @@ public abstract class Player {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

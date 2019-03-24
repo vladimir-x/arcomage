@@ -26,11 +26,13 @@ public abstract class Slot implements Rendereble {
     private Card card;
     Rectangle rect;
     private Boolean droped;
+    private Boolean masked;
     Integer playedStep; // на каком ходу был разыгран
 
     public Slot() {
         card = null;
         droped = false;
+        masked = false;
     }
 
     public Rectangle getRect() {
@@ -43,15 +45,10 @@ public abstract class Slot implements Rendereble {
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         if (card!=null) {
-            render(card.getTexture(), renderer, spriteBatch);
+            render(masked ? maskCard.getTexture() : card.getTexture() , renderer, spriteBatch);
         }
     }
 
-    public void renderMask(ShapeRenderer renderer, SpriteBatch spriteBatch) {
-        if (maskCard!=null) {
-            render(maskCard.getTexture(), renderer, spriteBatch);
-        }
-    }
 
     private void render(TextureRegion textureRegion, ShapeRenderer renderer, SpriteBatch spriteBatch) {
         if (textureRegion != null) {
@@ -103,4 +100,11 @@ public abstract class Slot implements Rendereble {
         return playedStep;
     }
 
+    public Boolean getMasked() {
+        return masked;
+    }
+
+    public void setMasked(Boolean masked) {
+        this.masked = masked;
+    }
 }

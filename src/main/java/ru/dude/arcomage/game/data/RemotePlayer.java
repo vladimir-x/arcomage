@@ -15,8 +15,12 @@ import java.util.ArrayList;
 public class RemotePlayer extends Player{
 
 
+    public RemotePlayer(String name) {
+        super(name);
+    }
+
     @Override
-    public Card takeCard() {
+    public Card takeCards() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -48,8 +48,11 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         resLeft = new ResPanel(Deskzone.WEST);
         resRight = new ResPanel(Deskzone.EAST);
 
-        user = new User();
-        opponent = new Computer();
+        user = new User("user");
+        opponent = new Computer("computer");
+
+        resLeft.setPlayer(user);
+        resRight.setPlayer(opponent);
 
         hand = new Hand(Deskzone.SOUTH, board.getActiveSlot(), board.getDeckSlot());
 
@@ -74,8 +77,8 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         hand.setPlayer(user,round);
         hand.takeCard(false);
 
-        hand.setPlayer(opponent,round);
-        hand.takeCard(false);
+        //без анимации
+        opponent.takeCards();
 
     }
 
@@ -85,12 +88,12 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         hand.setPlayer(player,round);
         stepCounter = 0;
 
-        //hand.setWaitingPlayer(round);
+        //hand.setPlaying(round);
         startTurn();
     }
 
     public void switchTurn() {
-        round = (round == RoundEnum.OPPONENT_TURN) ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
+        round = round.switchTurn();
 
         player = round == RoundEnum.USER_TURN ? user : opponent;
         hand.setPlayer(player,round);

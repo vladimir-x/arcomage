@@ -62,6 +62,7 @@ public class ActiveSlot extends Slot implements Actionable {
     @Override
     void onGetCard() {
         remainingTime = CARD_ACTIVE_TIME;
+        executeCard();
     }
 
     @Override
@@ -86,6 +87,9 @@ public class ActiveSlot extends Slot implements Actionable {
     
     private void executeCard(){
         getCard().play();
+        if (getCard().isSwitchTurn()){
+//            AppImpl.control.switchTurn();
+        }
     }
 
 }
