@@ -72,8 +72,8 @@ public class ActiveSlot extends Slot implements Actionable {
             remainingTime -= delta;
 
             if (remainingTime < 0.000001f) {
-                playedCard = new FlySlot(this, owner.getLastPlayedSlot());
-                executeCard();
+                playedCard = new FlySlot(this, owner.getLastPlayedSlot(),true);
+    //            executeCard();
                 setCard(null);
             }
         }
@@ -86,6 +86,7 @@ public class ActiveSlot extends Slot implements Actionable {
     }
     
     private void executeCard(){
+        System.out.println(" executeCard ");
         getCard().play();
         if (getCard().isSwitchTurn()){
 //            AppImpl.control.switchTurn();

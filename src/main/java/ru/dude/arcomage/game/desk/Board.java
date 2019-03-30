@@ -27,6 +27,7 @@ public class Board extends Deskzone implements Actionable {
     public static final int CARDS_SPACE_Y = 40;
 
     
+    DeckSlot discardSlot;
     DeckSlot deckSlot;
     ActiveSlot activeSlot;
 
@@ -35,6 +36,7 @@ public class Board extends Deskzone implements Actionable {
 
     public Board(int zone) {
         super(zone);
+        discardSlot = new DeckSlot(this);
         deckSlot = new DeckSlot(this);
         activeSlot = new ActiveSlot(this);
         playedSlots = new ArrayList<PlayedSlot>();
@@ -45,6 +47,7 @@ public class Board extends Deskzone implements Actionable {
     public void update() {
         super.update();
 
+        discardSlot.update();
         deckSlot.update();
         activeSlot.update();
 
@@ -54,19 +57,29 @@ public class Board extends Deskzone implements Actionable {
 
     }
 
+
+    public void renderBack(ShapeRenderer renderer, SpriteBatch spriteBatch) {
+        super.render(renderer, spriteBatch);
+
+
+    }
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
-        super.render(renderer, spriteBatch);
 
         for (PlayedSlot playedSlot : playedSlots) {
             playedSlot.render(renderer, spriteBatch);
         }
+        discardSlot.render(renderer, spriteBatch);
         deckSlot.render(renderer, spriteBatch);
         activeSlot.render(renderer, spriteBatch);
 
     }
 
     public void makeEmptySlot() {
+
+        if (playedSlots.size()>0 && playedSlots.get(playedSlots.size()-1).getCard() == null){
+            return;
+        }
 
         int posX = 1, posY = 0;
         if (lastSlot != null) {
@@ -108,19 +121,37 @@ public class Board extends Deskzone implements Actionable {
     public void clearPrevStep() {
         int clearing = 0;
 
-        Integer currentSter = AppImpl.control.getCurrentStepCount();
+        Integer currentStep = AppImpl.control.getCurrentStepCount();
         for (int i = 0; i < playedSlots.size(); ++i) {
-            Integer cartStep = playedSlots.get(i).getPlayedStep();
-            if (cartStep != null && (currentSter - cartStep > 1)) {
-                FlySlot erasing = new FlySlot(playedSlots.get(i), deckSlot);
+            PlayedSlot slot = playedSlots.get(i);
+            Integer cartStep = slot.getPlayedStep();
+
+            if (cartStep != null && (currentStep - cartStep > 1)) {
+
+                FlySlot erasing = new FlySlot(slot, discardSlot,false);
+                slot.setCard(null);
+                AppImpl.control.AnimateFlySlot(erasing, null);
                 clearing++;
             } else {
+
                 break;
             }
         }
-        for (int i = clearing; i < playedSlots.size(); ++i) {
-            FlySlot shifting = new FlySlot(playedSlots.get(i), playedSlots.get(i - clearing));
 
+        int empty = playedSlots.size();
+
+        for (int i = 0; i < playedSlots.size(); ++i) {
+            PlayedSlot slot = playedSlots.get(i);
+            if (slot.getCard() == null) {
+                if (i<empty){
+                    empty = i;
+                }
+            } else if (empty<i){
+                FlySlot shifting = new FlySlot(slot,playedSlots.get(empty),false);
+                empty++;
+                slot.setCard(null);
+                AppImpl.control.AnimateFlySlot(shifting, null);
+            }
         }
 
     }

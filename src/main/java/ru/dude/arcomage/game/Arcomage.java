@@ -99,14 +99,15 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         hand.setPlayer(player,round);
 
         ++stepCounter;
-        //board.clearPrevStep();
+
         //hand.takeCard(true);
         startTurn();
     }
 
     private void startTurn(){
+        board.clearPrevStep();
         hand.takeCard(true);
-        player.ding();
+        //player.ding();
     }
 
     @Override
@@ -116,12 +117,16 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         spriteBatch.draw(AppImpl.resources.boardTexture, 0, 0);
         spriteBatch.end();
 
-        board.render(renderer, spriteBatch);
+
+        board.renderBack(renderer, spriteBatch);
+
         resLeft.render(renderer, spriteBatch);
         resRight.render(renderer, spriteBatch);
         hand.render(renderer, spriteBatch);
 
         animPool.render(renderer, spriteBatch);
+
+        board.render(renderer, spriteBatch);
 
     }
 

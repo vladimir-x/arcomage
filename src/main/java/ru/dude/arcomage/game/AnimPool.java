@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -24,11 +25,16 @@ public class AnimPool implements Actionable, Rendereble {
     Map<FlySlot, Runnable> fSlots;
 
     public AnimPool() {
-        fSlots = new HashMap<FlySlot, Runnable>();
+        fSlots = new ConcurrentHashMap<FlySlot, Runnable>();
     }
 
     public void putSlot(FlySlot slot, Runnable onFlyOver) {
-        fSlots.put(slot, onFlyOver);
+        fSlots.put(slot, onFlyOver !=null ? onFlyOver : new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     @Override

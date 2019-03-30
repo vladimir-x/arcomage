@@ -56,10 +56,12 @@ public class PlayedSlot extends Slot {
 
     @Override
     void onGetCard() {
-        System.out.println("card.isSwitchTurn() = " + getCard().isSwitchTurn());
-        if (getCard().isSwitchTurn()) {
-            AppImpl.control.switchTurn();
-        } 
+        if (getCard()!=null) {
+            System.out.println("card.isSwitchTurn() = " + getCard().isSwitchTurn());
+            if (getCard().isSwitchTurn()) {
+                AppImpl.control.switchTurn();
+            }
+        }
         board.makeEmptySlot();
         board.update();
     }

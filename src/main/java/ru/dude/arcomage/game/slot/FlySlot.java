@@ -19,13 +19,15 @@ public class FlySlot extends Slot implements Actionable {
     Slot destination;
     float remainingTime;
     boolean hasOwer;
+    boolean invokeOnDest;
 
-    public FlySlot(Slot source, Slot destination) {
+    public FlySlot(Slot source, Slot destination,boolean invokeOnDest) {
         if (destination != null) {
             this.rect = new Rectangle(source.getRect());
 
             this.destination = destination;
             this.remainingTime = FLY_TIME;
+            this.invokeOnDest = invokeOnDest;
 
             setCard(source.getCard());
             setDroped(source.getDroped());
@@ -71,7 +73,9 @@ public class FlySlot extends Slot implements Actionable {
         destination.setCard(getCard());
         destination.setDroped(getDroped());
         destination.setPlayedStep(getPlayedStep());
-        destination.onGetCard();
+        if (invokeOnDest) {
+            destination.onGetCard();
+        }
         setCard(null);
         hasOwer = true;
     }
