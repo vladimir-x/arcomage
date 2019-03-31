@@ -41,4 +41,12 @@ public class Card {
     public boolean isSwitchTurn() {
         return switchTurn;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "name='" + name + '\'' +
+                ", switchTurn=" + switchTurn +
+                '}';
+    }
 }

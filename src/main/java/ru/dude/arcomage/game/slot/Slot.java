@@ -108,4 +108,14 @@ public abstract class Slot implements Rendereble {
     public void setMasked(Boolean masked) {
         this.masked = masked;
     }
+
+    @Override
+    public String toString() {
+        return "Slot{" +
+                "card=" + card +
+                ", droped=" + droped +
+                ", masked=" + masked +
+                ", playedStep=" + playedStep +
+                '}';
+    }
 }

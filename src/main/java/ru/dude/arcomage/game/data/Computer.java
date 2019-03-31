@@ -31,8 +31,12 @@ public class Computer extends Player {
 
     public void randomStep() {
         int r = randomGen.nextInt(cards.size());
-        if (!AppImpl.control.playCard(r, cards.get(r), false)) {
-            AppImpl.control.playCard(r, cards.get(r), true);
+
+        Card card = cards.get(r);
+        System.out.println(" Computer want to play ["+r+"]: " + card.getName());
+
+        if (!AppImpl.control.playCard(r, card, false)) {
+            AppImpl.control.playCard(r, card, true);
         }
     }
 

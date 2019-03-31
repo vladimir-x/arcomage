@@ -90,6 +90,7 @@ public class Hand extends Deskzone implements Actionable {
         if (position >= 0 && position < slots.size()) {
             return playSlot(slots.get(position), card, drop);
         } else {
+            System.out.println(" promptToSelect position ["+position+"] incorrect . slot.size() =" +slots.size() );
             return false;
         }
     }
@@ -97,6 +98,8 @@ public class Hand extends Deskzone implements Actionable {
     public boolean playSlot(HandSlot handSlot, Card card, boolean drop) {
 
         if (player.playable(card) || drop) {
+
+            System.out.println(">> play slot " + card);
             //playing = false;
             FlySlot selectedSlot = new FlySlot(handSlot, activeSlot,true);
             selectedSlot.setPlayedStep(AppImpl.control.getCurrentStepCount());
@@ -127,7 +130,7 @@ public class Hand extends Deskzone implements Actionable {
         }
     }
 
-    private void takeOneCard(HandSlot handSlot, final boolean atStep) {
+    private void takeOneCard(HandSlot handSlot, boolean atStep) {
         FlySlot newCardSlot = new FlySlot(deckSlot, handSlot,false);
         newCardSlot.setMasked(isMasked());
         final Card card = AppImpl.cardManager.selectRandomCard();
@@ -140,12 +143,8 @@ public class Hand extends Deskzone implements Actionable {
             @Override
             public void run() {
                 player.takeCard(card);
+                System.out.println(" >> ding here");
                 player.ding();
-
-                if (atStep) {
-
-                    //setPlaying(RoundEnum.USER_TURN);
-                }
             }
         });
     }
@@ -165,5 +164,7 @@ public class Hand extends Deskzone implements Actionable {
     private boolean isMasked(){
         return round != RoundEnum.USER_TURN;
     }
+
+
 
 }

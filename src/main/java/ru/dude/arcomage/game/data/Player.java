@@ -36,14 +36,11 @@ public abstract class Player {
 
     // взять карты в начале игры
     public Card takeCards() {
-
-        Card lastCard = null;
-        for (int i = cards.size(); i < AppImpl.settings.cardCount; ++i) {
-            lastCard = AppImpl.cardManager.selectRandomCard();
-            cards.add(lastCard);
+        while (cards.size() + 1 < AppImpl.settings.cardCount) {
+            cards.add(AppImpl.cardManager.selectRandomCard());
             maskCards.add(AppImpl.cardManager.getUndoCard());
         }
-        return lastCard;
+        return cards.get(cards.size() - 1);
     }
 
     // событие - ход передан этому игроку

@@ -29,6 +29,7 @@ public class AnimPool implements Actionable, Rendereble {
     }
 
     public void putSlot(FlySlot slot, Runnable onFlyOver) {
+        System.out.println("anim add >>" + slot);
         fSlots.put(slot, onFlyOver !=null ? onFlyOver : new Runnable() {
             @Override
             public void run() {
