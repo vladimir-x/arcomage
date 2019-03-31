@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.slot;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.data.Card;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import com.badlogic.gdx.Gdx;
@@ -21,7 +22,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Slot implements Rendereble {
 
-    private static Card maskCard = Card.getUndoCard();
+    private static Card maskCard = AppImpl.cardManager.getUndoCard();
 
     private Card card;
     Rectangle rect;

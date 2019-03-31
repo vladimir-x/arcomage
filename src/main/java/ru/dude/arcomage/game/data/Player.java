@@ -30,7 +30,7 @@ public abstract class Player {
     public Card takeCard(Card card) {
         Card lastCard = card;
         cards.add(lastCard);
-        maskCards.add(Card.getUndoCard());
+        maskCards.add(AppImpl.cardManager.getUndoCard());
         return lastCard;
     }
 
@@ -41,7 +41,7 @@ public abstract class Player {
         for (int i = cards.size(); i < AppImpl.settings.cardCount; ++i) {
             lastCard = AppImpl.cardManager.selectRandomCard();
             cards.add(lastCard);
-            maskCards.add(Card.getUndoCard());
+            maskCards.add(AppImpl.cardManager.getUndoCard());
         }
         return lastCard;
     }

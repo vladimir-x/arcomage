@@ -5,10 +5,12 @@
  */
 package ru.dude.arcomage.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ru.dude.arcomage.game.data.Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,13 +25,23 @@ public class CardManager {
     private static Random rand = new Random(System.currentTimeMillis());
     private List<Card> cards;
 
+    private Card undoCard;
+
     public CardManager() {
+        loadCards();
+    }
+
+    private void loadCards(){
         cards = new ArrayList<Card>();
 
-        cards.add(Card.getCard_0_0());
-        cards.add(Card.getCard_0_1());
-        cards.add(Card.getCard_0_2());
-        cards.add(Card.getCard_0_3());
+        for (Map.Entry<String, TextureRegion> entry : AppImpl.resources.getCardsTextureMap().entrySet()) {
+            String name = entry.getKey();
+            TextureRegion texture = entry.getValue();
+            cards.add(new Card(name, texture, true));
+
+        }
+
+        undoCard = new Card("undo", AppImpl.resources.deckUndoTexture, false);
     }
 
     public Card selectRandomCard() {
@@ -37,4 +49,7 @@ public class CardManager {
         return cards.get(index);
     }
 
+    public Card getUndoCard() {
+        return undoCard;
+    }
 }

@@ -122,6 +122,7 @@ public class ArcomageDesktop {
         // количество в циклах
         settings.deckCountX = 10;
         settings.deckCountY = 12;
+        settings.deckCountType = 34;
 
         return settings;
     }

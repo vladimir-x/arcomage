@@ -5,127 +5,40 @@
  */
 package ru.dude.arcomage.game.data;
 
-import ru.dude.arcomage.game.AppImpl;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  *
  * @author elduderino
  */
-public abstract class Card {
+public class Card {
+
+    String name;
+    TextureRegion texture;
+
+    // some action fields here
 
     boolean switchTurn = true;
 
-    void cardAction() {
-        //предписание карты
-    }
-
-    public abstract TextureRegion getTexture();
-
-    public abstract void init();
-
-    public abstract void play();
-
-    public boolean isSwitchTurn() {
-        return switchTurn;
-    }
-
-    public void setSwitchTurn(boolean switchTurn) {
+    public Card(String name, TextureRegion texture, boolean switchTurn) {
+        this.name = name;
+        this.texture = texture;
         this.switchTurn = switchTurn;
     }
 
-    public static Card getUndoCard() {
-        return new Card() {
-
-            @Override
-            public TextureRegion getTexture() {
-                return AppImpl.resources.deckUndoTexture;
-            }
-
-            @Override
-            public void play() {
-            }
-
-            @Override
-            public void init() {
-                setSwitchTurn(true);
-            }
-        };
+    public void play(){
+        //
     }
 
-    public static Card getCard_0_0() {
-        return new Card() {
-
-            @Override
-            public TextureRegion getTexture() {
-                return AppImpl.resources.getGameTexture(0, 0);
-            }
-
-            @Override
-            public void play() {
-            }
-
-            @Override
-            public void init() {
-                setSwitchTurn(true);
-            }
-        };
+    public String getName() {
+        return name;
     }
 
-    public static Card getCard_0_1() {
-        return new Card() {
-
-            @Override
-            public TextureRegion getTexture() {
-                return AppImpl.resources.getGameTexture(0, 1);
-            }
-
-            @Override
-            public void play() {
-            }
-
-            @Override
-            public void init() {
-                setSwitchTurn(true);
-            }
-        };
+    public TextureRegion getTexture() {
+        return texture;
     }
 
-    public static Card getCard_0_2() {
-        return new Card() {
-
-            @Override
-            public TextureRegion getTexture() {
-                return AppImpl.resources.getGameTexture(0, 2);
-            }
-
-            @Override
-            public void play() {
-            }
-
-            @Override
-            public void init() {
-                setSwitchTurn(true);
-            }
-        };
-    }
-
-    public static Card getCard_0_3() {
-        return new Card() {
-
-            @Override
-            public TextureRegion getTexture() {
-                return AppImpl.resources.getGameTexture(0, 3);
-            }
-
-            @Override
-            public void play() {
-            }
-
-            @Override
-            public void init() {
-                setSwitchTurn(true);
-            }
-        };
+    public boolean isSwitchTurn() {
+        return switchTurn;
     }
 }

@@ -44,8 +44,12 @@ public class Settings {
     public Integer welcomeTextureHeight;
     public Integer boardTextureWidth;
     public Integer boardTextureHeight;
+
+    //карты
     public Integer deckTextureWidth;
     public Integer deckTextureHeight;
+
+    //ресурсы
     public Integer resTextureWidth;
     public Integer resTextureHeight;
     
@@ -85,5 +89,6 @@ public class Settings {
     //количество карт в текстуре колоды
     public Integer deckCountX;
     public Integer deckCountY;
-    
+    public Integer deckCountType;
+
 }
