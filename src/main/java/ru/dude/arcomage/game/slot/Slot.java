@@ -28,12 +28,14 @@ public abstract class Slot implements Rendereble {
     Rectangle rect;
     private Boolean droped;
     private Boolean masked;
+    private Boolean empty;
     Integer playedStep; // на каком ходу был разыгран
 
     public Slot() {
         card = null;
         droped = false;
         masked = false;
+        empty = false;
     }
 
     public Rectangle getRect() {
@@ -45,16 +47,21 @@ public abstract class Slot implements Rendereble {
 
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
-        if (card!=null) {
-            render(masked ? maskCard.getTexture() : card.getTexture() , renderer, spriteBatch);
+        if (card != null) {
+            render(masked ? maskCard.getTexture() : card.getTexture(), card.getName(), renderer, spriteBatch);
         }
     }
 
 
-    private void render(TextureRegion textureRegion, ShapeRenderer renderer, SpriteBatch spriteBatch) {
+    private void render(TextureRegion textureRegion, String text, ShapeRenderer renderer, SpriteBatch spriteBatch) {
         if (textureRegion != null) {
             spriteBatch.begin();
-            spriteBatch.draw(textureRegion, rect.x, rect.y);
+
+            if (!empty) {
+                spriteBatch.draw(textureRegion, rect.x, rect.y);
+            }
+
+            AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y +rect.height);
 
             spriteBatch.end();
             if (droped) {
@@ -116,12 +123,21 @@ public abstract class Slot implements Rendereble {
         this.masked = masked;
     }
 
+    public Boolean getEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(Boolean empty) {
+        this.empty = empty;
+    }
+
     @Override
     public String toString() {
         return "Slot{" +
                 "card=" + card +
                 ", droped=" + droped +
                 ", masked=" + masked +
+                ", empty=" + empty +
                 ", playedStep=" + playedStep +
                 '}';
     }

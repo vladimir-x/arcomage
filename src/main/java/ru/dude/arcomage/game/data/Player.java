@@ -35,7 +35,7 @@ public abstract class Player {
             cards.set(emptySlotindex, lastCard);
             maskCards.set(emptySlotindex, lastCard);
 
-            System.out.println(name + " insert card: " + lastCard);
+            System.out.println(name + " insert card [" + emptySlotindex + "]:" + lastCard);
             return lastCard;
         } else {
             // если не нашли пустого слота
@@ -92,5 +92,19 @@ public abstract class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCardTitles() {
+
+        StringBuilder sb = new StringBuilder();
+        for (Card card : getCards()) {
+            if (sb.length()>0){
+                sb.append(",");
+            }
+            sb.append(card.getName());
+        }
+
+        return sb.toString();
+
     }
 }

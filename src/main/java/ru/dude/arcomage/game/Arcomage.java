@@ -106,7 +106,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
     private void startTurn(){
         System.out.println("---------- SWITCH TURN ----------");
-        System.out.println("play:" + player.getName());
+        System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
         board.clearPrevStep();
         hand.takeCard(true);
         //player.ding();
