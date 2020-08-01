@@ -75,7 +75,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         update();
 
         hand.setPlayer(user,round);
-        hand.takeCard(false);
+        //hand.takeCard(false);
 
         //без анимации
         opponent.takeCards();
@@ -105,6 +105,8 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     }
 
     private void startTurn(){
+        System.out.println("---------- SWITCH TURN ----------");
+        System.out.println("play:" + player.getName());
         board.clearPrevStep();
         hand.takeCard(true);
         //player.ding();

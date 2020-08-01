@@ -77,6 +77,13 @@ public abstract class Slot implements Rendereble {
         }
     }
 
+    public void clearCard(){
+        card = null;
+        masked = false;
+        droped = false;
+        playedStep = 0;
+    }
+
     public Boolean getDroped() {
         return droped;
     }

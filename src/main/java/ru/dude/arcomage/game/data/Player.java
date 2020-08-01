@@ -29,16 +29,40 @@ public abstract class Player {
     // при вставке первая карта - указана. 
     public Card takeCard(Card card) {
         Card lastCard = card;
-        cards.add(lastCard);
-        maskCards.add(AppImpl.cardManager.getUndoCard());
-        return lastCard;
+
+        int emptySlotindex = getEmptySlotIndex();
+        if (emptySlotindex != -1) {
+            cards.set(emptySlotindex, lastCard);
+            maskCards.set(emptySlotindex, lastCard);
+
+            System.out.println(name + " insert card: " + lastCard);
+            return lastCard;
+        } else {
+            // если не нашли пустого слота
+            cards.add(lastCard);
+            maskCards.add(AppImpl.cardManager.getUndoCard());
+            System.out.println(name + " put card: " + lastCard);
+            return lastCard;
+        }
+    }
+
+    public int getEmptySlotIndex(){
+        for (int i = 0; i < cards.size(); ++i) {
+            if (cards.get(i).equals(AppImpl.cardManager.getEmptyCard())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     // взять карты в начале игры
     public Card takeCards() {
-        while (cards.size() + 1 < AppImpl.settings.cardCount) {
-            cards.add(AppImpl.cardManager.selectRandomCard());
+        while (cards.size() < AppImpl.settings.cardCount) {
+            Card card = AppImpl.cardManager.selectRandomCard();
+            cards.add(card);
             maskCards.add(AppImpl.cardManager.getUndoCard());
+
+            System.out.println(name + " put new card: " + card);
         }
         return cards.get(cards.size() - 1);
     }
@@ -53,11 +77,12 @@ public abstract class Player {
     }
 
     public void removeCard(Card card) {
-        if (cards.contains(card)) {
-            cards.remove(card);
-            maskCards.remove(1);
+        int k = cards.indexOf(card);
+        if (k > -1) {
+            cards.set(k,AppImpl.cardManager.getEmptyCard());
+            maskCards.set(k,AppImpl.cardManager.getEmptyCard());
         } else {
-            System.out.println("not contain (");
+            System.out.println("not contain");
         }
     }
 

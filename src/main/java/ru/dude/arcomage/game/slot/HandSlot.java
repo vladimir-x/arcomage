@@ -30,7 +30,7 @@ public class HandSlot extends Slot {
 
     public Rectangle calcRect() {
 
-        float width = hand.getRectangle().width / AppImpl.settings.cardCount;
+        float width = hand.getRectangle().width / (AppImpl.settings.cardCount);
         float centrX = width / 2.f;
 
         float centrY = hand.getRectangle().height / 2.f;
@@ -63,7 +63,15 @@ public class HandSlot extends Slot {
         renderer.end();
     }
 
+    public int getPos() {
+        return pos;
+    }
+
     public void setPos(int pos) {
         this.pos = pos;
+    }
+
+    public void umasked() {
+        setMasked(false);
     }
 }

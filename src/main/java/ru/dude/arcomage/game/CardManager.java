@@ -27,6 +27,8 @@ public class CardManager {
 
     private Card undoCard;
 
+    private Card emptyCard;
+
     public CardManager() {
         loadCards();
     }
@@ -42,6 +44,8 @@ public class CardManager {
         }
 
         undoCard = new Card("undo", AppImpl.resources.deckUndoTexture, false);
+
+        emptyCard = new Card("empty",null,false);
     }
 
     public Card selectRandomCard() {
@@ -51,5 +55,9 @@ public class CardManager {
 
     public Card getUndoCard() {
         return undoCard;
+    }
+
+    public Card getEmptyCard() {
+        return emptyCard;
     }
 }

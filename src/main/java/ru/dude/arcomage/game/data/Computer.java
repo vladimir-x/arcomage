@@ -23,6 +23,7 @@ public class Computer extends Player {
 
     @Override
     public void ding() {
+        System.out.println("computer turn !");
         System.out.println("st");
         randomStep();
         System.out.println("en");
@@ -38,11 +39,6 @@ public class Computer extends Player {
         if (!AppImpl.control.playCard(r, card, false)) {
             AppImpl.control.playCard(r, card, true);
         }
-    }
-
-    public void randomStepDrop() {
-        int r = randomGen.nextInt(cards.size());
-        AppImpl.control.playCard(r, cards.get(r), true);
     }
 
     @Override

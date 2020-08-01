@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -25,10 +27,13 @@ import java.util.ArrayList;
  */
 public class Hand extends Deskzone implements Actionable {
 
-    ArrayList<HandSlot> slots;
+
+    private static Map<Integer,  ArrayList<HandSlot>> slotsCashe = new ConcurrentHashMap<Integer, ArrayList<HandSlot>>();
+
+    //ArrayList<HandSlot> slots;
     DeckSlot deckSlot;
     ActiveSlot activeSlot;
-    HandSlot emptySlot;
+    //!!!! HandSlot emptySlot; // у разных игроков она разная
 
     Player player;
     RoundEnum round;
@@ -42,7 +47,7 @@ public class Hand extends Deskzone implements Actionable {
         this.deckSlot = deckSlot;
         this.activeSlot = activeSlot;
    //     this.player = player;
-        slots = new ArrayList<HandSlot>();
+      //  slots = new ArrayList<HandSlot>();
 
         playing = true;
     }
@@ -65,8 +70,7 @@ public class Hand extends Deskzone implements Actionable {
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         super.render(renderer, spriteBatch);
 
-        for (int i = 0; i < slots.size(); ++i) {
-            HandSlot slot = slots.get(i);
+        for (HandSlot slot : getHandSlots(player)) {
             slot.setMasked(isMasked());
             slot.render(renderer, spriteBatch);
         }
@@ -78,17 +82,22 @@ public class Hand extends Deskzone implements Actionable {
     }
 
     public boolean promptToSelect(float propX, float propY, boolean drop) {
-        for (HandSlot handSlot : slots) {
+        for (HandSlot handSlot : getHandSlots(player)) {
             if (handSlot.contains(propX, propY)) {
-                return playSlot(handSlot, handSlot.getCard(), drop);
+                Card card = player.getCards().get(handSlot.getPos());
+                return playSlot(handSlot, card, drop);
             }
         }
         return false;
     }
 
     public boolean promptToSelect(int position, Card card, boolean drop) {
+        ArrayList<HandSlot> slots = getHandSlots(player);
         if (position >= 0 && position < slots.size()) {
-            return playSlot(slots.get(position), card, drop);
+            HandSlot handSlot = slots.get(position);
+            handSlot.setCard(card);
+            handSlot.umasked();
+            return playSlot(handSlot,card, drop);
         } else {
             System.out.println(" promptToSelect position ["+position+"] incorrect . slot.size() =" +slots.size() );
             return false;
@@ -106,47 +115,80 @@ public class Hand extends Deskzone implements Actionable {
             selectedSlot.setDroped(drop);
             selectedSlot.setCard(card);
 
+            handSlot.clearCard();
+            player.removeCard(card);
+            //emptySlot = handSlot;
+
             AppImpl.control.AnimateFlySlot(selectedSlot, null);
 
-            player.removeCard(card);
-
-            emptySlot = handSlot;
-            emptySlot.setCard(null);
             return true;
         }
         return false;
     }
 
     public void takeCard(boolean atStep) {
-        if (emptySlot == null) {
-            for (int i = player.getCards().size(); i < AppImpl.settings.cardCount; ++i) {
-                HandSlot slot = new HandSlot(this, i);
-                slot.update();
-                slots.add(slot);
-                takeOneCard(slot, false);
+
+        int emptySlotIndex = player.getEmptySlotIndex();
+        if (emptySlotIndex == -1) {
+            if (player.getCards().size()<AppImpl.settings.cardCount) {
+                for (int i = player.getCards().size(); i < AppImpl.settings.cardCount; ++i) {
+                    HandSlot slot = new HandSlot(this, i);
+                    slot.update();
+                    takeOneCard(slot);
+                }
+            } else {
+                player.ding();
             }
         } else {
-            takeOneCard(emptySlot, true);
+            HandSlot emptySlot = getHandSlots(player).get(emptySlotIndex);
+            takeOneCard(emptySlot);
         }
     }
 
-    private void takeOneCard(HandSlot handSlot, boolean atStep) {
+    private void takeOneCard(HandSlot handSlot) {
         FlySlot newCardSlot = new FlySlot(deckSlot, handSlot,false);
         newCardSlot.setMasked(isMasked());
         final Card card = AppImpl.cardManager.selectRandomCard();
         newCardSlot.setCard(card);
+        /*
         if (!atStep) {
             player.takeCard(card);
         }
+        */
         AppImpl.control.AnimateFlySlot(newCardSlot, new Runnable() {
 
             @Override
             public void run() {
                 player.takeCard(card);
-                System.out.println(" >> ding here");
                 player.ding();
             }
         });
+    }
+
+    /**
+     * получает слоты в руке для карт
+     * @param player
+     * @return
+     */
+    private ArrayList<HandSlot> getHandSlots(Player player){
+
+        int size = player.getCards().size();
+        if (slotsCashe.containsKey(size)){
+            return slotsCashe.get(size);
+        }
+        ArrayList<HandSlot> slots  = new ArrayList<HandSlot>();
+
+        int pos = 0;
+        for (Card card : player.getCards()) {
+            HandSlot handSlot = new HandSlot(this, pos++);
+            handSlot.setCard(card);
+            handSlot.setMasked(isMasked());
+            handSlot.update();
+            slots.add(handSlot);
+        }
+
+        slotsCashe.put(size,slots);
+        return slots;
     }
 
     public void setPlayer(Player player, RoundEnum round){

@@ -20,6 +20,7 @@ public class User extends Player {
 
     @Override
     public void ding() {
+        System.out.println("user turn !");
     }
 
     @Override
