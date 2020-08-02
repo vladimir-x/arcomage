@@ -61,13 +61,13 @@ public class AppImpl extends Game {
         gameStart = true;
         Arcomage arcomage = new Arcomage();
         control = arcomage;
-        arcomage.startGame();
         if (gameScreen !=null){
             gameScreen.dispose();
         }
         gameScreen = new GameScreen(arcomage, input);
         setScreen(gameScreen);
-        arcomage.firstTurn(true);
+
+        arcomage.startGame(true);
     }
 
     public void end() {

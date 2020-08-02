@@ -104,8 +104,14 @@ public class Hand extends Deskzone implements Actionable {
         if (player.playable(card) || drop) {
 
             System.out.println(">> play slot [" + handSlot.getPos() + "] " + card);
-            //playing = false;
-            FlySlot selectedSlot = new FlySlot(handSlot, activeSlot, true);
+
+            FlySlot selectedSlot = new FlySlot(handSlot, activeSlot, new Runnable() {
+                @Override
+                public void run() {
+                    activeSlot.onGetCard();
+                }
+            });
+
             selectedSlot.setPlayedStep(AppImpl.control.getCurrentStepCount());
             selectedSlot.setDroped(drop);
             selectedSlot.setCard(card);
@@ -113,50 +119,44 @@ public class Hand extends Deskzone implements Actionable {
             handSlot.clearCard();
             player.removeCard(card);
 
-            AppImpl.control.AnimateFlySlot(selectedSlot, null);
+            AppImpl.control.AnimateFlySlot(selectedSlot);
 
             return true;
         }
         return false;
     }
 
-    public void takeCard(boolean atStep) {
+    public void takeCard() {
 
-        int emptySlotIndex = player.getEmptySlotIndex();
-        if (emptySlotIndex == -1) {
-            if (player.getCards().size() < AppImpl.settings.cardCount) {
-                for (int i = player.getCards().size(); i < AppImpl.settings.cardCount; ++i) {
-                    HandSlot slot = new HandSlot(this, i);
-                    slot.update();
-                    takeOneCard(slot);
-                }
-            } else {
+        for (int i = 0; i < player.getCards().size(); ++i) {
+            if (player.getCards().get(i).equals(AppImpl.cardManager.getEmptyCard())) {
+                HandSlot emptySlot = getHandSlots(player).get(i);
+                takeOneCard(emptySlot);
+            }
+        }
+
+        AppImpl.control.AnimateFlySlot(new FlySlot(new Runnable() {
+            @Override
+            public void run() {
                 player.ding();
             }
-        } else {
-            HandSlot emptySlot = getHandSlots(player).get(emptySlotIndex);
-            takeOneCard(emptySlot);
-        }
+        }));
     }
 
     private void takeOneCard(HandSlot handSlot) {
-        FlySlot newCardSlot = new FlySlot(deckSlot, handSlot, false);
-        newCardSlot.setMasked(isMasked());
         final Card card = AppImpl.cardManager.selectRandomCard();
-        newCardSlot.setCard(card);
-        /*
-        if (!atStep) {
-            player.takeCard(card);
-        }
-        */
-        AppImpl.control.AnimateFlySlot(newCardSlot, new Runnable() {
 
+        final FlySlot newCardSlot = new FlySlot(deckSlot, handSlot, new Runnable() {
             @Override
             public void run() {
                 player.takeCard(card);
-                player.ding();
             }
         });
+        newCardSlot.setMasked(isMasked());
+        newCardSlot.setCard(card);
+
+
+        AppImpl.control.AnimateFlySlot(newCardSlot);
     }
 
     /**

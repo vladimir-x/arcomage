@@ -17,7 +17,7 @@ public interface GameControlable {
     boolean playCard(int r, Card card, boolean drop);
     
     // 
-    void AnimateFlySlot(FlySlot slot, Runnable onFlyOver);
+    void AnimateFlySlot(FlySlot slot);
     
     // узнать текущий № хода
     Integer getCurrentStepCount();

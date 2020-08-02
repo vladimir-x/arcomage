@@ -16,60 +16,35 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
- *
  * @author elduderino
  */
 public class AnimPool implements Actionable, Rendereble {
 
-    Map<FlySlot, Runnable> fSlots;
-    Queue<Map.Entry<FlySlot, Runnable>> queue;
+    Queue<FlySlot> queue = new ConcurrentLinkedDeque<>();
 
-    Map.Entry<FlySlot, Runnable> selected = null;
+    FlySlot selected = null;
 
     public AnimPool() {
-        fSlots = new ConcurrentHashMap<FlySlot, Runnable>();
-        queue = new ConcurrentLinkedDeque<Map.Entry<FlySlot, Runnable>>();
     }
 
-    public void putSlot(FlySlot slot, Runnable onFlyOver) {
+    public void putSlot(FlySlot slot) {
         System.out.println("anim add >>" + slot);
-        /*
-        fSlots.put(slot, onFlyOver !=null ? onFlyOver : new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
-*/
 
-        queue.add(new HashMap.SimpleEntry<>(slot, onFlyOver));
+        queue.add(slot);
     }
 
     @Override
     public void action(float delta) {
-        /*
-        ArrayList<FlySlot> toDelete = new ArrayList<FlySlot>();
-        for (FlySlot slot : fSlots.keySet()) {
-            slot.action(delta);
-            if (slot.isOwer()) {
-                if (fSlots.get(slot) != null) {
-                    fSlots.get(slot).run();
-                }
-                toDelete.add(slot);
-            }
-        }
-        
-        for (FlySlot slot : toDelete) {
-            fSlots.remove(slot);
-        }
-        */
 
-        if (selected != null){
-            selected.getKey().action(delta);
-            if (selected.getKey().isOwer()){
-                if (selected.getValue()!=null){
-                    selected.getValue().run();
-                }
+        if (selected == null){
+            selected = queue.poll();
+        }
+
+        if (selected != null) {
+            selected.action(delta);
+
+            if (selected.isOwer()) {
                 selected = queue.poll();
             }
         }
@@ -77,40 +52,26 @@ public class AnimPool implements Actionable, Rendereble {
 
     @Override
     public void update() {
-        if (selected != null){
-            selected.getKey().update();
+        if (selected != null) {
+            selected.update();
         }
-
-        /*
-        for (FlySlot slot : fSlots.keySet()) {
-            slot.update();
-        }
-        */
     }
 
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
 
-
-        if (selected == null){
-            selected = queue.poll();
+        for (FlySlot flySlot : queue) {
+            flySlot.render(renderer, spriteBatch);
         }
 
-
-        Iterator<Map.Entry<FlySlot, Runnable>> it = queue.iterator();
-        while (it.hasNext()){
-            it.next().getKey().render(renderer,spriteBatch);
+        if (selected != null) {
+            selected.render(renderer, spriteBatch);
         }
 
-        if (selected !=null){
-            selected.getKey().render(renderer, spriteBatch);
-        }
+    }
 
-        /*
-        for (FlySlot slot : fSlots.keySet()) {
-            slot.render(renderer, spriteBatch);
-        }
-        */
+    public boolean isAnimating(){
+        return selected != null;
     }
 
 }

@@ -19,24 +19,49 @@ public class FlySlot extends Slot implements Actionable {
     Slot destination;
     float remainingTime;
     boolean hasOwer;
-    boolean invokeOnDest;
+    Runnable onFlyOver;
 
-    public FlySlot(Slot source, Slot destination,boolean invokeOnDest) {
-        if (destination != null) {
+    /**
+     * Выполнить действие после всей анимации
+     * @param onFlyOver
+     */
+    public FlySlot(Runnable onFlyOver) {
+        this(null, null, onFlyOver);
+    }
+
+    /**
+     * анимация без какого-то действия
+     * @param source
+     * @param destination
+     */
+    public FlySlot(Slot source, Slot destination) {
+        this(source, destination, null);
+    }
+
+    /**
+     * Анимация и действие
+     * @param source
+     * @param destination
+     * @param onFlyOver
+     */
+    public FlySlot(Slot source, Slot destination, Runnable onFlyOver) {
+
+        if (source != null && destination != null) {
             this.rect = new Rectangle(source.getRect());
 
             this.destination = destination;
             this.remainingTime = FLY_TIME;
-            this.invokeOnDest = invokeOnDest;
 
             setCard(source.getCard());
             setDroped(source.getDroped());
             setPlayedStep(source.getPlayedStep());
 
-            hasOwer = false;
         } else {
-            hasOwer = true;
+            this.remainingTime = 0;
         }
+
+        this.hasOwer = false;
+        this.onFlyOver = onFlyOver;
     }
 
     @Override
@@ -70,11 +95,15 @@ public class FlySlot extends Slot implements Actionable {
     }
 
     public void onDest() {
-        destination.setCard(getCard());
-        destination.setDroped(getDroped());
-        destination.setPlayedStep(getPlayedStep());
-        if (invokeOnDest) {
-            destination.onGetCard();
+        if (destination != null) {
+            destination.setCard(getCard());
+            destination.setDroped(getDroped());
+            destination.setPlayedStep(getPlayedStep());
+
+            //destination.onGetCard();
+        }
+        if (onFlyOver != null) {
+            onFlyOver.run();
         }
         setCard(null);
         hasOwer = true;
@@ -83,4 +112,5 @@ public class FlySlot extends Slot implements Actionable {
     public boolean isOwer() {
         return hasOwer;
     }
+
 }

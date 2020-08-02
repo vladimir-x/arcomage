@@ -33,11 +33,9 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
     Board board;
     Hand hand;
-    ResPanel resPanels[];
 
     Player player, user, opponent;
     RoundEnum round;
-    CardActionEnum cardAction;
 
     Integer stepCounter;
 
@@ -65,31 +63,26 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         round = RoundEnum.NOGAME;
     }
 
-    public void startGame() {
+    public void startGame(boolean isUser) {
+        System.out.println("---------- START GAME ----------");
 
-        //user.takeCard(AppImpl.settings.cardCount);
-        //opponent.takeCard(AppImpl.settings.cardCount);
         stepCounter = 0;
         round = RoundEnum.NOGAME;
 
         update();
 
         hand.setPlayer(user,round);
-        //hand.takeCard(false);
+
+        round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
+        player = isUser ? user : opponent;
+        hand.setPlayer(player,round);
 
         //без анимации
         opponent.takeCards();
 
-    }
 
-    public void firstTurn(boolean isUser) {
-        round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
-        player = isUser ? user : opponent;
-        hand.setPlayer(player,round);
-        stepCounter = 0;
-
-        //hand.setPlaying(round);
         startTurn();
+
     }
 
     public void switchTurn() {
@@ -108,8 +101,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         System.out.println("---------- SWITCH TURN ----------");
         System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
         board.clearPrevStep();
-        hand.takeCard(true);
-        //player.ding();
+        hand.takeCard();
     }
 
     @Override
@@ -173,8 +165,8 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     }
 
     @Override
-    public void AnimateFlySlot(FlySlot slot, Runnable onFlyOver) {
-        animPool.putSlot(slot, onFlyOver);
+    public void AnimateFlySlot(FlySlot slot) {
+        animPool.putSlot(slot);
     }
 
 }

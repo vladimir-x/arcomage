@@ -29,7 +29,7 @@ public class Settings {
     public Integer cardWidth;
     
     //игровые правила
-    public Integer cardCount;   //количество карт в руке
+    public Integer startCardCount;   //количество карт в руке
     
     //текстуры
     public String welcomeTexture;   //экран привествия

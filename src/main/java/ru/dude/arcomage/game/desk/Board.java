@@ -77,7 +77,7 @@ public class Board extends Deskzone implements Actionable {
 
     public void makeEmptySlot() {
 
-        if (playedSlots.size()>0 && playedSlots.get(playedSlots.size()-1).getCard() == null){
+        if (playedSlots.size() > 0 && playedSlots.get(playedSlots.size() - 1).getCard() == null) {
             return;
         }
 
@@ -119,7 +119,6 @@ public class Board extends Deskzone implements Actionable {
      * убрать с поля карты с предыдущего хода
      */
     public void clearPrevStep() {
-        int clearing = 0;
 
         Integer currentStep = AppImpl.control.getCurrentStepCount();
         for (int i = 0; i < playedSlots.size(); ++i) {
@@ -128,10 +127,9 @@ public class Board extends Deskzone implements Actionable {
 
             if (cartStep != null && (currentStep - cartStep > 1)) {
 
-                FlySlot erasing = new FlySlot(slot, discardSlot,false);
+                FlySlot erasing = new FlySlot(slot, discardSlot);
                 slot.setCard(null);
-                AppImpl.control.AnimateFlySlot(erasing, null);
-                clearing++;
+                AppImpl.control.AnimateFlySlot(erasing);
             } else {
 
                 break;
@@ -147,10 +145,10 @@ public class Board extends Deskzone implements Actionable {
                     empty = i;
                 }
             } else if (empty<i){
-                FlySlot shifting = new FlySlot(slot,playedSlots.get(empty),false);
+                FlySlot shifting = new FlySlot(slot, playedSlots.get(empty));
                 empty++;
                 slot.setCard(null);
-                AppImpl.control.AnimateFlySlot(shifting, null);
+                AppImpl.control.AnimateFlySlot(shifting);
             }
         }
 

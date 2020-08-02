@@ -22,8 +22,15 @@ public abstract class Player {
 
     public Player(String name) {
         this.name = name;
-        this.cards = new ArrayList<Card>();
-        this.maskCards = new ArrayList<Card>();
+
+
+        this.cards = new ArrayList<>();
+        this.maskCards = new ArrayList<>();
+
+        for (int i = 0; i < AppImpl.settings.startCardCount; ++i) {
+            cards.add(AppImpl.cardManager.getEmptyCard());
+            maskCards.add(AppImpl.cardManager.getEmptyCard());
+        }
     }
 
     // при вставке первая карта - указана. 
@@ -35,7 +42,7 @@ public abstract class Player {
             cards.set(emptySlotindex, lastCard);
             maskCards.set(emptySlotindex, lastCard);
 
-            System.out.println(name + " insert card [" + emptySlotindex + "]:" + lastCard);
+            System.out.println(name + " insert card [" + emptySlotindex + "]: " + lastCard);
             return lastCard;
         } else {
             // если не нашли пустого слота
@@ -56,15 +63,17 @@ public abstract class Player {
     }
 
     // взять карты в начале игры
-    public Card takeCards() {
-        while (cards.size() < AppImpl.settings.cardCount) {
-            Card card = AppImpl.cardManager.selectRandomCard();
-            cards.add(card);
-            maskCards.add(AppImpl.cardManager.getUndoCard());
+    public void takeCards() {
+        for (int i = 0; i < cards.size(); ++i) {
+            if (cards.get(i).equals(AppImpl.cardManager.getEmptyCard())) {
 
-            System.out.println(name + " put new card: " + card);
+                Card card = AppImpl.cardManager.selectRandomCard();
+                cards.set(i, card);
+                maskCards.set(i, AppImpl.cardManager.getUndoCard());
+
+                System.out.println(name + " insert card [" + i + "]: " + card);
+            }
         }
-        return cards.get(cards.size() - 1);
     }
 
     // событие - ход передан этому игроку
