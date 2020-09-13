@@ -13,10 +13,7 @@ import ru.dude.arcomage.game.data.Card;
 import ru.dude.arcomage.game.data.Computer;
 import ru.dude.arcomage.game.data.Player;
 import ru.dude.arcomage.game.data.User;
-import ru.dude.arcomage.game.desk.Board;
-import ru.dude.arcomage.game.desk.Deskzone;
-import ru.dude.arcomage.game.desk.Hand;
-import ru.dude.arcomage.game.desk.ResPanel;
+import ru.dude.arcomage.game.desk.*;
 import ru.dude.arcomage.game.interfaces.Actionable;
 import ru.dude.arcomage.game.interfaces.GameControlable;
 import ru.dude.arcomage.game.interfaces.Rendereble;
@@ -30,6 +27,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     AnimPool animPool;
 
     ResPanel resLeft, resRight;
+    HpPanel hpLeft, hpRight;
 
     Board board;
     Hand hand;
@@ -41,24 +39,27 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
     public Arcomage() {
 
-        animPool = new AnimPool();
-        board = new Board(Deskzone.CENTER);
-        resLeft = new ResPanel(Deskzone.WEST);
-        resRight = new ResPanel(Deskzone.EAST);
-
         user = new User("user");
         opponent = new Computer("computer");
 
-        resLeft.setPlayer(user);
-        resRight.setPlayer(opponent);
+        animPool = new AnimPool();
+        board = new Board(Zones.CENTER);
+        resLeft = new ResPanel(Zones.WEST, user);
+        resRight = new ResPanel(Zones.EAST, opponent);
 
-        hand = new Hand(Deskzone.SOUTH, board.getActiveSlot(), board.getDeckSlot());
+        hpLeft = new HpPanel(Zones.HP_WEST, user);
+        hpRight = new HpPanel(Zones.HP_EAST, opponent);
+
+        hand = new Hand(Zones.SOUTH, board.getActiveSlot(), board.getDeckSlot());
 
         board.setColor(Color.DARK_GRAY.cpy().sub(0, 0, 0, 0.5f));
         resLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 0.5f));
         resRight.setColor(Color.RED.cpy().sub(0, 0, 0, 0.5f));
 
         hand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
+
+        hpLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 0.7f));
+        hpRight.setColor(Color.RED.cpy().sub(0, 0, 0, 0.7f));
 
         round = RoundEnum.NOGAME;
     }
@@ -116,6 +117,11 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
         resLeft.render(renderer, spriteBatch);
         resRight.render(renderer, spriteBatch);
+
+
+        hpLeft.render(renderer, spriteBatch);
+        hpRight.render(renderer, spriteBatch);
+
         hand.render(renderer, spriteBatch);
 
         animPool.render(renderer, spriteBatch);
@@ -129,6 +135,10 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         board.update();
         resLeft.update();
         resRight.update();
+
+        hpLeft.update();
+        hpRight.update();
+
 
         hand.update();
 

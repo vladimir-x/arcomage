@@ -83,13 +83,13 @@ public class ArcomageDesktop {
         settings.deckTextureWidth = 95;
         settings.deckTextureHeight = 128;
 
-        settings.towerTextureWidth = 45;
-        settings.towerTextureHeight = 200;
+        settings.towerBodyTextureWidth = 45;
+        settings.towerBodyTextureHeight = 200;
         settings.towerHeadTextureWidth = 68;
         settings.towerHeadTextureHeight = 94;
         
-        settings.wallTextureWidth=24;
-        settings.wallTextureHeight=200;
+        settings.wallBodyTextureWidth =24;
+        settings.wallBodyTextureHeight =200;
         settings.wallHeadTextureWidth=45;
         settings.wallHeadTextureHeight=38;
         
@@ -100,15 +100,15 @@ public class ArcomageDesktop {
         settings.deckUndoTextureX = 0;
         settings.deckUndoTextureY = 0;
 
-        settings.towerTextureX = 330;
-        settings.towerTextureY = 0;
+        settings.towerBodyTextureX = 330;
+        settings.towerBodyTextureY = 0;
         settings.towerHeadRedTextureX =100;
         settings.towerHeadRedTextureY =0;
         settings.towerHeadBlueTextureX =100;
         settings.towerHeadBlueTextureY =100;
         
-        settings.wallTextureX=300;
-        settings.wallTextureY=0;
+        settings.wallBodyTextureX =300;
+        settings.wallBodyTextureY =0;
         settings.wallHeadTextureX=0;
         settings.wallHeadTextureY=128;
         

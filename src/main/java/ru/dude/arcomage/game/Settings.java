@@ -27,7 +27,7 @@ public class Settings {
     //размеры карты в текстуре для карт
     public Integer cardHeight;
     public Integer cardWidth;
-    
+
     //игровые правила
     public Integer startCardCount;   //количество карт в руке
     
@@ -53,13 +53,13 @@ public class Settings {
     public Integer resTextureWidth;
     public Integer resTextureHeight;
     
-    public Integer towerTextureWidth;
-    public Integer towerTextureHeight;
+    public Integer towerBodyTextureWidth;
+    public Integer towerBodyTextureHeight;
     public Integer towerHeadTextureWidth;
     public Integer towerHeadTextureHeight;
     
-    public Integer wallTextureWidth;
-    public Integer wallTextureHeight;
+    public Integer wallBodyTextureWidth;
+    public Integer wallBodyTextureHeight;
     public Integer wallHeadTextureWidth;
     public Integer wallHeadTextureHeight;
     
@@ -74,17 +74,20 @@ public class Settings {
     public Integer beastTextureX;
     public Integer beastTextureY;
     
-    public Integer towerTextureX;
-    public Integer towerTextureY;
+    public Integer towerBodyTextureX;
+    public Integer towerBodyTextureY;
     public Integer towerHeadRedTextureX;
     public Integer towerHeadRedTextureY;
     public Integer towerHeadBlueTextureX;
     public Integer towerHeadBlueTextureY;
     
-    public Integer wallTextureX;
-    public Integer wallTextureY;
+    public Integer wallBodyTextureX;
+    public Integer wallBodyTextureY;
     public Integer wallHeadTextureX;
     public Integer wallHeadTextureY;
+
+
+    public Integer wall;
     
     //количество карт в текстуре колоды
     public Integer deckCountX;

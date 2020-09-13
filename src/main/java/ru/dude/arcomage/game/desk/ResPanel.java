@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- *
+ * Ресурсы
  * @author admin
  */
 public class ResPanel extends Deskzone {
@@ -26,8 +26,9 @@ public class ResPanel extends Deskzone {
 
     Player player;
 
-    public ResPanel(int zone) {
+    public ResPanel(Zones zone, Player player) {
         super(zone);
+        this.player = player;
 
         brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture);
         gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture);
@@ -36,6 +37,7 @@ public class ResPanel extends Deskzone {
         resSlots = new ResBlock[]{brickSlot, gemSlot, beastSlot};
 
         nameBlock = new NameBlock(this);
+        nameBlock.setText(player.getName());
     }
 
     @Override
@@ -56,10 +58,5 @@ public class ResPanel extends Deskzone {
             resSlot.render(renderer, spriteBatch);
         }
         nameBlock.render(renderer, spriteBatch);
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-        nameBlock.setText(player.getName());
     }
 }

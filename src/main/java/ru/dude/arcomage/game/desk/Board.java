@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.ArrayList;
 
 /**
- *
+ * Стол с картами
  * @author admin
  */
 public class Board extends Deskzone implements Actionable {
@@ -34,7 +34,7 @@ public class Board extends Deskzone implements Actionable {
     ArrayList<PlayedSlot> playedSlots;
     PlayedSlot lastSlot;
 
-    public Board(int zone) {
+    public Board(Zones zone) {
         super(zone);
         discardSlot = new DeckSlot(this);
         deckSlot = new DeckSlot(this);

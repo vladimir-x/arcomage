@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- *
+ * Одна из зон на доске
  * @author elduderino
  */
 public class Deskzone implements Rendereble {
@@ -23,13 +23,9 @@ public class Deskzone implements Rendereble {
     private static float vertBound = 0.15f;
     private static float horizBound = 0.3f;
 
-    public static final int CENTER = 0;
-    //public static final int NORTH = 1;
-    public static final int WEST = 2;
-    public static final int SOUTH = 3;
-    public static final int EAST = 4;
+    private static int hpPanelWidth = 120;
 
-    private int zone;
+    private Zones zone;
 
     private Rectangle rect;
 
@@ -37,10 +33,10 @@ public class Deskzone implements Rendereble {
     private Color color;
 
     public Deskzone() {
-        this.zone = 0;
+        this.zone = Zones.CENTER;
     }
 
-    public Deskzone(int zone) {
+    public Deskzone(Zones zone) {
         this.zone = zone;
     }
 
@@ -57,22 +53,21 @@ public class Deskzone implements Rendereble {
 
         switch (zone) {
             case CENTER:
-                rect = new Rectangle(leftBotX, leftBotY, rightTopX - leftBotX, rightTopY);
-                break;
+                return new Rectangle(leftBotX, leftBotY, rightTopX - leftBotX, rightTopY);
             case WEST://запад
-                rect = new Rectangle(0, leftBotY, leftBotX, rightTopY);
-                break;
+                return new Rectangle(0, leftBotY, leftBotX, rightTopY);
             case SOUTH:
-                rect = new Rectangle(0, 0, width, leftBotY);
-                break;
+                return new Rectangle(0, 0, width, leftBotY);
             case EAST:
-                rect = new Rectangle(rightTopX, leftBotY, leftBotX, rightTopY);
-                break;
+                return new Rectangle(rightTopX, leftBotY, leftBotX, rightTopY);
+
+            case HP_WEST:
+                return new Rectangle(leftBotX, leftBotY, hpPanelWidth, rightTopY);
+            case HP_EAST:
+                return new Rectangle(rightTopX - hpPanelWidth, leftBotY, hpPanelWidth, rightTopY);
             default:
                 throw new AssertionError();
         }
-
-        return rect;
     }
 
     public Color getColor() {

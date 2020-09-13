@@ -27,6 +27,13 @@ public class Resource {
     public TextureRegion gemTexture;
     public TextureRegion beastTexture;
 
+    public TextureRegion towerBodyTexture;
+    public TextureRegion towerHeadRedTexture;
+    public TextureRegion towerHeadBlueTexture;
+
+    public TextureRegion wallBodyTexture;
+    public TextureRegion wallHeadTexture;
+
     protected static Map<String, TextureRegion> cardsTextureMap;
 
     public BitmapFont font;
@@ -66,6 +73,36 @@ public class Resource {
                 AppImpl.settings.beastTextureY,
                 AppImpl.settings.resTextureWidth,
                 AppImpl.settings.resTextureHeight);
+
+        towerBodyTexture = new TextureRegion(texture,
+                AppImpl.settings.towerBodyTextureX,
+                AppImpl.settings.towerBodyTextureY,
+                AppImpl.settings.towerBodyTextureWidth,
+                AppImpl.settings.towerBodyTextureHeight);
+
+        towerHeadRedTexture = new TextureRegion(texture,
+                AppImpl.settings.towerHeadRedTextureX,
+                AppImpl.settings.towerHeadRedTextureY,
+                AppImpl.settings.towerHeadTextureWidth,
+                AppImpl.settings.towerHeadTextureHeight);
+
+        towerHeadBlueTexture = new TextureRegion(texture,
+                AppImpl.settings.towerHeadBlueTextureX,
+                AppImpl.settings.towerHeadBlueTextureY,
+                AppImpl.settings.towerHeadTextureWidth,
+                AppImpl.settings.towerHeadTextureHeight);
+
+        wallBodyTexture = new TextureRegion(texture,
+                AppImpl.settings.wallBodyTextureX,
+                AppImpl.settings.wallBodyTextureY,
+                AppImpl.settings.wallBodyTextureWidth,
+                AppImpl.settings.wallBodyTextureHeight);
+
+        wallHeadTexture = new TextureRegion(texture,
+                AppImpl.settings.wallHeadTextureX,
+                AppImpl.settings.wallHeadTextureY,
+                AppImpl.settings.wallHeadTextureWidth,
+                AppImpl.settings.wallHeadTextureHeight);
 
         // Шрифты
         font = new BitmapFont(

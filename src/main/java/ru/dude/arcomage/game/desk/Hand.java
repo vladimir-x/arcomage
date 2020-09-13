@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Рука
  * @author elduderino
  */
 public class Hand extends Deskzone implements Actionable {
@@ -35,15 +36,10 @@ public class Hand extends Deskzone implements Actionable {
     Player player;
     RoundEnum round;
 
-    volatile boolean playing;
-
-
-    public Hand(int zone, ActiveSlot activeSlot, DeckSlot deckSlot) {
+    public Hand(Zones zone, ActiveSlot activeSlot, DeckSlot deckSlot) {
         super(zone);
         this.deckSlot = deckSlot;
         this.activeSlot = activeSlot;
-
-        playing = true;
     }
 
 
@@ -195,12 +191,6 @@ public class Hand extends Deskzone implements Actionable {
         this.player = player;
         this.round = round;
 
-    }
-
-    public void setPlaying(RoundEnum round) {
-        playing = round == RoundEnum.USER_TURN;
-
-        player.ding();
     }
 
     private boolean isMasked() {
