@@ -35,7 +35,7 @@ public class HpPanel extends Deskzone {
             throw new IllegalArgumentException("no supported zone=" + zone);
         }
 
-        wallBlock = new WallBlock(this, AppImpl.resources.towerHeadRedTexture, AppImpl.resources.towerBodyTexture);
+        wallBlock = new WallBlock(this, AppImpl.resources.wallHeadTexture, AppImpl.resources.wallBodyTexture);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class HpPanel extends Deskzone {
         wallBlock.render(renderer, spriteBatch);
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public Player getPlayer() {
+        return player;
     }
 }

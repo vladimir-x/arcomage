@@ -112,21 +112,19 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         spriteBatch.draw(AppImpl.resources.boardTexture, 0, 0);
         spriteBatch.end();
 
-
         board.renderBack(renderer, spriteBatch);
+
+        hand.render(renderer, spriteBatch);
+
+        board.render(renderer, spriteBatch);
+
+        animPool.render(renderer, spriteBatch);
 
         resLeft.render(renderer, spriteBatch);
         resRight.render(renderer, spriteBatch);
 
-
         hpLeft.render(renderer, spriteBatch);
         hpRight.render(renderer, spriteBatch);
-
-        hand.render(renderer, spriteBatch);
-
-        animPool.render(renderer, spriteBatch);
-
-        board.render(renderer, spriteBatch);
 
     }
 

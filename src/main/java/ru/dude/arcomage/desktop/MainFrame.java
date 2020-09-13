@@ -17,6 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class MainFrame extends LwjglFrame {
 
+    private static MainFrame instance;
+
+    public static MainFrame getInstance(){
+        return instance;
+    }
+
     /**
      * Creates new form MainFrame
      *
@@ -31,6 +37,7 @@ public class MainFrame extends LwjglFrame {
         initComponents();
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         setLocationRelativeTo(null);
+        instance = this;
     }
 
     /**

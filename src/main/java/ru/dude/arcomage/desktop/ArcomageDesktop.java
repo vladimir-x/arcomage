@@ -85,7 +85,7 @@ public class ArcomageDesktop {
 
         settings.towerBodyTextureWidth = 45;
         settings.towerBodyTextureHeight = 200;
-        settings.towerHeadTextureWidth = 68;
+        settings.towerHeadTextureWidth = 67;
         settings.towerHeadTextureHeight = 94;
         
         settings.wallBodyTextureWidth =24;
@@ -102,8 +102,8 @@ public class ArcomageDesktop {
 
         settings.towerBodyTextureX = 330;
         settings.towerBodyTextureY = 0;
-        settings.towerHeadRedTextureX =100;
-        settings.towerHeadRedTextureY =0;
+        settings.towerHeadRedTextureX =101;
+        settings.towerHeadRedTextureY = 0;
         settings.towerHeadBlueTextureX =100;
         settings.towerHeadBlueTextureY =100;
         

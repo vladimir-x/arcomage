@@ -49,7 +49,7 @@ public class Deskzone implements Rendereble {
         float rightTopX = width - leftBotX;
         float rightTopY = height - leftBotY;
 
-        Rectangle rect = null;
+        float hpPanelWidth = width * 0.18f;
 
         switch (zone) {
             case CENTER:
@@ -106,4 +106,7 @@ public class Deskzone implements Rendereble {
         return rect;
     }
 
+    public Zones getZone() {
+        return zone;
+    }
 }

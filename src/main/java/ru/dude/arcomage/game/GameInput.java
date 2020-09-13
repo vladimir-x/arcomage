@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game;
 
 import com.badlogic.gdx.InputProcessor;
+import ru.dude.arcomage.desktop.MainFrame;
 
 /**
  *
@@ -37,11 +38,8 @@ public class GameInput implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        float propX = screenX * AppImpl.settings.cameraWidth / (1.0f * AppImpl.settings.windowWidth);
-        float propY = (AppImpl.settings.windowHeight - screenY) * AppImpl.settings.cameraHeight / (1.0f * AppImpl.settings.windowHeight);
-
         if (appImpl.control != null) {
-            appImpl.control.promptToStep(propX, propY, button);
+            appImpl.control.promptToStep(recalcX(screenX), recalcY(screenY), button);
         }
 
         return true;
@@ -60,12 +58,25 @@ public class GameInput implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+
+        //
+        MainFrame.getInstance().setTitle("coord: x = " + recalcX(screenX) + ", y = " + recalcY(screenY));
+        //
         return true;
     }
 
     @Override
     public boolean scrolled(int amount) {
         return true;
+    }
+
+
+    private float recalcX(int screenX){
+        return screenX * AppImpl.settings.cameraWidth / (1.0f * AppImpl.settings.windowWidth);
+    }
+
+    private float recalcY(int screenY){
+        return (AppImpl.settings.windowHeight - screenY) * AppImpl.settings.cameraHeight / (1.0f * AppImpl.settings.windowHeight);
     }
 
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.desk.HpPanel;
 import ru.dude.arcomage.game.desk.ResPanel;
+import ru.dude.arcomage.game.desk.Zones;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 
 /**
@@ -20,7 +21,8 @@ import ru.dude.arcomage.game.interfaces.Rendereble;
  */
 public class TowerBlock implements Rendereble {
 
-    Rectangle rect;
+    Rectangle headTextureRect;
+    Rectangle bodyTextureRect;
 
     HpPanel owner;
     TextureRegion headTextureRegion;
@@ -34,26 +36,55 @@ public class TowerBlock implements Rendereble {
 
     @Override
     public void update() {
-        float centrX = owner.getRectangle().x + owner.getRectangle().width / 2.f;
-        float centrY = owner.getRectangle().y + owner.getRectangle().height / 2.f;
+        updateHead();
+        updateBody();
+    }
 
-        float x = centrX - AppImpl.settings.resTextureWidth / 2.f;
-        float y = centrY - AppImpl.settings.resTextureHeight * (1 / 2.f );
+    private void updateHead(){
+        // чуть правее или чуть левее
+        int k = owner.getZone() == Zones.HP_WEST ? 1 : 2;
 
-        rect = new Rectangle(x, y,
-                AppImpl.settings.resTextureWidth,
-                AppImpl.settings.resTextureHeight);
+        float centrX = owner.getRectangle().x + owner.getRectangle().width / 3.f * k;
+        float bottomY = owner.getRectangle().y;
+
+        // тут нужно вычислить этажность
+        float bodyHeight = 100f;
+
+        float x = centrX - AppImpl.settings.towerHeadTextureWidth / 2.f;
+        float y = bottomY + bodyHeight;
+
+        headTextureRect = new Rectangle(x, y,
+                AppImpl.settings.towerHeadTextureWidth,
+                AppImpl.settings.towerHeadTextureHeight);
+    }
+
+
+    private void updateBody(){
+        // чуть правее или чуть левее
+        int k = owner.getZone() == Zones.HP_WEST ? 1 : 2;
+
+        float centrX = owner.getRectangle().x + owner.getRectangle().width / 3.f * k;
+        float bottomY = owner.getRectangle().y;
+
+        // тут нужно вычислить этажность
+        float bodyHeight = 100f;
+
+
+        float x = centrX - AppImpl.settings.towerBodyTextureWidth / 2.f;
+        float y = bottomY;
+
+        bodyTextureRect = new Rectangle(x, y,
+                AppImpl.settings.towerBodyTextureWidth,
+                bodyHeight);
     }
 
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         spriteBatch.begin();
-       // spriteBatch.draw(textureRegion, rect.x, rect.y);
+        spriteBatch.draw(headTextureRegion, headTextureRect.x, headTextureRect.y);
+        spriteBatch.draw(bodyTextureRegion, bodyTextureRect.x, bodyTextureRect.y, bodyTextureRect.width, bodyTextureRect.height);
         spriteBatch.end();
     }
 
-    public Rectangle getRectangle() {
-        return rect;
-    }
 
 }
