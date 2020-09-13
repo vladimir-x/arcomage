@@ -36,8 +36,10 @@ public class Computer extends Player {
         Card card = cards.get(r);
         System.out.println(" Computer want to play ["+r+"]: " + card.getName());
 
-        if (!AppImpl.control.playCard(r, card, false)) {
-            AppImpl.control.playCard(r, card, true);
+        if (playable(card)) {
+            playCard(r, card);
+        } else {
+            dropCard(r, card);
         }
     }
 

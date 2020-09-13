@@ -76,17 +76,22 @@ public class Hand extends Deskzone implements Actionable {
 
     }
 
-    public boolean promptToSelect(float propX, float propY, boolean drop) {
+    public boolean selectAndPlay(float propX, float propY, boolean drop) {
         for (HandSlot handSlot : getHandSlots(player)) {
             if (handSlot.contains(propX, propY)) {
                 Card card = player.getCards().get(handSlot.getPos());
-                return playSlot(handSlot, card, drop);
+
+                if (drop){
+                    return player.dropCard(handSlot.getPos(),card);
+                } else {
+                    return player.playCard(handSlot.getPos(),card);
+                }
             }
         }
         return false;
     }
 
-    public boolean promptToSelect(int position, Card card, boolean drop) {
+    public boolean selectAndPlay(int position, Card card, boolean drop) {
         ArrayList<HandSlot> slots = getHandSlots(player);
         if (position >= 0 && position < slots.size()) {
             HandSlot handSlot = slots.get(position);
@@ -138,7 +143,7 @@ public class Hand extends Deskzone implements Actionable {
         AppImpl.control.AnimateFlySlot(new FlySlot(new Runnable() {
             @Override
             public void run() {
-                player.ding();
+                player.acceptTurn();
             }
         }));
     }

@@ -146,9 +146,9 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         if (round == RoundEnum.USER_TURN) {
 
             if (button == Input.Buttons.LEFT) {
-                hand.promptToSelect(propX, propY, false);
+                hand.selectAndPlay(propX, propY, false);
             } else if (button == Input.Buttons.RIGHT) {
-                hand.promptToSelect(propX, propY, true);
+                hand.selectAndPlay(propX, propY, true);
             }
 
         }
@@ -156,7 +156,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
     @Override
     public boolean playCard(int r, Card card, boolean drop) {
-        return hand.promptToSelect(r, card, drop);
+        return hand.selectAndPlay(r, card, drop);
     }
 
     @Override

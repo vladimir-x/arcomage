@@ -7,6 +7,7 @@ package ru.dude.arcomage.game.data;
 
 import ru.dude.arcomage.game.AppImpl;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -19,6 +20,8 @@ public abstract class Player {
     public ArrayList<Card> cards;
 
     public ArrayList<Card> maskCards;//карты обратной стороной
+
+    public AtomicInteger actionsCount = new AtomicInteger(0);
 
     public Player(String name) {
         this.name = name;
@@ -115,5 +118,40 @@ public abstract class Player {
 
         return sb.toString();
 
+    }
+
+    /**
+     * принять ход
+     */
+    public void acceptTurn() {
+        System.out.println("player " + name + "acceptTurn");
+        actionsCount.incrementAndGet();
+        ding();
+    }
+
+    /**
+     * Сыграть карту
+     * @param r
+     * @param card
+     */
+    public boolean playCard(int r, Card card){
+        if (actionsCount.get() > 0 && playable(card)){
+            actionsCount.decrementAndGet();
+            return AppImpl.control.playCard(r, card, false);
+        }
+        return false;
+    }
+
+    /**
+     * Сбросить карту
+     * @param r
+     * @param card
+     */
+    public boolean dropCard(int r, Card card){
+        if (actionsCount.get() > 0) {
+            actionsCount.decrementAndGet();
+            return AppImpl.control.playCard(r, card, true);
+        }
+        return false;
     }
 }
