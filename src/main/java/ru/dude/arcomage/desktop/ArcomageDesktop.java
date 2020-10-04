@@ -70,7 +70,7 @@ public class ArcomageDesktop {
         settings.aboutTexture = "data" + File.separator + "credits.bmp";
         settings.boardTexture = "data" + File.separator + "layout.bmp";
         settings.deckTexture = "data" + File.separator + "deck_ru.bmp";
-        settings.itemsTexture = "data" + File.separator + "items.bmp";
+        settings.itemsTexture = "data" + File.separator + "items.png";
         settings.titleTexture = "data" + File.separator + "title.bmp";
 
         // ширина и высота текстур

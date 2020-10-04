@@ -29,6 +29,7 @@ public class PlayedSlot extends Slot {
         this.posX = posX;
         this.posY = posY;
         setCard(null);
+        setTransparent(true);
     }
 
     @Override

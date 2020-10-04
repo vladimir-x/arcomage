@@ -21,7 +21,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Deskzone implements Rendereble {
 
     private static float vertBound = 0.15f;
-    private static float horizBound = 0.3f;
+    private static float horizBound = 0.35f;
 
     private static int hpPanelWidth = 120;
 

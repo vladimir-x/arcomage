@@ -37,7 +37,7 @@ public class HandSlot extends Slot {
 
         Rectangle rect = new Rectangle(
                 hand.getRectangle().x + (width * pos + centrX - AppImpl.settings.cardWidth / 2.f),
-                hand.getRectangle().y + (centrY - AppImpl.settings.cardHeight / 2.f),
+                hand.getRectangle().y + (centrY  - AppImpl.settings.cardHeight / 2.f),
                 AppImpl.settings.cardWidth,
                 AppImpl.settings.cardHeight
         );

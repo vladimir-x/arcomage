@@ -79,6 +79,7 @@ public class ActiveSlot extends Slot implements Actionable {
                         destonation.onGetCard();
                     }
                 });
+                playedCard.setTransparent(true);
     //            executeCard();
                 setCard(null);
             }

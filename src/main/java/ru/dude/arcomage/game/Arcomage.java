@@ -52,14 +52,14 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
         hand = new Hand(Zones.SOUTH, board.getActiveSlot(), board.getDeckSlot());
 
-        board.setColor(Color.DARK_GRAY.cpy().sub(0, 0, 0, 0.5f));
-        resLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 0.5f));
-        resRight.setColor(Color.RED.cpy().sub(0, 0, 0, 0.5f));
+        board.setColor(Color.DARK_GRAY.cpy().sub(0, 0, 0, 1f));
+        resLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 1f));
+        resRight.setColor(Color.RED.cpy().sub(0, 0, 0, 1f));
 
-        hand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 0.5f));
+        hand.setColor(Color.LIGHT_GRAY.sub(0, 0, 0, 1f));
 
-        hpLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 0.7f));
-        hpRight.setColor(Color.RED.cpy().sub(0, 0, 0, 0.7f));
+        hpLeft.setColor(Color.BLUE.cpy().sub(0, 0, 0, 1f));
+        hpRight.setColor(Color.RED.cpy().sub(0, 0, 0, 1f));
 
         round = RoundEnum.NOGAME;
     }
@@ -102,7 +102,9 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         System.out.println("---------- SWITCH TURN ----------");
         System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
         board.clearPrevStep();
-        hand.takeCard();
+        animPool.setOnAnimateComlete(() -> {
+            hand.takeCard();
+        });
     }
 
     @Override
@@ -118,13 +120,13 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
         board.render(renderer, spriteBatch);
 
-        animPool.render(renderer, spriteBatch);
-
         resLeft.render(renderer, spriteBatch);
         resRight.render(renderer, spriteBatch);
 
         hpLeft.render(renderer, spriteBatch);
         hpRight.render(renderer, spriteBatch);
+
+        animPool.render(renderer, spriteBatch);
 
     }
 

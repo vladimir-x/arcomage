@@ -24,6 +24,11 @@ public class AnimPool implements Actionable, Rendereble {
 
     FlySlot selected = null;
 
+    /**
+     * выполняется когда вся анимация закончилась
+     */
+    Runnable onAnimateComlete;
+
     public AnimPool() {
     }
 
@@ -47,6 +52,12 @@ public class AnimPool implements Actionable, Rendereble {
             if (selected.isOwer()) {
                 selected = queue.poll();
             }
+        }
+
+        if (selected == null && onAnimateComlete !=null){
+            onAnimateComlete.run();
+            onAnimateComlete = null;
+
         }
     }
 
@@ -74,4 +85,7 @@ public class AnimPool implements Actionable, Rendereble {
         return selected != null;
     }
 
+    public void setOnAnimateComlete(Runnable onAnimateComlete) {
+        this.onAnimateComlete = onAnimateComlete;
+    }
 }

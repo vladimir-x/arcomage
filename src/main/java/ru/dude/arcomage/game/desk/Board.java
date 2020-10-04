@@ -39,7 +39,7 @@ public class Board extends Deskzone implements Actionable {
         discardSlot = new DeckSlot(this);
         deckSlot = new DeckSlot(this);
         activeSlot = new ActiveSlot(this);
-        playedSlots = new ArrayList<PlayedSlot>();
+        playedSlots = new ArrayList<>();
         makeEmptySlot();
     }
 
@@ -127,7 +127,12 @@ public class Board extends Deskzone implements Actionable {
 
             if (cartStep != null && (currentStep - cartStep > 1)) {
 
-                FlySlot erasing = new FlySlot(slot, discardSlot);
+                FlySlot erasing = new FlySlot(slot, discardSlot, new Runnable() {
+                    @Override
+                    public void run() {
+                        discardSlot.setCard(null);
+                    }
+                });
                 slot.setCard(null);
                 AppImpl.control.AnimateFlySlot(erasing);
             } else {

@@ -53,6 +53,7 @@ public class FlySlot extends Slot implements Actionable {
             this.remainingTime = FLY_TIME;
 
             setCard(source.getCard());
+            setTransparent(source.getTransparent());
             setDroped(source.getDroped());
             setPlayedStep(source.getPlayedStep());
 

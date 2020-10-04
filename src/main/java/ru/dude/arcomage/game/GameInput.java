@@ -60,7 +60,11 @@ public class GameInput implements InputProcessor {
     public boolean mouseMoved(int screenX, int screenY) {
 
         //
-        MainFrame.getInstance().setTitle("coord: x = " + recalcX(screenX) + ", y = " + recalcY(screenY));
+        try {
+            MainFrame.getInstance().setTitle("coord: x = " + recalcX(screenX) + ", y = " + recalcY(screenY));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         //
         return true;
     }

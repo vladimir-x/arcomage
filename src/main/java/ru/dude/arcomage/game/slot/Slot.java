@@ -26,13 +26,15 @@ public abstract class Slot implements Rendereble {
 
     private Card card;
     Rectangle rect;
-    private Boolean droped;
-    private Boolean masked;
+    private Boolean droped; // сброшена
+    private Boolean transparent; // прозрачный
+    private Boolean masked; // рубашкой вверх
     private Boolean empty;
     Integer playedStep; // на каком ходу был разыгран
 
     public Slot() {
         card = null;
+        transparent = false;
         droped = false;
         masked = false;
         empty = false;
@@ -54,33 +56,33 @@ public abstract class Slot implements Rendereble {
 
 
     private void render(TextureRegion textureRegion, String text, ShapeRenderer renderer, SpriteBatch spriteBatch) {
-        if (textureRegion != null) {
+        if (textureRegion != null && ! empty) {
+
             spriteBatch.begin();
 
-            if (!empty) {
-                spriteBatch.draw(textureRegion, rect.x, rect.y);
+            Color c = spriteBatch.getColor();
+
+            if (transparent){
+                // полупрозрачные карты
+                spriteBatch.setColor(c.r, c.g, c.b, .7f);//set alpha to 0.3
             }
 
-            AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y +rect.height);
+            spriteBatch.draw(textureRegion, rect.x, rect.y);
+
+            if (transparent) {
+                // возвращаем
+                spriteBatch.setColor(c.r, c.g, c.b, 1);
+            }
+
+            // названия карт , для отладки
+            AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y + rect.height);
+
+            if (droped){
+                // сброшеные карты
+                AppImpl.resources.font.draw(spriteBatch, "DROP", rect.x, rect.y + rect.height/2);
+            }
 
             spriteBatch.end();
-            if (droped) {
-
-                Gdx.gl.glEnable(GL20.GL_BLEND);
-                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-                Color c = Color.GRAY.cpy().sub(0, 0, 0, 0.5f);
-
-                renderer.begin(ShapeRenderer.ShapeType.Filled);
-                renderer.setColor(c);
-                renderer.rect(
-                        rect.x,
-                        rect.y,
-                        rect.width,
-                        rect.height
-                );
-                renderer.end();
-                Gdx.gl.glDisable(GL20.GL_BLEND);
-            }
         }
     }
 
@@ -99,8 +101,16 @@ public abstract class Slot implements Rendereble {
         this.droped = droped;
     }
 
+    public void setTransparent(Boolean transparent) {
+        this.transparent = transparent;
+    }
+
     public Card getCard() {
         return card;
+    }
+
+    public Boolean getTransparent() {
+        return transparent;
     }
 
     public void setCard(Card card) {
