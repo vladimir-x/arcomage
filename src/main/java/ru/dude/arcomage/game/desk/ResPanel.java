@@ -7,6 +7,7 @@ package ru.dude.arcomage.game.desk;
 
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.data.Player;
+import ru.dude.arcomage.game.data.ResourceType;
 import ru.dude.arcomage.game.slot.NameBlock;
 import ru.dude.arcomage.game.slot.ResBlock;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,9 +31,9 @@ public class ResPanel extends Deskzone {
         super(zone);
         this.player = player;
 
-        brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture);
-        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture);
-        beastSlot = new ResBlock(this, 2, AppImpl.resources.beastTexture);
+        brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture, ResourceType.BRICK);
+        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture, ResourceType.GEM);
+        beastSlot = new ResBlock(this, 2, AppImpl.resources.beastTexture, ResourceType.BEAST);
 
         resSlots = new ResBlock[]{brickSlot, gemSlot, beastSlot};
 
@@ -58,5 +59,9 @@ public class ResPanel extends Deskzone {
             resSlot.render(renderer, spriteBatch);
         }
         nameBlock.render(renderer, spriteBatch);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

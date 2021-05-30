@@ -46,7 +46,7 @@ public class WallBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = 50f;
+        float bodyHeight = owner.getPlayer().wallHP;
 
 
         float x = centrX - AppImpl.settings.wallBodyTextureWidth / 2.f;

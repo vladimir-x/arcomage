@@ -23,17 +23,40 @@ public abstract class Player {
 
     public AtomicInteger actionsCount = new AtomicInteger(0);
 
+    // HP
+    public Integer towerHP = 0;
+    public Integer wallHP = 0;
+
+    // ресурсы
+    public Integer brickIncome = 0;
+    public Integer gemIncome = 0;
+    public Integer beastIncome = 0;
+
+    public Integer brickCount = 0;
+    public Integer gemCount = 0;
+    public Integer beastCount = 0;
+
     public Player(String name) {
         this.name = name;
-
 
         this.cards = new ArrayList<>();
         this.maskCards = new ArrayList<>();
 
-        for (int i = 0; i < AppImpl.settings.startCardCount; ++i) {
+        for (int i = 0; i < AppImpl.rules.startCardCount; ++i) {
             cards.add(AppImpl.cardManager.getEmptyCard());
             maskCards.add(AppImpl.cardManager.getEmptyCard());
         }
+
+        towerHP = AppImpl.rules.startTowerHP;
+        wallHP = AppImpl.rules.startWallHP;
+
+        brickIncome = AppImpl.rules.startBrickIncome;
+        gemIncome = AppImpl.rules.startGemIncome;
+        beastIncome = AppImpl.rules.startBeastIncome;
+
+        brickCount = AppImpl.rules.startBrickCount;
+        gemCount = AppImpl.rules.startGemCount;
+        beastCount = AppImpl.rules.startBeastCount;
     }
 
     // при вставке первая карта - указана. 
@@ -153,5 +176,29 @@ public abstract class Player {
             return AppImpl.control.playCard(r, card, true);
         }
         return false;
+    }
+
+    public Integer getIncome(ResourceType resourceType) {
+        switch (resourceType){
+            case BRICK:
+                return brickIncome;
+            case GEM:
+                return gemIncome;
+            case BEAST:
+                return beastIncome;
+        }
+        throw new IllegalArgumentException("ResourceType " + resourceType + " not supported");
+    }
+
+    public Integer getCurrentCount(ResourceType resourceType) {
+        switch (resourceType) {
+            case BRICK:
+                return brickCount;
+            case GEM:
+                return gemCount;
+            case BEAST:
+                return beastCount;
+        }
+        throw new IllegalArgumentException("ResourceType " + resourceType + " not supported");
     }
 }

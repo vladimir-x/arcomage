@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import ru.dude.arcomage.game.render.RenderUtil;
 
 /**
  * Сыгранные карты
@@ -49,10 +50,7 @@ public class PlayedSlot extends Slot {
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         super.render(renderer, spriteBatch);
 
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.setColor(Color.GREEN);
-        renderer.rect(rect.x, rect.y, rect.width, rect.height);
-        renderer.end();
+        RenderUtil.renderBorderRect(renderer, Color.GREEN, rect);
     }
 
     @Override

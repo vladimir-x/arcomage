@@ -6,7 +6,7 @@
 package ru.dude.arcomage.game;
 
 /**
- *
+ * Внутренние настройки верстки интерфейса
  * @author elduderino
  */
 public class Settings {
@@ -28,9 +28,6 @@ public class Settings {
     public Integer cardHeight;
     public Integer cardWidth;
 
-    //игровые правила
-    public Integer startCardCount;   //количество карт в руке
-    
     //текстуры
     public String welcomeTexture;   //экран привествия
     public String aboutTexture;     //экран about
@@ -87,8 +84,6 @@ public class Settings {
     public Integer wallHeadTextureY;
 
 
-    public Integer wall;
-    
     //количество карт в текстуре колоды
     public Integer deckCountX;
     public Integer deckCountY;

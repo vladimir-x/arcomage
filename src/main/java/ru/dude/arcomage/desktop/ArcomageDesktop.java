@@ -6,6 +6,7 @@
 package ru.dude.arcomage.desktop;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.Rules;
 import ru.dude.arcomage.game.Settings;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
@@ -19,6 +20,7 @@ public class ArcomageDesktop {
 
     static MainFrame frame;
     static Settings settings;
+    static Rules rules;
 
     public static void main(String[] argv) {
 
@@ -28,7 +30,8 @@ public class ArcomageDesktop {
     public static void makePanel() {
 
         settings = loadSettings();
-        AppImpl applicationImpl = new AppImpl(settings);
+        rules = loadDefaultRules();
+        AppImpl applicationImpl = new AppImpl(settings, rules);
 
         frame = new MainFrame(applicationImpl, settings);
     }
@@ -58,8 +61,6 @@ public class ArcomageDesktop {
 
         settings.cardWidth = 95;
         settings.cardHeight = 128;
-
-        settings.startCardCount = 6;
 
         //шрифты
         settings.fontFnt ="data" + File.separator + "fc.fnt";
@@ -125,6 +126,29 @@ public class ArcomageDesktop {
         settings.deckCountType = 34;
 
         return settings;
+    }
+
+    /**
+     * Загрузка правил.
+     * Потом переделать на настраиваемые правила и на загрузку из шаблона таверны
+     */
+    public static Rules loadDefaultRules() {
+        Rules rules = new Rules();
+
+        rules.startCardCount = 6;
+
+        rules.startTowerHP = 50;
+        rules.startWallHP = 10;
+
+        rules.startBrickIncome = 1;
+        rules.startGemIncome = 2;
+        rules.startBeastIncome = 3;
+
+        rules.startBrickCount = 5;
+        rules.startGemCount = 6;
+        rules.startBeastCount = 7;
+
+        return rules;
     }
 
     public static void saveSettings(Settings settings) {

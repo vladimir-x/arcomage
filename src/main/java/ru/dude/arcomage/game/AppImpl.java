@@ -17,6 +17,7 @@ import com.badlogic.gdx.Game;
 public class AppImpl extends Game {
 
     public static Settings settings;
+    public static Rules rules;
     public static Resource resources;
     public static GameControlable control;
     public static CardManager cardManager;
@@ -28,8 +29,9 @@ public class AppImpl extends Game {
 
     private boolean gameStart;
 
-    public AppImpl(Settings settings) {
+    public AppImpl(Settings settings, Rules rules) {
         AppImpl.settings = settings;
+        AppImpl.rules = rules;
     }
 
     @Override

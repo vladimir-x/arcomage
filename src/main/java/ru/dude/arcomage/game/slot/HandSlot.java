@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import ru.dude.arcomage.game.render.RenderUtil;
 
 /**
  *
@@ -30,7 +31,7 @@ public class HandSlot extends Slot {
 
     public Rectangle calcRect() {
 
-        float width = hand.getRectangle().width / (AppImpl.settings.startCardCount);
+        float width = hand.getRectangle().width / (AppImpl.rules.startCardCount);
         float centrX = width / 2.f;
 
         float centrY = hand.getRectangle().height / 2.f;
@@ -57,9 +58,7 @@ public class HandSlot extends Slot {
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         super.render(renderer, spriteBatch);
 
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.setColor(Color.GREEN.cpy());
-        renderer.rect(rect.x, rect.y, rect.width, rect.height);
+        RenderUtil.renderBorderRect(renderer, Color.GREEN, rect);
         renderer.end();
     }
 

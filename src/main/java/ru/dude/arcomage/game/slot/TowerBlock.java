@@ -48,7 +48,7 @@ public class TowerBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = 100f;
+        float bodyHeight = owner.getPlayer().towerHP;
 
         float x = centrX - AppImpl.settings.towerHeadTextureWidth / 2.f;
         float y = bottomY + bodyHeight;
@@ -67,7 +67,7 @@ public class TowerBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = 100f;
+        float bodyHeight = owner.getPlayer().towerHP;
 
 
         float x = centrX - AppImpl.settings.towerBodyTextureWidth / 2.f;
