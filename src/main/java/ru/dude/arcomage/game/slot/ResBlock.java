@@ -32,10 +32,10 @@ public class ResBlock implements Rendereble {
     ResourceType resourceType;
 
     //Прирост
-    ResIncomeBlock incomeBlock;
+    TextBlock incomeBlock;
 
     //текущее значение
-    ResCountBlock currentCountBlock;
+    TextBlock currentCountBlock;
 
 
     public ResBlock(ResPanel owner, int pos, TextureRegion textureRegion, ResourceType resourceType) {
@@ -45,8 +45,27 @@ public class ResBlock implements Rendereble {
 
         this.resourceType = resourceType;
 
-        this.incomeBlock = new ResIncomeBlock(this, () -> owner.getPlayer().getIncome(resourceType).toString());
-        this.currentCountBlock = new ResCountBlock(this, () -> owner.getPlayer().getCurrentCount(resourceType).toString());
+        this.incomeBlock = new TextBlock() {
+            @Override
+            public void update() {
+                Rectangle rectOwner = ResBlock.this.getRectangle();
+
+                updateByXYText(rectOwner.x + 5f,
+                        rectOwner.y + rectOwner.height / 4f,
+                        owner.getPlayer().getIncome(resourceType).toString());
+            }
+        };
+
+        this.currentCountBlock = new TextBlock() {
+            @Override
+            public void update() {
+                Rectangle rectOwner = ResBlock.this.getRectangle();
+
+                updateByXYText(rectOwner.x, rectOwner.y,
+                        owner.getPlayer().getIncome(resourceType).toString());
+            }
+        };
+
     }
 
     @Override

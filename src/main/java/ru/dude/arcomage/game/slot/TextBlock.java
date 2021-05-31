@@ -5,6 +5,7 @@
  */
 package ru.dude.arcomage.game.slot;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import com.badlogic.gdx.graphics.Color;
@@ -40,6 +41,12 @@ public abstract class TextBlock implements Rendereble {
         AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y +rect.height);
         spriteBatch.end();
 
+    }
+
+    protected void updateByXYText(float x, float y, String text){
+        this.text = text;
+        BitmapFont.TextBounds tb = AppImpl.resources.font.getBounds(text);
+        rect = new Rectangle(x, y, tb.width, tb.height);
     }
 
     public String getText() {

@@ -28,16 +28,26 @@ public class TowerBlock implements Rendereble {
     TextureRegion headTextureRegion;
     TextureRegion bodyTextureRegion;
 
+    TextBlock towerHpBlock;
+
     public TowerBlock(HpPanel owner, TextureRegion headTextureRegion, TextureRegion bodyTextureRegion) {
         this.owner = owner;
         this.headTextureRegion = headTextureRegion;
         this.bodyTextureRegion = bodyTextureRegion;
+
+        towerHpBlock = new TextBlock() {
+            @Override
+            public void update() {
+                updateByXYText(bodyTextureRect.x, bodyTextureRect.y, owner.getPlayer().towerHP.toString());
+            }
+        };
     }
 
     @Override
     public void update() {
         updateHead();
         updateBody();
+        towerHpBlock.update();
     }
 
     private void updateHead(){
@@ -84,6 +94,8 @@ public class TowerBlock implements Rendereble {
         spriteBatch.draw(headTextureRegion, headTextureRect.x, headTextureRect.y);
         spriteBatch.draw(bodyTextureRegion, bodyTextureRect.x, bodyTextureRect.y, bodyTextureRect.width, bodyTextureRect.height);
         spriteBatch.end();
+
+        towerHpBlock.render(renderer,spriteBatch);
     }
 
 

@@ -27,15 +27,25 @@ public class WallBlock implements Rendereble {
     TextureRegion headTextureRegion;
     TextureRegion bodyTextureRegion;
 
+    TextBlock wallHpText;
+
     public WallBlock(HpPanel owner, TextureRegion headTextureRegion, TextureRegion bodyTextureRegion) {
         this.owner = owner;
         this.headTextureRegion = headTextureRegion;
         this.bodyTextureRegion = bodyTextureRegion;
+
+        wallHpText = new TextBlock() {
+            @Override
+            public void update() {
+                updateByXYText(bodyTextureRect.x, bodyTextureRect.y, owner.getPlayer().wallHP.toString());
+            }
+        };
     }
 
     @Override
     public void update() {
         updateBody();
+        wallHpText.update();
     }
 
     private void updateBody(){
@@ -62,6 +72,8 @@ public class WallBlock implements Rendereble {
         spriteBatch.begin();
         spriteBatch.draw(bodyTextureRegion, bodyTextureRect.x, bodyTextureRect.y, bodyTextureRect.width, bodyTextureRect.height);
         spriteBatch.end();
+
+        wallHpText.render(renderer,spriteBatch);
     }
 
 }

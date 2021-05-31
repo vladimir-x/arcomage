@@ -137,8 +137,8 @@ public class ArcomageDesktop {
 
         rules.startCardCount = 6;
 
-        rules.startTowerHP = 50;
-        rules.startWallHP = 10;
+        rules.startTowerHP = 80;
+        rules.startWallHP = 40;
 
         rules.startBrickIncome = 1;
         rules.startGemIncome = 2;
