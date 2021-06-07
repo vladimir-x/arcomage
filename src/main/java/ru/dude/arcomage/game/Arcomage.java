@@ -9,15 +9,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import ru.dude.arcomage.game.data.Card;
-import ru.dude.arcomage.game.data.Computer;
-import ru.dude.arcomage.game.data.Player;
-import ru.dude.arcomage.game.data.User;
+import ru.dude.arcomage.game.data.*;
 import ru.dude.arcomage.game.desk.*;
 import ru.dude.arcomage.game.interfaces.Actionable;
 import ru.dude.arcomage.game.interfaces.GameControlable;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import ru.dude.arcomage.game.slot.FlySlot;
+
+import java.util.Optional;
 
 /**
  * @author elduderino
@@ -177,6 +176,37 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     @Override
     public void AnimateFlySlot(FlySlot slot) {
         animPool.putSlot(slot);
+    }
+
+
+    @Override
+    public void executeCard(Card card, Boolean droped){
+
+        Player owner = player;
+        Player enemy = player == user ? opponent : user;
+        System.out.println("executeCard=" + card + "; drop=" + droped + "; owner=" + owner.getName() + " ; enemy=" + enemy.getName());
+
+        if (droped){
+            // just drop
+        } else {
+
+            for (CardAction cardAction : card.getCardActions()) {
+                Boolean conditionCheck = Optional.ofNullable(cardAction.getCondition()).map(c -> c.check(owner, enemy)).orElse(true);
+
+                ActionDetail actionDetail = conditionCheck ? cardAction.getNormalAction() : cardAction.getElseAction();
+
+                Player target = actionDetail.getActiontTarget() == ActiontTarget.OWNER ? owner : enemy;
+                if (actionDetail.getCountAdd() != 0) {
+                    target.addResource(actionDetail.getPlayResource(), actionDetail.getCountAdd());
+                } else {
+                    target.setResource(actionDetail.getPlayResource(), actionDetail.getCountSet());
+                }
+
+            }
+        }
+
+
+
     }
 
 }

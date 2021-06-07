@@ -6,7 +6,7 @@ import ru.dude.arcomage.game.slot.FlySlot;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public interface GameControlable {
     
@@ -23,4 +23,12 @@ public interface GameControlable {
     Integer getCurrentStepCount();
 
     void promptToStep(float propX, float propY, int button);
+
+    /**
+     * Выполнить карту.
+     * Проверки на стоимость выполнения карты уже не проводятся.
+     * @param card
+     * @param droped
+     */
+    void executeCard(Card card, Boolean droped);
 }

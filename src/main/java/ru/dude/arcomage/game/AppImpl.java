@@ -12,7 +12,7 @@ import com.badlogic.gdx.Game;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class AppImpl extends Game {
 

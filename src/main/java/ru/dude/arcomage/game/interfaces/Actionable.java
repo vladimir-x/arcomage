@@ -2,7 +2,7 @@ package ru.dude.arcomage.game.interfaces;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public interface Actionable {
 

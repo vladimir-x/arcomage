@@ -36,4 +36,8 @@ public class NameBlock extends TextBlock {
         rect = new Rectangle(centrX -tb.width/2.f, centrY - tb.height/2.f, tb.width, tb.height);
     }
 
+    @Override
+    protected String updateTextOnRender() {
+        return text;
+    }
 }

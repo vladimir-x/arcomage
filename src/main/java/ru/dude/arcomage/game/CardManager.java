@@ -15,7 +15,7 @@ import java.util.Random;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class CardManager {
     

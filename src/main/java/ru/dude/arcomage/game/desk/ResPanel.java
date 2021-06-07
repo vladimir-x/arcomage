@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.desk;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.PlayResource;
 import ru.dude.arcomage.game.data.Player;
 import ru.dude.arcomage.game.data.ResourceType;
 import ru.dude.arcomage.game.slot.NameBlock;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Ресурсы
- * @author admin
+ * @author elduderino
  */
 public class ResPanel extends Deskzone {
 
@@ -31,9 +32,9 @@ public class ResPanel extends Deskzone {
         super(zone);
         this.player = player;
 
-        brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture, ResourceType.BRICK);
-        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture, ResourceType.GEM);
-        beastSlot = new ResBlock(this, 2, AppImpl.resources.beastTexture, ResourceType.BEAST);
+        brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture, PlayResource.BRICK_INCOME,PlayResource.BRICK_COUNT);
+        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture, PlayResource.GEM_COUNT,PlayResource.GEM_COUNT);
+        beastSlot = new ResBlock(this, 2, AppImpl.resources.beastTexture, PlayResource.BEAST_INCOME,PlayResource.BEAST_COUNT);
 
         resSlots = new ResBlock[]{brickSlot, gemSlot, beastSlot};
 

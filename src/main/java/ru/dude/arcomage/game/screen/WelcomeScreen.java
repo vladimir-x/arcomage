@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class WelcomeScreen extends BaseScreen {
 

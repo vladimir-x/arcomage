@@ -14,7 +14,7 @@ import ru.dude.arcomage.game.slot.WallBlock;
 
 /**
  * Башня и стена
- * @author admin
+ * @author elduderino
  */
 public class HpPanel extends Deskzone {
 

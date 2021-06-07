@@ -7,6 +7,7 @@ package ru.dude.arcomage.game.slot;
 
 import com.badlogic.gdx.graphics.Color;
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.PlayResource;
 import ru.dude.arcomage.game.data.ResourceType;
 import ru.dude.arcomage.game.desk.ResPanel;
 import ru.dude.arcomage.game.interfaces.Rendereble;
@@ -18,7 +19,7 @@ import ru.dude.arcomage.game.render.RenderUtil;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class ResBlock implements Rendereble {
 
@@ -28,9 +29,6 @@ public class ResBlock implements Rendereble {
     int pos;
     TextureRegion textureRegion;
 
-    //тип ресурса
-    ResourceType resourceType;
-
     //Прирост
     TextBlock incomeBlock;
 
@@ -38,31 +36,36 @@ public class ResBlock implements Rendereble {
     TextBlock currentCountBlock;
 
 
-    public ResBlock(ResPanel owner, int pos, TextureRegion textureRegion, ResourceType resourceType) {
+    public ResBlock(ResPanel owner, int pos, TextureRegion textureRegion, PlayResource incomeResourceType, PlayResource currentResourceType) {
         this.owner = owner;
         this.pos = pos;
         this.textureRegion = textureRegion;
 
-        this.resourceType = resourceType;
-
         this.incomeBlock = new TextBlock() {
+
+            @Override
+            protected String updateTextOnRender() {
+                return owner.getPlayer().getResource(incomeResourceType).toString();
+            }
+
             @Override
             public void update() {
                 Rectangle rectOwner = ResBlock.this.getRectangle();
-
-                updateByXYText(rectOwner.x + 5f,
-                        rectOwner.y + rectOwner.height / 4f,
-                        owner.getPlayer().getIncome(resourceType).toString());
+                updateByXYText(rectOwner.x + 5f, rectOwner.y + rectOwner.height / 4f);
             }
         };
 
         this.currentCountBlock = new TextBlock() {
+
+            @Override
+            protected String updateTextOnRender() {
+                return owner.getPlayer().getResource(currentResourceType).toString();
+            }
+
             @Override
             public void update() {
                 Rectangle rectOwner = ResBlock.this.getRectangle();
-
-                updateByXYText(rectOwner.x, rectOwner.y,
-                        owner.getPlayer().getIncome(resourceType).toString());
+                updateByXYText(rectOwner.x, rectOwner.y);
             }
         };
 

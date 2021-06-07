@@ -3,7 +3,7 @@ package ru.dude.arcomage.game;
 /**
  * Игровые правила
  *
- * @author Vladimir Hrostitisky
+ * @author elduderino
  * Date: 30.05.2021
  */
 public class Rules {

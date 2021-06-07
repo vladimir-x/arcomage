@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.PlayResource;
 import ru.dude.arcomage.game.desk.HpPanel;
 import ru.dude.arcomage.game.desk.ResPanel;
 import ru.dude.arcomage.game.desk.Zones;
@@ -17,7 +18,7 @@ import ru.dude.arcomage.game.interfaces.Rendereble;
 
 /**
  * Башня с HP
- * @author admin
+ * @author elduderino
  */
 public class TowerBlock implements Rendereble {
 
@@ -38,7 +39,12 @@ public class TowerBlock implements Rendereble {
         towerHpBlock = new TextBlock() {
             @Override
             public void update() {
-                updateByXYText(bodyTextureRect.x, bodyTextureRect.y, owner.getPlayer().towerHP.toString());
+                updateByXYText(bodyTextureRect.x, bodyTextureRect.y);
+            }
+
+            @Override
+            protected String updateTextOnRender() {
+                return owner.getPlayer().getResource(PlayResource.TOWER_HP).toString();
             }
         };
     }
@@ -58,7 +64,7 @@ public class TowerBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = owner.getPlayer().towerHP;
+        float bodyHeight = owner.getPlayer().getResource(PlayResource.TOWER_HP);
 
         float x = centrX - AppImpl.settings.towerHeadTextureWidth / 2.f;
         float y = bottomY + bodyHeight;
@@ -77,7 +83,7 @@ public class TowerBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = owner.getPlayer().towerHP;
+        float bodyHeight = owner.getPlayer().getResource(PlayResource.TOWER_HP);
 
 
         float x = centrX - AppImpl.settings.towerBodyTextureWidth / 2.f;

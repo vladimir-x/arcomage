@@ -10,13 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.data.PlayResource;
 import ru.dude.arcomage.game.desk.HpPanel;
 import ru.dude.arcomage.game.desk.Zones;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 
 /**
  * Стена (щит)
- * @author admin
+ * @author elduderino
  */
 public class WallBlock implements Rendereble {
 
@@ -36,8 +37,13 @@ public class WallBlock implements Rendereble {
 
         wallHpText = new TextBlock() {
             @Override
+            protected String updateTextOnRender() {
+                return owner.getPlayer().getResource(PlayResource.WALL_HP).toString();
+            }
+
+            @Override
             public void update() {
-                updateByXYText(bodyTextureRect.x, bodyTextureRect.y, owner.getPlayer().wallHP.toString());
+                updateByXYText(bodyTextureRect.x, bodyTextureRect.y);
             }
         };
     }
@@ -56,7 +62,7 @@ public class WallBlock implements Rendereble {
         float bottomY = owner.getRectangle().y;
 
         // тут нужно вычислить этажность
-        float bodyHeight = owner.getPlayer().wallHP;
+        float bodyHeight = owner.getPlayer().getResource(PlayResource.WALL_HP);
 
 
         float x = centrX - AppImpl.settings.wallBodyTextureWidth / 2.f;

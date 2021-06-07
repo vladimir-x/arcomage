@@ -21,6 +21,9 @@ import ru.dude.arcomage.game.render.RenderUtil;
  */
 public class ActiveSlot extends Slot implements Actionable {
 
+    /**
+     * Задержка карты в активном слоте (сек)
+     */
     private static final float CARD_ACTIVE_TIME = 0.5f;
 
     Board owner;
@@ -60,7 +63,7 @@ public class ActiveSlot extends Slot implements Actionable {
     @Override
     public void onGetCard() {
         remainingTime = CARD_ACTIVE_TIME;
-        executeCard();
+        AppImpl.control.executeCard(getCard(), getDroped());
     }
 
     @Override
@@ -87,14 +90,6 @@ public class ActiveSlot extends Slot implements Actionable {
             if (playedCard.getCard() == null) {
                 playedCard = null;
             }
-        }
-    }
-    
-    private void executeCard(){
-        System.out.println(" executeCard ");
-        getCard().play();
-        if (getCard().isSwitchTurn()){
-//            AppImpl.control.switchTurn();
         }
     }
 

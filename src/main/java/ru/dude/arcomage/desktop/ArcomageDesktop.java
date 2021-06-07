@@ -14,7 +14,7 @@ import java.io.File;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class ArcomageDesktop {
 

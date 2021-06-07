@@ -33,9 +33,6 @@ public class AnimPool implements Actionable, Rendereble {
     }
 
     public void putSlot(FlySlot slot) {
-        System.out.println("anim add >>" + slot);
-
-
         queue.add(slot);
     }
 

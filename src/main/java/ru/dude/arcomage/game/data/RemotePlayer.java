@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class RemotePlayer extends Player{
 

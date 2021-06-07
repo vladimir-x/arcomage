@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class MainFrame extends LwjglFrame {
 

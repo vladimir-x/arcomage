@@ -7,11 +7,13 @@ package ru.dude.arcomage.game.data;
 
 import ru.dude.arcomage.game.AppImpl;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public abstract class Player {
 
@@ -23,18 +25,7 @@ public abstract class Player {
 
     public AtomicInteger actionsCount = new AtomicInteger(0);
 
-    // HP
-    public Integer towerHP = 0;
-    public Integer wallHP = 0;
-
-    // ресурсы
-    public Integer brickIncome = 0;
-    public Integer gemIncome = 0;
-    public Integer beastIncome = 0;
-
-    public Integer brickCount = 0;
-    public Integer gemCount = 0;
-    public Integer beastCount = 0;
+    public Map<PlayResource,Integer> playResources = new HashMap<>();
 
     public Player(String name) {
         this.name = name;
@@ -47,16 +38,16 @@ public abstract class Player {
             maskCards.add(AppImpl.cardManager.getEmptyCard());
         }
 
-        towerHP = AppImpl.rules.startTowerHP;
-        wallHP = AppImpl.rules.startWallHP;
+        playResources.put(PlayResource.TOWER_HP, AppImpl.rules.startTowerHP);
+        playResources.put(PlayResource.WALL_HP, AppImpl.rules.startWallHP);
 
-        brickIncome = AppImpl.rules.startBrickIncome;
-        gemIncome = AppImpl.rules.startGemIncome;
-        beastIncome = AppImpl.rules.startBeastIncome;
+        playResources.put(PlayResource.BRICK_INCOME, AppImpl.rules.startBrickIncome);
+        playResources.put(PlayResource.GEM_INCOME, AppImpl.rules.startGemIncome);
+        playResources.put(PlayResource.BEAST_INCOME, AppImpl.rules.startBeastIncome);
 
-        brickCount = AppImpl.rules.startBrickCount;
-        gemCount = AppImpl.rules.startGemCount;
-        beastCount = AppImpl.rules.startBeastCount;
+        playResources.put(PlayResource.BRICK_COUNT, AppImpl.rules.startBrickCount);
+        playResources.put(PlayResource.GEM_COUNT, AppImpl.rules.startGemCount);
+        playResources.put(PlayResource.BEAST_COUNT, AppImpl.rules.startBeastCount);
     }
 
     // при вставке первая карта - указана. 
@@ -178,27 +169,18 @@ public abstract class Player {
         return false;
     }
 
-    public Integer getIncome(ResourceType resourceType) {
-        switch (resourceType){
-            case BRICK:
-                return brickIncome;
-            case GEM:
-                return gemIncome;
-            case BEAST:
-                return beastIncome;
-        }
-        throw new IllegalArgumentException("ResourceType " + resourceType + " not supported");
+
+    public Integer getResource(PlayResource playResource) {
+        return playResources.getOrDefault(playResource, 0);
     }
 
-    public Integer getCurrentCount(ResourceType resourceType) {
-        switch (resourceType) {
-            case BRICK:
-                return brickCount;
-            case GEM:
-                return gemCount;
-            case BEAST:
-                return beastCount;
-        }
-        throw new IllegalArgumentException("ResourceType " + resourceType + " not supported");
+    public void addResource(PlayResource playResource, Integer addCount) {
+        playResources.put(playResource, getResource(playResource) + addCount);
     }
+
+    public void setResource(PlayResource playResource, Integer newCount) {
+        playResources.getOrDefault(playResource, 0);
+    }
+
+
 }

@@ -27,8 +27,12 @@ public abstract class TextBlock implements Rendereble {
     public TextBlock() {
     }
 
+    abstract String updateTextOnRender();
+
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
+
+        updateByXYText(rect.x, rect.y);
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Color.BLACK);
@@ -38,13 +42,13 @@ public abstract class TextBlock implements Rendereble {
         RenderUtil.renderBorderRect(renderer, Color.ORANGE, rect);
         
         spriteBatch.begin();
-        AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y +rect.height);
+        AppImpl.resources.font.draw(spriteBatch, text, rect.x, rect.y + rect.height);
         spriteBatch.end();
 
     }
 
-    protected void updateByXYText(float x, float y, String text){
-        this.text = text;
+    protected void updateByXYText(float x, float y){
+        text = updateTextOnRender();
         BitmapFont.TextBounds tb = AppImpl.resources.font.getBounds(text);
         rect = new Rectangle(x, y, tb.width, tb.height);
     }

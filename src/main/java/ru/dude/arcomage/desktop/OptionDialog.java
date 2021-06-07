@@ -8,7 +8,7 @@ package ru.dude.arcomage.desktop;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class OptionDialog extends javax.swing.JDialog {
 

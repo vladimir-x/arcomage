@@ -8,7 +8,7 @@ package ru.dude.arcomage.game;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public enum CardActionEnum {
     PROCESS,

@@ -11,7 +11,7 @@ import java.util.Random;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public class Computer extends Player {
 

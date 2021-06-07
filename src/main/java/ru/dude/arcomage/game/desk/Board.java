@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Стол с картами
- * @author admin
+ * @author elduderino
  */
 public class Board extends Deskzone implements Actionable {
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  *
- * @author admin
+ * @author elduderino
  */
 public interface Rendereble {
  

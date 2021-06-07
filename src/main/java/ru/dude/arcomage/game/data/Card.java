@@ -7,6 +7,9 @@ package ru.dude.arcomage.game.data;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author elduderino
@@ -16,7 +19,11 @@ public class Card {
     String name;
     TextureRegion texture;
 
-    // some action fields here
+    // стимость игры карты
+    PlayResource costType;
+    Integer costCount;
+
+    List<CardAction> cardActions;
 
     boolean switchTurn = true;
 
@@ -24,10 +31,10 @@ public class Card {
         this.name = name;
         this.texture = texture;
         this.switchTurn = switchTurn;
-    }
+        this.cardActions = new ArrayList<>();
 
-    public void play(){
-        //
+        // тестовое. Тут загружать для каждой карты свой набор
+        this.cardActions.add(CardAction.ownerAddResIf(PlayResource.BEAST_COUNT, 10, 3, 1));
     }
 
     public String getName() {
@@ -40,6 +47,11 @@ public class Card {
 
     public boolean isSwitchTurn() {
         return switchTurn;
+    }
+
+
+    public List<CardAction> getCardActions() {
+        return cardActions;
     }
 
     @Override
