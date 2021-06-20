@@ -49,4 +49,42 @@ public class CardAction {
                 ActionDetail.ownerAdd(playResource, ifNotEqual)
         );
     }
+
+    public static CardAction ownerAdd(PlayResource playResource, Integer value) {
+        return withoutCondition(ActionDetail.ownerAdd(playResource, value));
+    }
+
+    public static CardAction enemyAdd(PlayResource playResource, Integer value) {
+        return withoutCondition(ActionDetail.enemyAdd(playResource, value));
+    }
+
+    /**
+     * Парсинг одного действия
+     * @param oneActionLine
+     * @return
+     */
+    public static CardAction parse(String oneActionLine) {
+        if (oneActionLine != null && oneActionLine.length() > 0){
+            String[] parts = oneActionLine.split(":");
+            if (parts.length == 1) {
+                //только действие
+                return withoutCondition(ActionDetail.parse(oneActionLine));
+            } else if (parts.length == 4){
+
+                return withCondition(
+                        ActionCondition.parse(parts[1]),
+                        ActionDetail.parse(parts[3]),
+                        null
+                );
+            } else if (parts.length == 6) {
+                return withCondition(
+                        ActionCondition.parse(parts[1]),
+                        ActionDetail.parse(parts[3]),
+                        ActionDetail.parse(parts[5])
+                );
+            }
+        }
+        return null;
+    }
+
 }

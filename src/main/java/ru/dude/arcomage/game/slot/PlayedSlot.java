@@ -56,8 +56,10 @@ public class PlayedSlot extends Slot {
     @Override
     void onGetCard() {
         if (getCard()!=null) {
-            System.out.println("card.isSwitchTurn() = " + getCard().isSwitchTurn());
-            if (getCard().isSwitchTurn()) {
+            System.out.println("card.isPlayAgain() = " + getCard().isPlayAgain());
+            if (getCard().isPlayAgain() && !getDroped()) {
+                AppImpl.control.playAgain();
+            }else {
                 AppImpl.control.switchTurn();
             }
         }

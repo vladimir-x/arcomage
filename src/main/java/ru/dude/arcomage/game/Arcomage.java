@@ -85,25 +85,30 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
     }
 
+    @Override
     public void switchTurn() {
+        System.out.println("---------- SWITCH TURN ----------");
         round = round.switchTurn();
 
         player = round == RoundEnum.USER_TURN ? user : opponent;
         hand.setPlayer(player,round);
 
         ++stepCounter;
+        executeIncome();
+        startTurn();
+    }
 
-        //hand.takeCard(true);
+    @Override
+    public void playAgain() {
+        System.out.println("---------- AGAIN TURN ----------");
+
         startTurn();
     }
 
     private void startTurn(){
-        System.out.println("---------- SWITCH TURN ----------");
         System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
         board.clearPrevStep();
-        animPool.setOnAnimateComlete(() -> {
-            hand.takeCard();
-        });
+        animPool.setOnAnimateComlete(() -> hand.takeCard());
     }
 
     @Override
@@ -151,6 +156,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         animPool.action(delta);
     }
 
+    @Override
     public void promptToStep(float propX, float propY, int button) {
         if (round == RoundEnum.USER_TURN) {
 
@@ -190,23 +196,57 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
             // just drop
         } else {
 
+            player.addResource(card.getCostType(), -card.getCostCount());
+
             for (CardAction cardAction : card.getCardActions()) {
                 Boolean conditionCheck = Optional.ofNullable(cardAction.getCondition()).map(c -> c.check(owner, enemy)).orElse(true);
 
                 ActionDetail actionDetail = conditionCheck ? cardAction.getNormalAction() : cardAction.getElseAction();
 
-                Player target = actionDetail.getActiontTarget() == ActiontTarget.OWNER ? owner : enemy;
-                if (actionDetail.getCountAdd() != 0) {
-                    target.addResource(actionDetail.getPlayResource(), actionDetail.getCountAdd());
-                } else {
-                    target.setResource(actionDetail.getPlayResource(), actionDetail.getCountSet());
-                }
+                if (actionDetail != null) {
 
+                    PlayResource playRes = actionDetail.getPlayResource();
+                    Player target = actionDetail.getActiontTarget() == ActiontTarget.OWNER ? owner : enemy;
+                    switch (actionDetail.getCommand()){
+
+                        case ADD:
+                            target.addResource(playRes, actionDetail.getCount());
+                            break;
+                        case SET_INT:
+                            target.setResource(playRes, actionDetail.getCount());
+                            break;
+                        case SET_AS_OPPONENT:
+                            Player opponent = target == enemy ? owner : enemy;
+                            target.setResource(playRes, opponent.getResource(playRes));
+                            break;
+                        case SET_ALL_AS_MAX:
+                            int maxCount = Math.max(owner.getResource(playRes), enemy.getResource(playRes));
+                            owner.setResource(playRes, maxCount);
+                            enemy.setResource(playRes, maxCount);
+                            break;
+                        case SWAP:
+                            int last = owner.getResource(playRes);
+                            owner.setResource(playRes, enemy.getResource(playRes));
+                            enemy.setResource(playRes, last);
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + actionDetail.getCommand());
+                    }
+                }
             }
         }
 
 
 
+    }
+
+    /**
+     * Добавить ресурсы в начале хода
+     */
+    private void executeIncome() {
+        player.addResource(PlayResource.BRICK_COUNT, player.getResource(PlayResource.BRICK_INCOME));
+        player.addResource(PlayResource.GEM_COUNT, player.getResource(PlayResource.GEM_INCOME));
+        player.addResource(PlayResource.BEAST_COUNT, player.getResource(PlayResource.BEAST_INCOME));
     }
 
 }

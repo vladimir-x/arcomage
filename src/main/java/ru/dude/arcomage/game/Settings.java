@@ -89,4 +89,7 @@ public class Settings {
     public Integer deckCountY;
     public Integer deckCountType;
 
+    //описание действий карт
+    public String deckActions;
+
 }

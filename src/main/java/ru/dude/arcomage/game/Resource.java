@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  *
@@ -34,71 +36,68 @@ public class Resource {
     public TextureRegion wallBodyTexture;
     public TextureRegion wallHeadTexture;
 
-    protected static Map<String, TextureRegion> cardsTextureMap;
+    protected Map<String, TextureRegion> cardsTextureMap;
+    protected Map<String, String> cardsActionsMap;
 
     public BitmapFont font;
 
     public Resource() {
 
-        Texture texture;
-
         //фоны
-        texture = new Texture(AppImpl.settings.welcomeTexture);
-        welcomeTexture = new TextureRegion(texture, AppImpl.settings.welcomeTextureWidth, AppImpl.settings.welcomeTextureHeight);
+        welcomeTexture = new TextureRegion(new Texture(AppImpl.settings.welcomeTexture), AppImpl.settings.welcomeTextureWidth, AppImpl.settings.welcomeTextureHeight);
 
-        texture = new Texture(AppImpl.settings.boardTexture);
-        boardTexture = new TextureRegion(texture, AppImpl.settings.boardTextureWidth, AppImpl.settings.boardTextureHeight);
+        boardTexture = new TextureRegion(new Texture(AppImpl.settings.boardTexture), AppImpl.settings.boardTextureWidth, AppImpl.settings.boardTextureHeight);
 
         //куски
-        texture = new Texture(AppImpl.settings.itemsTexture);
+        Texture itemsTexture = new Texture(AppImpl.settings.itemsTexture);
 
-        deckUndoTexture = new TextureRegion(texture,
+        deckUndoTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.deckUndoTextureX,
                 AppImpl.settings.deckUndoTextureY,
                 AppImpl.settings.deckTextureWidth,
                 AppImpl.settings.deckTextureHeight);
 
-        brickTexture = new TextureRegion(texture,
+        brickTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.brickTextureX,
                 AppImpl.settings.brickTextureY,
                 AppImpl.settings.resTextureWidth,
                 AppImpl.settings.resTextureHeight);
-        gemTexture = new TextureRegion(texture,
+        gemTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.gemTextureX,
                 AppImpl.settings.gemTextureY,
                 AppImpl.settings.resTextureWidth,
                 AppImpl.settings.resTextureHeight);
-        beastTexture = new TextureRegion(texture,
+        beastTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.beastTextureX,
                 AppImpl.settings.beastTextureY,
                 AppImpl.settings.resTextureWidth,
                 AppImpl.settings.resTextureHeight);
 
-        towerBodyTexture = new TextureRegion(texture,
+        towerBodyTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.towerBodyTextureX,
                 AppImpl.settings.towerBodyTextureY,
                 AppImpl.settings.towerBodyTextureWidth,
                 AppImpl.settings.towerBodyTextureHeight);
 
-        towerHeadRedTexture = new TextureRegion(texture,
+        towerHeadRedTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.towerHeadRedTextureX,
                 AppImpl.settings.towerHeadRedTextureY,
                 AppImpl.settings.towerHeadTextureWidth,
                 AppImpl.settings.towerHeadTextureHeight);
 
-        towerHeadBlueTexture = new TextureRegion(texture,
+        towerHeadBlueTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.towerHeadBlueTextureX,
                 AppImpl.settings.towerHeadBlueTextureY,
                 AppImpl.settings.towerHeadTextureWidth,
                 AppImpl.settings.towerHeadTextureHeight);
 
-        wallBodyTexture = new TextureRegion(texture,
+        wallBodyTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.wallBodyTextureX,
                 AppImpl.settings.wallBodyTextureY,
                 AppImpl.settings.wallBodyTextureWidth,
                 AppImpl.settings.wallBodyTextureHeight);
 
-        wallHeadTexture = new TextureRegion(texture,
+        wallHeadTexture = new TextureRegion(itemsTexture,
                 AppImpl.settings.wallHeadTextureX,
                 AppImpl.settings.wallHeadTextureY,
                 AppImpl.settings.wallHeadTextureWidth,
@@ -112,11 +111,25 @@ public class Resource {
         );
 
         //колода
-        cardsTextureMap = new HashMap<String, TextureRegion>();
-        texture = new Texture(AppImpl.settings.deckTexture);
+        cardsActionsMap = new HashMap<>();
+        cardsTextureMap = new HashMap<>();
 
-        readRegions(texture);
+        readActions(AppImpl.settings.deckActions);
+        readRegions(new Texture(AppImpl.settings.deckTexture));
 
+    }
+
+    /**
+     * Загрузка действий карт, без анализа
+     */
+    private void readActions(String filePath){
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(filePath));
+            prop.forEach((k, v) -> cardsActionsMap.put(k.toString(),v.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -164,7 +177,11 @@ public class Resource {
         return cardsTextureMap.get(name);
     }
 
-    public static Map<String, TextureRegion> getCardsTextureMap() {
+    public Map<String, TextureRegion> getCardsTextureMap() {
         return cardsTextureMap;
+    }
+
+    public String getCardActionsLine(String name) {
+        return cardsActionsMap.get(name);
     }
 }

@@ -33,7 +33,7 @@ public class ResPanel extends Deskzone {
         this.player = player;
 
         brickSlot = new ResBlock(this, 0, AppImpl.resources.brickTexture, PlayResource.BRICK_INCOME,PlayResource.BRICK_COUNT);
-        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture, PlayResource.GEM_COUNT,PlayResource.GEM_COUNT);
+        gemSlot = new ResBlock(this, 1, AppImpl.resources.gemTexture, PlayResource.GEM_INCOME,PlayResource.GEM_COUNT);
         beastSlot = new ResBlock(this, 2, AppImpl.resources.beastTexture, PlayResource.BEAST_INCOME,PlayResource.BEAST_COUNT);
 
         resSlots = new ResBlock[]{brickSlot, gemSlot, beastSlot};

@@ -23,10 +23,9 @@ public class Computer extends Player {
 
     @Override
     public void ding() {
-        System.out.println("computer turn !");
-        System.out.println("st");
+        System.out.println("computer turn st");
         randomStep();
-        System.out.println("en");
+        System.out.println("computer turn en");
 
     }
 

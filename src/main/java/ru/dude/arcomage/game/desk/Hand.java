@@ -136,23 +136,13 @@ public class Hand extends Deskzone implements Actionable {
             }
         }
 
-        AppImpl.control.AnimateFlySlot(new FlySlot(new Runnable() {
-            @Override
-            public void run() {
-                player.acceptTurn();
-            }
-        }));
+        AppImpl.control.AnimateFlySlot(new FlySlot(() -> player.acceptTurn()));
     }
 
     private void takeOneCard(HandSlot handSlot) {
         final Card card = AppImpl.cardManager.selectRandomCard();
 
-        final FlySlot newCardSlot = new FlySlot(deckSlot, handSlot, new Runnable() {
-            @Override
-            public void run() {
-                player.takeCard(card);
-            }
-        });
+        final FlySlot newCardSlot = new FlySlot(deckSlot, handSlot, () -> player.takeCard(card));
         newCardSlot.setMasked(isMasked());
         newCardSlot.setCard(card);
 

@@ -7,22 +7,18 @@ package ru.dude.arcomage.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ru.dude.arcomage.game.data.Card;
+import ru.dude.arcomage.game.data.CardAction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  *
  * @author elduderino
  */
 public class CardManager {
-    
-    
-    
 
     private static Random rand = new Random(System.currentTimeMillis());
+
     private List<Card> cards;
 
     private Card undoCard;
@@ -39,18 +35,22 @@ public class CardManager {
         for (Map.Entry<String, TextureRegion> entry : AppImpl.resources.getCardsTextureMap().entrySet()) {
             String name = entry.getKey();
             TextureRegion texture = entry.getValue();
-            cards.add(new Card(name, texture, true));
+            String cardActionsLine = AppImpl.resources.getCardActionsLine(name);
 
+            Card card = Card.parse(name, texture, cardActionsLine);
+            if (card != null) {
+                cards.add(card);
+            }
         }
 
-        undoCard = new Card("undo", AppImpl.resources.deckUndoTexture, false);
+        undoCard = Card.undo(AppImpl.resources.deckUndoTexture);
 
-        emptyCard = new Card("empty",null,false);
+        emptyCard = Card.empty();
     }
 
     public Card selectRandomCard() {
         int index = rand.nextInt(cards.size());
-        return cards.get(index);
+        return cards.get(index).copy();
     }
 
     public Card getUndoCard() {

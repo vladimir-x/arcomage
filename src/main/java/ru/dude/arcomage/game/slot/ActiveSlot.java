@@ -73,13 +73,8 @@ public class ActiveSlot extends Slot implements Actionable {
             remainingTime -= delta;
 
             if (remainingTime < 0.000001f) {
-                final PlayedSlot destonation = owner.getLastPlayedSlot();
-                playedCard = new FlySlot(this, destonation, new Runnable() {
-                    @Override
-                    public void run() {
-                        destonation.onGetCard();
-                    }
-                });
+                final PlayedSlot destination = owner.getLastPlayedSlot();
+                playedCard = new FlySlot(this, destination, () -> destination.onGetCard());
                 playedCard.setTransparent(true);
     //            executeCard();
                 setCard(null);

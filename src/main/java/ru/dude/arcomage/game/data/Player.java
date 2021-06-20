@@ -175,11 +175,12 @@ public abstract class Player {
     }
 
     public void addResource(PlayResource playResource, Integer addCount) {
-        playResources.put(playResource, getResource(playResource) + addCount);
+        int newCount = Math.max(0, getResource(playResource) + addCount);
+        playResources.put(playResource, newCount);
     }
 
     public void setResource(PlayResource playResource, Integer newCount) {
-        playResources.getOrDefault(playResource, 0);
+        playResources.put(playResource, newCount);
     }
 
 

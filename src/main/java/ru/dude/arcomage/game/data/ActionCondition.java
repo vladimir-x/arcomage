@@ -10,12 +10,13 @@ public class ActionCondition {
         MORE, LESS, EQ
     }
 
+    //сторона сравнения
+    ActiontTarget leftOperandTarget;
+    ActiontTarget rightOperandTarget;
+
     // Сравниваемый ресурс
     PlayResource compareResource;
     CompareType compareType;
-
-    ActiontTarget leftOperandTarget;
-    ActiontTarget rightOperandTarget;
 
     Integer leftConstantValue;
     Integer rightConstantValue;
@@ -50,7 +51,7 @@ public class ActionCondition {
                 return owner.getResource(compareResource);
             case ENEMY:
                 return enemy.getResource(compareResource);
-            case CONSTANTA:
+            case CONST:
                 return constantValue;
         }
         throw new IllegalArgumentException(operandTarget + " not supported");
@@ -62,8 +63,25 @@ public class ActionCondition {
         ac.compareResource = compareResource;
         ac.compareType = CompareType.EQ;
         ac.leftOperandTarget = ActiontTarget.OWNER;
-        ac.rightOperandTarget = ActiontTarget.CONSTANTA;
+        ac.rightOperandTarget = ActiontTarget.CONST;
         ac.rightConstantValue = constantValue;
+        return ac;
+    }
+
+    public static ActionCondition parse(String line) {
+        String[] parts = line.split("\\.");
+
+        ActionCondition ac = new ActionCondition();
+        ac.leftOperandTarget = ActiontTarget.valueOf(parts[0]);
+        ac.compareResource = PlayResource.valueOf(parts[1]);
+        ac.compareType = CompareType.valueOf(parts[2]);
+        String rightPart = parts[3];
+        if (rightPart.equals(ActiontTarget.ENEMY.name()) || rightPart.equals(ActiontTarget.OWNER.name())){
+            ac.rightOperandTarget = ActiontTarget.valueOf(rightPart);
+        } else {
+            ac.rightOperandTarget = ActiontTarget.CONST;
+            ac.rightConstantValue = Integer.valueOf(rightPart);
+        }
         return ac;
     }
 }

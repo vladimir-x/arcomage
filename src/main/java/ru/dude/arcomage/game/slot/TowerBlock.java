@@ -96,6 +96,8 @@ public class TowerBlock implements Rendereble {
 
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
+        update();
+
         spriteBatch.begin();
         spriteBatch.draw(headTextureRegion, headTextureRect.x, headTextureRect.y);
         spriteBatch.draw(bodyTextureRegion, bodyTextureRect.x, bodyTextureRect.y, bodyTextureRect.width, bodyTextureRect.height);

@@ -125,6 +125,8 @@ public class ArcomageDesktop {
         settings.deckCountY = 12;
         settings.deckCountType = 34;
 
+        //описание действий карт
+        settings.deckActions = "data" + File.separator + "deck.properties";
         return settings;
     }
 

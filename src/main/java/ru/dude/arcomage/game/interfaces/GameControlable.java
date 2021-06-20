@@ -13,6 +13,9 @@ public interface GameControlable {
     // передать ход
     void switchTurn();
 
+    // походить ещё раз
+    void playAgain();
+
     //
     boolean playCard(int r, Card card, boolean drop);
     
