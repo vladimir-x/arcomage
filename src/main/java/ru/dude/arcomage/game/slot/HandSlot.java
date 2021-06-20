@@ -58,7 +58,14 @@ public class HandSlot extends Slot {
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
         super.render(renderer, spriteBatch);
 
-        RenderUtil.renderBorderRect(renderer, Color.GREEN, rect);
+        /*
+        if (getCanPlay()){
+            RenderUtil.renderBorderRect(renderer, Color.GREEN, rect);
+        } else {
+            RenderUtil.renderBorderRect(renderer, Color.RED, rect);
+        }
+        */
+
         renderer.end();
     }
 

@@ -149,20 +149,20 @@ public class Resource {
 
         int type_count = AppImpl.settings.deckCountType;
 
-        for (int z = 0; z<3; ++z) {
+        for (int z = 0; z < 3; ++z) {
             int count = 0;
-            y_start = z - 1 ;
+            y_start = z - 1;
             for (int iy = 0; iy < y_count && count < type_count; ++iy) {
                 for (int ix = 0; ix < x_count && count < type_count; ++ix) {
 
-                    int iyz = iy+z*4;
+                    int iyz = iy + z * 4;
 
                     int cx = x_start + ix * x_width;
                     int cy = y_start + iyz * y_heigth;
 
                     //System.out.println("cut texture [" +z+ "," + iyz + "," + ix + "] = x=" + cx + ",y=" + cy);
 
-                    TextureRegion textureRegion = new TextureRegion(texture, cx, cy, x_width, y_heigth );
+                    TextureRegion textureRegion = new TextureRegion(texture, cx, cy, x_width-1, y_heigth);
 
                     cardsTextureMap.put(iyz + "_" + ix, textureRegion);
 

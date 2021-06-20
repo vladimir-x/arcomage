@@ -7,7 +7,9 @@ package ru.dude.arcomage.game.data;
 
 import ru.dude.arcomage.game.AppImpl;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -30,14 +32,17 @@ public class Computer extends Player {
     }
 
     public void randomStep() {
-        int r = randomGen.nextInt(cards.size());
+        List<Card> canPlayCards = cards.stream().filter(c -> playable(c)).collect(Collectors.toList());
 
-        Card card = cards.get(r);
-        System.out.println(" Computer want to play ["+r+"]: " + card.getName());
-
-        if (playable(card)) {
+        if (canPlayCards.size() > 0) {
+            int r = randomGen.nextInt(canPlayCards.size());
+            Card card = canPlayCards.get(r);
+            System.out.println("Computer want to play : " + card.getName());
             playCard(r, card);
         } else {
+            int r = randomGen.nextInt(cards.size());
+            Card card = cards.get(r);
+            System.out.println("Computer want to drop : " + card.getName());
             dropCard(r, card);
         }
     }

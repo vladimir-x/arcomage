@@ -58,11 +58,14 @@ public class Hand extends Deskzone implements Actionable {
         for (int i = 0; i < handSlots.size(); ++i) {
             HandSlot slot = handSlots.get(i);
 
-            slot.setCard(player.getCards().get(i));
+            Card card = player.getCards().get(i);
+            slot.setCard(card);
 
             slot.setEmpty(emptySlotIndex != -1 && emptySlotIndex == i);
 
             slot.setMasked(isMasked());
+            slot.setCanPlay(player.playable(card));
+            slot.setTransparent(!player.playable(card));
             slot.render(renderer, spriteBatch);
         }
     }
@@ -72,19 +75,23 @@ public class Hand extends Deskzone implements Actionable {
 
     }
 
-    public boolean selectAndPlay(float propX, float propY, boolean drop) {
+    public void selectAndPlay(float propX, float propY, boolean drop) {
         for (HandSlot handSlot : getHandSlots(player)) {
             if (handSlot.contains(propX, propY)) {
                 Card card = player.getCards().get(handSlot.getPos());
 
-                if (drop){
-                    return player.dropCard(handSlot.getPos(),card);
+                if (drop) {
+                    if (card.isDroppable()) {
+                        player.dropCard(handSlot.getPos(), card);
+                    }
                 } else {
-                    return player.playCard(handSlot.getPos(),card);
+
+                    if (player.playable(card)) {
+                        player.playCard(handSlot.getPos(), card);
+                    }
                 }
             }
         }
-        return false;
     }
 
     public boolean selectAndPlay(int position, Card card, boolean drop) {
@@ -102,7 +109,7 @@ public class Hand extends Deskzone implements Actionable {
 
     public boolean playSlot(HandSlot handSlot, Card card, boolean drop) {
 
-        if (player.playable(card) || drop) {
+        if (player.playable(card) || (drop && card.isDroppable())) {
 
             System.out.println(">> play slot [" + handSlot.getPos() + "] " + card);
 

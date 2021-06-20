@@ -67,7 +67,11 @@ public class ActionDetail {
             ad.command = Command.ADD;
             ad.count = Integer.parseInt(rightPart);
         } else {
-            ad.command = Command.valueOf(rightPart);
+            if (ad.playResource == PlayResource.DAMAGE){
+                ad.count = Integer.parseInt(rightPart);
+            } else {
+                ad.command = Command.valueOf(rightPart);
+            }
         }
 
         return ad;

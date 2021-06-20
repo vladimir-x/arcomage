@@ -205,39 +205,60 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
                 if (actionDetail != null) {
 
-                    PlayResource playRes = actionDetail.getPlayResource();
-                    Player target = actionDetail.getActiontTarget() == ActiontTarget.OWNER ? owner : enemy;
-                    switch (actionDetail.getCommand()){
-
-                        case ADD:
-                            target.addResource(playRes, actionDetail.getCount());
+                    switch (actionDetail.getActiontTarget()) {
+                        case OWNER:
+                            executeOneAction(owner, owner, enemy, actionDetail);
                             break;
-                        case SET_INT:
-                            target.setResource(playRes, actionDetail.getCount());
+                        case ENEMY:
+                            executeOneAction(enemy, owner, enemy, actionDetail);
                             break;
-                        case SET_AS_OPPONENT:
-                            Player opponent = target == enemy ? owner : enemy;
-                            target.setResource(playRes, opponent.getResource(playRes));
+                        case ALL:
+                            executeOneAction(owner, owner, enemy, actionDetail);
+                            executeOneAction(enemy, owner, enemy, actionDetail);
                             break;
-                        case SET_ALL_AS_MAX:
-                            int maxCount = Math.max(owner.getResource(playRes), enemy.getResource(playRes));
-                            owner.setResource(playRes, maxCount);
-                            enemy.setResource(playRes, maxCount);
-                            break;
-                        case SWAP:
-                            int last = owner.getResource(playRes);
-                            owner.setResource(playRes, enemy.getResource(playRes));
-                            enemy.setResource(playRes, last);
-                            break;
+                        case CONST:
                         default:
-                            throw new IllegalStateException("Unexpected value: " + actionDetail.getCommand());
+                            throw new IllegalStateException("Unexpected value: " + actionDetail.getActiontTarget());
                     }
                 }
             }
         }
 
+    }
 
+    private void executeOneAction(Player target, Player owner, Player enemy, ActionDetail actionDetail) {
+        PlayResource playRes = actionDetail.getPlayResource();
 
+        if (playRes == PlayResource.DAMAGE){
+            target.damage(actionDetail.getCount());
+        } else {
+
+            switch (actionDetail.getCommand()) {
+
+                case ADD:
+                    target.addResource(playRes, actionDetail.getCount());
+                    break;
+                case SET_INT:
+                    target.setResource(playRes, actionDetail.getCount());
+                    break;
+                case SET_AS_OPPONENT:
+                    Player opponent = target == enemy ? owner : enemy;
+                    target.setResource(playRes, opponent.getResource(playRes));
+                    break;
+                case SET_ALL_AS_MAX:
+                    int maxCount = Math.max(owner.getResource(playRes), enemy.getResource(playRes));
+                    owner.setResource(playRes, maxCount);
+                    enemy.setResource(playRes, maxCount);
+                    break;
+                case SWAP:
+                    int last = owner.getResource(playRes);
+                    owner.setResource(playRes, enemy.getResource(playRes));
+                    enemy.setResource(playRes, last);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + actionDetail.getCommand());
+            }
+        }
     }
 
     /**

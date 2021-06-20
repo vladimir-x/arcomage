@@ -25,10 +25,17 @@ public class Card {
 
     List<CardAction> cardActions;
 
+    /**
+     * Позволяет сыграть ещё одну карту в этом ходе
+     */
     boolean playAgain;
-    boolean canDrop;
 
-    public Card(String name, TextureRegion texture, PlayResource costType, Integer costCount, List<CardAction> cardActions, boolean playAgain, boolean canDrop) {
+    /**
+     * Может быть сброшена
+     */
+    boolean droppable;
+
+    public Card(String name, TextureRegion texture, PlayResource costType, Integer costCount, List<CardAction> cardActions, boolean playAgain, boolean droppable) {
         this.name = name;
         this.texture = texture;
         this.costType = costType;
@@ -36,7 +43,7 @@ public class Card {
         this.cardActions = cardActions;
 
         this.playAgain = playAgain;
-        this.canDrop = canDrop;
+        this.droppable = droppable;
 
         if (cardActions != null && cardActions.size() == 0) {
             System.out.println("warn: card " + name + " without actions");
@@ -52,7 +59,7 @@ public class Card {
 
 
     public Card copy() {
-        return new Card(name, texture, costType, costCount, cardActions, playAgain, canDrop);
+        return new Card(name, texture, costType, costCount, cardActions, playAgain, droppable);
     }
 
     public static Card undo(TextureRegion texture) {
@@ -118,8 +125,8 @@ public class Card {
         return costCount;
     }
 
-    public boolean isCanDrop() {
-        return canDrop;
+    public boolean isDroppable() {
+        return droppable;
     }
 
     public List<CardAction> getCardActions() {

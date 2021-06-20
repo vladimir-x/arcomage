@@ -98,8 +98,14 @@ public abstract class Player {
 
     public abstract ArrayList<Card> getCards();
 
+
+    /**
+     * Может ли игрок сыграть эту курту (хватает ли ресурсов)
+     * @param card
+     * @return
+     */
     public boolean playable(Card card) {
-        return true;
+        return card != null && card.getCostCount() != null && getResource(card.getCostType()) >= card.getCostCount();
     }
 
     public void removeCard(Card card) {
@@ -184,4 +190,14 @@ public abstract class Player {
     }
 
 
+    /**
+     * Получить урон
+     * Сначала по стене, потом по башне
+     * @param count
+     */
+    public void damage(Integer count) {
+        int damageWall = Math.min(getResource(PlayResource.WALL_HP), count);
+        addResource(PlayResource.WALL_HP, -damageWall);
+        addResource(PlayResource.TOWER_HP, damageWall - count);
+    }
 }

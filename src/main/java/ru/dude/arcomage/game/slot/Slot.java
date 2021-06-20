@@ -30,6 +30,7 @@ public abstract class Slot implements Rendereble {
     private Boolean transparent; // прозрачный
     private Boolean masked; // рубашкой вверх
     private Boolean empty;
+    private Boolean canPlay;
     Integer playedStep; // на каком ходу был разыгран
 
     public Slot() {
@@ -131,6 +132,14 @@ public abstract class Slot implements Rendereble {
 
     public void setMasked(Boolean masked) {
         this.masked = masked;
+    }
+
+    public Boolean getCanPlay() {
+        return canPlay;
+    }
+
+    public void setCanPlay(Boolean canPlay) {
+        this.canPlay = canPlay;
     }
 
     public Boolean getEmpty() {
