@@ -64,6 +64,7 @@ public class ActiveSlot extends Slot implements Actionable {
     public void onGetCard() {
         remainingTime = CARD_ACTIVE_TIME;
         AppImpl.control.executeCard(getCard(), getDroped());
+        AppImpl.control.checkWin();
     }
 
     @Override

@@ -24,4 +24,8 @@ public class Rules {
     public Integer startGemCount = 0;
     public Integer startBeastCount = 0;
 
+    //условия победы
+    public Integer endTowerHP;
+    public Integer endResourceCountHP;
+
 }

@@ -34,4 +34,9 @@ public interface GameControlable {
      * @param droped
      */
     void executeCard(Card card, Boolean droped);
+
+    /**
+     * Проверить на победу
+     */
+    void checkWin();
 }

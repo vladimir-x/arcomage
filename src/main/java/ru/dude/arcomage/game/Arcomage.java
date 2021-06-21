@@ -71,11 +71,11 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
         update();
 
-        hand.setPlayer(user,round);
+        hand.setPlayer(user, round);
 
         round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
         player = isUser ? user : opponent;
-        hand.setPlayer(player,round);
+        hand.setPlayer(player, round);
 
         //без анимации
         opponent.takeCards();
@@ -91,7 +91,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         round = round.switchTurn();
 
         player = round == RoundEnum.USER_TURN ? user : opponent;
-        hand.setPlayer(player,round);
+        hand.setPlayer(player, round);
 
         ++stepCounter;
         executeIncome();
@@ -105,7 +105,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         startTurn();
     }
 
-    private void startTurn(){
+    private void startTurn() {
         System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
         board.clearPrevStep();
         animPool.setOnAnimateComlete(() -> hand.takeCard());
@@ -186,13 +186,13 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
 
 
     @Override
-    public void executeCard(Card card, Boolean droped){
+    public void executeCard(Card card, Boolean droped) {
 
         Player owner = player;
         Player enemy = player == user ? opponent : user;
         System.out.println("executeCard=" + card + "; drop=" + droped + "; owner=" + owner.getName() + " ; enemy=" + enemy.getName());
 
-        if (droped){
+        if (droped) {
             // just drop
         } else {
 
@@ -229,7 +229,7 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     private void executeOneAction(Player target, Player owner, Player enemy, ActionDetail actionDetail) {
         PlayResource playRes = actionDetail.getPlayResource();
 
-        if (playRes == PlayResource.DAMAGE){
+        if (playRes == PlayResource.DAMAGE) {
             target.damage(actionDetail.getCount());
         } else {
 
@@ -268,6 +268,63 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         player.addResource(PlayResource.BRICK_COUNT, player.getResource(PlayResource.BRICK_INCOME));
         player.addResource(PlayResource.GEM_COUNT, player.getResource(PlayResource.GEM_INCOME));
         player.addResource(PlayResource.BEAST_COUNT, player.getResource(PlayResource.BEAST_INCOME));
+
+        checkWin();
     }
 
+    @Override
+    public void checkWin() {
+
+        CheckResult playerCR = checkPlayer(player);
+        CheckResult opponentCR = checkPlayer(opponent);
+
+        if (playerCR == CheckResult.WIN && opponentCR == CheckResult.WIN) {
+            endGame(null);
+        } else if (playerCR == CheckResult.WIN && opponentCR != CheckResult.WIN) {
+            endGame(player);
+        } else if (playerCR != CheckResult.WIN && opponentCR == CheckResult.WIN) {
+            endGame(opponent);
+        } else if (playerCR == CheckResult.LOOSE && opponentCR == CheckResult.LOOSE) {
+            endGame(null);
+        } else if (playerCR == CheckResult.LOOSE && opponentCR != CheckResult.LOOSE) {
+            endGame(opponent);
+        } else if (playerCR != CheckResult.LOOSE && opponentCR == CheckResult.LOOSE) {
+            endGame(player);
+        }
+
+    }
+
+    /**
+     *
+     * @param winner - победитель, или null в случае ничьи
+     */
+    private void endGame(Player winner){
+        System.out.println("------ END GAME -----");
+        System.out.println("winner" + winner);
+    }
+
+
+    private enum CheckResult {
+        WIN, LOOSE, NOTHING
+    }
+
+
+    private CheckResult checkPlayer(Player player) {
+        if (player.getResource(PlayResource.TOWER_HP) == 0) {
+            return CheckResult.LOOSE;
+        }
+        if (player.getResource(PlayResource.TOWER_HP) >= AppImpl.rules.endTowerHP) {
+            return CheckResult.WIN;
+        }
+        if (player.getResource(PlayResource.BRICK_COUNT) >= AppImpl.rules.endResourceCountHP) {
+            return CheckResult.WIN;
+        }
+        if (player.getResource(PlayResource.GEM_COUNT) >= AppImpl.rules.endResourceCountHP) {
+            return CheckResult.WIN;
+        }
+        if (player.getResource(PlayResource.BEAST_COUNT) >= AppImpl.rules.endResourceCountHP) {
+            return CheckResult.WIN;
+        }
+        return CheckResult.NOTHING;
+    }
 }
