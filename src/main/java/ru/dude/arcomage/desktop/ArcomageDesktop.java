@@ -146,9 +146,9 @@ public class ArcomageDesktop {
         rules.startGemIncome = 2;
         rules.startBeastIncome = 2;
 
-        rules.startBrickCount = 5;
-        rules.startGemCount = 5;
-        rules.startBeastCount = 5;
+        rules.startBrickCount = 50;
+        rules.startGemCount = 50;
+        rules.startBeastCount = 50;
 
         rules.endTowerHP = 50;
         rules.endResourceCountHP = 100;

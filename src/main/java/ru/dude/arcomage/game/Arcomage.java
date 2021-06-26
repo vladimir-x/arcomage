@@ -210,14 +210,25 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
 
                     switch (actionDetail.getActiontTarget()) {
                         case OWNER:
-                            executeOneAction(owner, owner, enemy, actionDetail);
+                            executeOneAction(owner, actionDetail);
                             break;
                         case ENEMY:
-                            executeOneAction(enemy, owner, enemy, actionDetail);
+                            executeOneAction(enemy, actionDetail);
+                            break;
+                        case LESS_WALL_HP:
+                            Integer ownerWal = owner.getResource(PlayResource.WALL_HP);
+                            Integer enemyWal = enemy.getResource(PlayResource.WALL_HP);
+
+                            if (ownerWal < enemyWal) {
+                                executeOneAction(owner, actionDetail);
+                            } else if (enemyWal < ownerWal) {
+                                executeOneAction(enemy, actionDetail);
+                            }
+
                             break;
                         case ALL:
-                            executeOneAction(owner, owner, enemy, actionDetail);
-                            executeOneAction(enemy, owner, enemy, actionDetail);
+                            executeOneAction(owner, actionDetail);
+                            executeOneAction(enemy, actionDetail);
                             break;
                         case CONST:
                         default:
@@ -237,12 +248,15 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
         return player == user ? opponent : user;
     }
 
-    private void executeOneAction(Player target, Player owner, Player enemy, ActionDetail actionDetail) {
+    private void executeOneAction(Player target, ActionDetail actionDetail) {
         PlayResource playRes = actionDetail.getPlayResource();
 
         if (playRes == PlayResource.DAMAGE) {
             target.damage(actionDetail.getCount());
         } else {
+
+            Player owner = getCurrentPlayer();
+            Player enemy = getOpponent();
 
             switch (actionDetail.getCommand()) {
 
@@ -286,11 +300,6 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
      */
     @Override
     public void checkWin() {
-
-        //TODO: DEBUG!!!!
-        if (true && stepCounter > 3) {
-            endGame(user, opponent, false);
-        }
 
         EndGameResult playerCR = checkPlayerEnd(user);
         EndGameResult opponentCR = checkPlayerEnd(opponent);

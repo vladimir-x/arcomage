@@ -6,5 +6,5 @@ package ru.dude.arcomage.game.data;
  */
 public enum ActiontTarget {
     OWNER, ENEMY,
-    ALL, CONST
+    ALL, LESS_WALL_HP, CONST
 }
