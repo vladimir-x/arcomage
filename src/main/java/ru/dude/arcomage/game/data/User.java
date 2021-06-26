@@ -28,4 +28,9 @@ public class User extends Player {
         return cards;
     }
 
+    @Override
+    public void endGame(EndGameResult end) {
+        System.out.println("user is " + end.name());
+    }
+
 }

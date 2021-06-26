@@ -6,13 +6,13 @@
 package ru.dude.arcomage.game.data;
 
 import ru.dude.arcomage.game.AppImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author elduderino
  */
 public class Computer extends Player {
@@ -50,5 +50,10 @@ public class Computer extends Player {
     @Override
     public ArrayList<Card> getCards() {
         return maskCards;
+    }
+
+    @Override
+    public void endGame(EndGameResult end) {
+        System.out.println("computer is " + end.name());
     }
 }

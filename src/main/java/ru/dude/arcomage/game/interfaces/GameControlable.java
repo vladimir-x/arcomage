@@ -39,4 +39,9 @@ public interface GameControlable {
      * Проверить на победу
      */
     void checkWin();
+
+    /**
+     * Показать диалог окончания игры
+     */
+    void showEndGameDialog(String message);
 }

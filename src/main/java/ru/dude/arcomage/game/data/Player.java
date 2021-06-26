@@ -6,6 +6,8 @@
 package ru.dude.arcomage.game.data;
 
 import ru.dude.arcomage.game.AppImpl;
+import ru.dude.arcomage.game.Arcomage;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,7 +146,7 @@ public abstract class Player {
      * принять ход
      */
     public void acceptTurn() {
-        System.out.println("player " + name + "acceptTurn");
+        System.out.println("player " + name + " acceptTurn");
         actionsCount.incrementAndGet();
         ding();
     }
@@ -200,4 +202,10 @@ public abstract class Player {
         addResource(PlayResource.WALL_HP, -damageWall);
         addResource(PlayResource.TOWER_HP, damageWall - count);
     }
+
+    /**
+     * Событие завершения игры
+     * @param end
+     */
+    public abstract void endGame(EndGameResult end);
 }

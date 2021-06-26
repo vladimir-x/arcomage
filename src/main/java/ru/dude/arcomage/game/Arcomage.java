@@ -21,7 +21,7 @@ import java.util.Optional;
 /**
  * @author elduderino
  */
-public class Arcomage implements Rendereble, Actionable, GameControlable {
+public abstract class Arcomage implements Rendereble, Actionable, GameControlable {
 
     AnimPool animPool;
 
@@ -101,14 +101,17 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     @Override
     public void playAgain() {
         System.out.println("---------- AGAIN TURN ----------");
-
         startTurn();
     }
 
     private void startTurn() {
-        System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
-        board.clearPrevStep();
-        animPool.setOnAnimateComlete(() -> hand.takeCard());
+        checkWin();
+
+        if (round == RoundEnum.USER_TURN || round == RoundEnum.OPPONENT_TURN) {
+            System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
+            board.clearPrevStep();
+            animPool.setOnAnimateComlete(() -> hand.takeCard());
+        }
     }
 
     @Override
@@ -188,8 +191,8 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
     @Override
     public void executeCard(Card card, Boolean droped) {
 
-        Player owner = player;
-        Player enemy = player == user ? opponent : user;
+        Player owner = getCurrentPlayer();
+        Player enemy = getOpponent();
         System.out.println("executeCard=" + card + "; drop=" + droped + "; owner=" + owner.getName() + " ; enemy=" + enemy.getName());
 
         if (droped) {
@@ -224,6 +227,14 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
             }
         }
 
+    }
+
+    private Player getCurrentPlayer() {
+        return player;
+    }
+
+    private Player getOpponent() {
+        return player == user ? opponent : user;
     }
 
     private void executeOneAction(Player target, Player owner, Player enemy, ActionDetail actionDetail) {
@@ -268,63 +279,81 @@ public class Arcomage implements Rendereble, Actionable, GameControlable {
         player.addResource(PlayResource.BRICK_COUNT, player.getResource(PlayResource.BRICK_INCOME));
         player.addResource(PlayResource.GEM_COUNT, player.getResource(PlayResource.GEM_INCOME));
         player.addResource(PlayResource.BEAST_COUNT, player.getResource(PlayResource.BEAST_INCOME));
-
-        checkWin();
     }
 
+    /**
+     * Проверить что игра закончилась
+     */
     @Override
     public void checkWin() {
 
-        CheckResult playerCR = checkPlayer(player);
-        CheckResult opponentCR = checkPlayer(opponent);
+        //TODO: DEBUG!!!!
+        if (true && stepCounter > 3) {
+            endGame(user, opponent, false);
+        }
 
-        if (playerCR == CheckResult.WIN && opponentCR == CheckResult.WIN) {
-            endGame(null);
-        } else if (playerCR == CheckResult.WIN && opponentCR != CheckResult.WIN) {
-            endGame(player);
-        } else if (playerCR != CheckResult.WIN && opponentCR == CheckResult.WIN) {
-            endGame(opponent);
-        } else if (playerCR == CheckResult.LOOSE && opponentCR == CheckResult.LOOSE) {
-            endGame(null);
-        } else if (playerCR == CheckResult.LOOSE && opponentCR != CheckResult.LOOSE) {
-            endGame(opponent);
-        } else if (playerCR != CheckResult.LOOSE && opponentCR == CheckResult.LOOSE) {
-            endGame(player);
+        EndGameResult playerCR = checkPlayerEnd(user);
+        EndGameResult opponentCR = checkPlayerEnd(opponent);
+
+        if (playerCR == EndGameResult.WIN && opponentCR == EndGameResult.WIN) {
+            endGame(null, null, true);
+        } else if (playerCR == EndGameResult.WIN && opponentCR != EndGameResult.WIN) {
+            endGame(user, opponent, false);
+        } else if (playerCR != EndGameResult.WIN && opponentCR == EndGameResult.WIN) {
+            endGame(opponent, user, false);
+        } else if (playerCR == EndGameResult.LOOSE && opponentCR == EndGameResult.LOOSE) {
+            endGame(null, null, true);
+        } else if (playerCR == EndGameResult.LOOSE && opponentCR != EndGameResult.LOOSE) {
+            endGame(opponent, user, false);
+        } else if (playerCR != EndGameResult.LOOSE && opponentCR == EndGameResult.LOOSE) {
+            endGame(user, opponent, false);
         }
 
     }
 
     /**
      *
-     * @param winner - победитель, или null в случае ничьи
+     * @param winner - победитель
+     * @param standoff - ничья
      */
-    private void endGame(Player winner){
+    private void endGame(Player winner,Player looser, boolean standoff){
         System.out.println("------ END GAME -----");
-        System.out.println("winner" + winner);
+        System.out.println("winner" + winner.getName());
+        round = RoundEnum.NOGAME;
+
+        if (standoff) {
+            player.endGame(EndGameResult.STANDOFF);
+            opponent.endGame(EndGameResult.STANDOFF);
+        } else {
+            winner.endGame(EndGameResult.WIN);
+            looser.endGame(EndGameResult.LOOSE);
+        }
+
+        if (standoff) {
+            showEndGameDialog("НИЧЬЯ");
+        }else if (winner == player) {
+            showEndGameDialog("Перемога !!! wup-wup-wup :)");
+        } else {
+            showEndGameDialog("Defeat :(");
+        }
     }
 
-
-    private enum CheckResult {
-        WIN, LOOSE, NOTHING
-    }
-
-
-    private CheckResult checkPlayer(Player player) {
+    private EndGameResult checkPlayerEnd(Player player) {
         if (player.getResource(PlayResource.TOWER_HP) == 0) {
-            return CheckResult.LOOSE;
+            return EndGameResult.LOOSE;
         }
         if (player.getResource(PlayResource.TOWER_HP) >= AppImpl.rules.endTowerHP) {
-            return CheckResult.WIN;
+            return EndGameResult.WIN;
         }
         if (player.getResource(PlayResource.BRICK_COUNT) >= AppImpl.rules.endResourceCountHP) {
-            return CheckResult.WIN;
+            return EndGameResult.WIN;
         }
         if (player.getResource(PlayResource.GEM_COUNT) >= AppImpl.rules.endResourceCountHP) {
-            return CheckResult.WIN;
+            return EndGameResult.WIN;
         }
         if (player.getResource(PlayResource.BEAST_COUNT) >= AppImpl.rules.endResourceCountHP) {
-            return CheckResult.WIN;
+            return EndGameResult.WIN;
         }
-        return CheckResult.NOTHING;
+        return EndGameResult.NOTHING;
     }
 }

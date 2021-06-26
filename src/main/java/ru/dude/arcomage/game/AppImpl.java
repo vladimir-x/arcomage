@@ -5,6 +5,7 @@
  */
 package ru.dude.arcomage.game;
 
+import ru.dude.arcomage.desktop.MainFrame;
 import ru.dude.arcomage.game.interfaces.GameControlable;
 import ru.dude.arcomage.game.screen.GameScreen;
 import ru.dude.arcomage.game.screen.WelcomeScreen;
@@ -61,7 +62,13 @@ public class AppImpl extends Game {
 
     public void restart() {
         gameStart = true;
-        Arcomage arcomage = new Arcomage();
+        Arcomage arcomage = new Arcomage(){
+
+            @Override
+            public void showEndGameDialog(String message) {
+                MainFrame.getInstance().showMessageDialog(message);
+            }
+        };
         control = arcomage;
         if (gameScreen !=null){
             gameScreen.dispose();
