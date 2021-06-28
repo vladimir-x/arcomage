@@ -55,12 +55,20 @@ public class PlayedSlot extends Slot {
 
     @Override
     void onGetCard() {
-        if (getCard()!=null) {
-            System.out.println("card.isPlayAgain() = " + getCard().isPlayAgain());
-            if (getCard().isPlayAgain() && !getDroped()) {
+        if (getCard() != null) {
+            System.out.println("PlaySlot onGet: playAgain = " + getCard().isPlayAgain() + ", dropped = " + getDroped() + ", dropAnotherAndAgain = " + getCard().isDropAnotherAndPlayAgain());
+            if (AppImpl.control.isRoundDropAndAgain()) {
                 AppImpl.control.playAgain();
-            }else {
+            } else if (getDroped()) {
                 AppImpl.control.switchTurn();
+            } else {
+                if (getCard().isPlayAgain()) {
+                    AppImpl.control.playAgain();
+                } else if (getCard().isDropAnotherAndPlayAgain()) {
+                    AppImpl.control.playDropAndAgain();
+                } else {
+                    AppImpl.control.switchTurn();
+                }
             }
         }
         board.makeEmptySlot();

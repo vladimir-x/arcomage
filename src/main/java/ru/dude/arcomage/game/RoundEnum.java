@@ -14,12 +14,36 @@ public enum RoundEnum {
     
     NOGAME,
     USER_TURN,
-    OPPONENT_TURN
+    USER_DROPANDAGAIN,
+    OPPONENT_TURN,
+    OPPONENT_DROPANDAGAIN,
     ;
 
     public RoundEnum switchTurn(){
-        if (this == USER_TURN) return OPPONENT_TURN;
-        if (this == OPPONENT_TURN ) return USER_TURN;
-        return this;
+        switch (this) {
+            case USER_TURN:
+                return OPPONENT_TURN;
+            case OPPONENT_TURN:
+                return USER_TURN;
+            case USER_DROPANDAGAIN:
+                return USER_TURN;
+            case OPPONENT_DROPANDAGAIN:
+                return OPPONENT_DROPANDAGAIN;
+            case NOGAME:
+            default:
+                return this;
+        }
+    }
+
+    public boolean isUserTurn() {
+        return this == USER_TURN || this == USER_DROPANDAGAIN;
+    }
+
+    public boolean isOpponentTurn() {
+        return this == OPPONENT_TURN || this == OPPONENT_DROPANDAGAIN;
+    }
+
+    public boolean isDropAndAgain() {
+        return this == USER_DROPANDAGAIN || this == OPPONENT_DROPANDAGAIN;
     }
 }

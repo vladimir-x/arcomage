@@ -9,10 +9,12 @@ package ru.dude.arcomage.game.data;
 public class ActionDetail {
 
     public enum Command {
-        ADD, SET_INT,
+        ADD,
+        SET_INT,
         SET_AS_OPPONENT,
         SET_ALL_AS_MAX,
         SWAP,
+        DROP_ONE,
     }
 
 
@@ -77,4 +79,13 @@ public class ActionDetail {
         return ad;
     }
 
+    @Override
+    public String toString() {
+        return "ActionDetail{" +
+                "actiontTarget=" + actiontTarget +
+                ", playResource=" + playResource +
+                ", command=" + command +
+                ", count=" + count +
+                '}';
+    }
 }

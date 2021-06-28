@@ -35,7 +35,12 @@ public class Card {
      */
     boolean droppable;
 
-    public Card(String name, TextureRegion texture, PlayResource costType, Integer costCount, List<CardAction> cardActions, boolean playAgain, boolean droppable) {
+    /**
+     * Сбрасывает другую карту и позволяет сыграть ещё раз
+     */
+    boolean dropAnotherAndPlayAgain;
+
+    public Card(String name, TextureRegion texture, PlayResource costType, Integer costCount, List<CardAction> cardActions, boolean playAgain, boolean droppable, boolean dropAnotherAndPlayAgain) {
         this.name = name;
         this.texture = texture;
         this.costType = costType;
@@ -44,6 +49,7 @@ public class Card {
 
         this.playAgain = playAgain;
         this.droppable = droppable;
+        this.dropAnotherAndPlayAgain = dropAnotherAndPlayAgain;
 
         if (cardActions != null && cardActions.size() == 0) {
             System.out.println("warn: card " + name + " without actions");
@@ -59,15 +65,15 @@ public class Card {
 
 
     public Card copy() {
-        return new Card(name, texture, costType, costCount, cardActions, playAgain, droppable);
+        return new Card(name, texture, costType, costCount, cardActions, playAgain, droppable, dropAnotherAndPlayAgain);
     }
 
     public static Card undo(TextureRegion texture) {
-        return new Card("undo", texture, null, null, null, false, false);
+        return new Card("undo", texture, null, null, null, false, false, false);
     }
 
     public static Card empty() {
-        return new Card("empty", null, null, null, null, false, false);
+        return new Card("empty", null, null, null, null, false, false, false);
     }
 
     public static Card parse(String name, TextureRegion texture, String cardActionsLine) {
@@ -83,18 +89,21 @@ public class Card {
                 Integer costCount = Integer.valueOf(costParts[1]);
                 boolean playAgain = false;
                 boolean canDrop = true;
+                boolean dropAnotherAndPlayAgain = false;
 
                 for (int i = 1; i < parts.length; ++i) {
                     if (parts[i].equals("PLAY_AGAIN")) {
                         playAgain = true;
                     } else if (parts[i].equals("CAN_NOT_DROP")) {
                         canDrop = false;
+                    } else if (parts[i].equals("DROP_ANOTHER_AND_PLAY_AGAIN")) {
+                        dropAnotherAndPlayAgain = true;
                     } else {
                         cardActions.add(CardAction.parse(parts[i]));
                     }
                 }
 
-                return new Card(name, texture, costType, costCount, cardActions, playAgain, canDrop);
+                return new Card(name, texture, costType, costCount, cardActions, playAgain, canDrop, dropAnotherAndPlayAgain);
             }
         } catch (Exception ex) {
             System.out.println("warn: card " + name + " parse exception");
@@ -127,6 +136,10 @@ public class Card {
 
     public boolean isDroppable() {
         return droppable;
+    }
+
+    public boolean isDropAnotherAndPlayAgain() {
+        return dropAnotherAndPlayAgain;
     }
 
     public List<CardAction> getCardActions() {

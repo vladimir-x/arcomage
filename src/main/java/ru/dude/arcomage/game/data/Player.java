@@ -183,12 +183,16 @@ public abstract class Player {
     }
 
     public void addResource(PlayResource playResource, Integer addCount) {
-        int newCount = Math.max(0, getResource(playResource) + addCount);
-        playResources.put(playResource, newCount);
+        Integer oldVal = getResource(playResource);
+        int newVal = Math.max(0, oldVal + addCount);
+        playResources.put(playResource, newVal);
+        System.out.println(getName() + " change " + playResource.name() + " " + oldVal + " -> " + newVal);
     }
 
-    public void setResource(PlayResource playResource, Integer newCount) {
-        playResources.put(playResource, newCount);
+    public void setResource(PlayResource playResource, Integer newVal) {
+        Integer oldVal = getResource(playResource);
+        playResources.put(playResource, newVal);
+        System.out.println(getName() + " change " + playResource.name() + " " + oldVal + " -> " + newVal);
     }
 
 
@@ -198,6 +202,7 @@ public abstract class Player {
      * @param count
      */
     public void damage(Integer count) {
+        System.out.println(getName() +" get damage " + count);
         int damageWall = Math.min(getResource(PlayResource.WALL_HP), count);
         addResource(PlayResource.WALL_HP, -damageWall);
         addResource(PlayResource.TOWER_HP, damageWall - count);

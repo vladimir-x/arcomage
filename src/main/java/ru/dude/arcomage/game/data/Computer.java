@@ -26,7 +26,11 @@ public class Computer extends Player {
     @Override
     public void ding() {
         System.out.println("computer turn st");
-        randomStep();
+        if (AppImpl.control.isRoundDropAndAgain()){
+            randomDrop();
+        } else {
+            randomStep();
+        }
         System.out.println("computer turn en");
 
     }
@@ -40,11 +44,15 @@ public class Computer extends Player {
             System.out.println("Computer want to play : " + card.getName());
             playCard(r, card);
         } else {
-            int r = randomGen.nextInt(cards.size());
-            Card card = cards.get(r);
-            System.out.println("Computer want to drop : " + card.getName());
-            dropCard(r, card);
+            randomDrop();
         }
+    }
+
+    private void randomDrop(){
+        int r = randomGen.nextInt(cards.size());
+        Card card = cards.get(r);
+        System.out.println("Computer want to drop : " + card.getName());
+        dropCard(r, card);
     }
 
     @Override

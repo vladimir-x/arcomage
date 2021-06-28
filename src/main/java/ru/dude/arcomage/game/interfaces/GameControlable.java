@@ -25,6 +25,8 @@ public interface GameControlable {
     // узнать текущий № хода
     Integer getCurrentStepCount();
 
+    void playDropAndAgain();
+
     void promptToStep(float propX, float propY, int button);
 
     /**
@@ -44,4 +46,10 @@ public interface GameControlable {
      * Показать диалог окончания игры
      */
     void showEndGameDialog(String message);
+
+    /**
+     * Идёт режим "сбросить и играть снова"
+     * @return
+     */
+    boolean isRoundDropAndAgain();
 }

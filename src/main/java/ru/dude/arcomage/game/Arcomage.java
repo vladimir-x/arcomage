@@ -31,7 +31,7 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
     Board board;
     Hand hand;
 
-    Player player, user, opponent;
+    Player user, opponent;
     RoundEnum round;
 
     Integer stepCounter;
@@ -74,12 +74,12 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
         hand.setPlayer(user, round);
 
         round = isUser ? RoundEnum.USER_TURN : RoundEnum.OPPONENT_TURN;
-        player = isUser ? user : opponent;
-        hand.setPlayer(player, round);
 
         //без анимации
+        user.takeCards();
         opponent.takeCards();
 
+        hand.setPlayer(getCurrentPlayer(), round);
 
         startTurn();
 
@@ -90,8 +90,7 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
         System.out.println("---------- SWITCH TURN ----------");
         round = round.switchTurn();
 
-        player = round == RoundEnum.USER_TURN ? user : opponent;
-        hand.setPlayer(player, round);
+        hand.setPlayer(getCurrentPlayer(), round);
 
         ++stepCounter;
         executeIncome();
@@ -101,14 +100,28 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
     @Override
     public void playAgain() {
         System.out.println("---------- AGAIN TURN ----------");
+        if (round == RoundEnum.USER_DROPANDAGAIN){
+            round = RoundEnum.USER_TURN;
+        }
+        if (round == RoundEnum.OPPONENT_DROPANDAGAIN){
+            round = RoundEnum.OPPONENT_TURN;
+        }
+        startTurn();
+    }
+
+    @Override
+    public void playDropAndAgain(){
+        System.out.println("---------- DROP AND AGAIN TURN ----------");
+        round = round.isUserTurn() ? RoundEnum.USER_DROPANDAGAIN : RoundEnum.OPPONENT_DROPANDAGAIN;
+
         startTurn();
     }
 
     private void startTurn() {
         checkWin();
 
-        if (round == RoundEnum.USER_TURN || round == RoundEnum.OPPONENT_TURN) {
-            System.out.println("play:" + player.getName() + " hand: " + player.getCardTitles());
+        if (round != RoundEnum.NOGAME) {
+            System.out.println("play:" + getCurrentPlayer().getName() + " hand: " + getCurrentPlayer().getCardTitles());
             board.clearPrevStep();
             animPool.setOnAnimateComlete(() -> hand.takeCard());
         }
@@ -169,17 +182,26 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
                 hand.selectAndPlay(propX, propY, true);
             }
 
+        } else if (round == RoundEnum.USER_DROPANDAGAIN){
+            if (button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT) {
+                hand.selectAndPlay(propX, propY, true);
+            }
         }
     }
 
     @Override
     public boolean playCard(int r, Card card, boolean drop) {
-        return hand.selectAndPlay(r, card, drop);
+        return hand.selectAndPlay(r, card, drop || isRoundDropAndAgain());
     }
 
     @Override
     public Integer getCurrentStepCount() {
         return stepCounter;
+    }
+
+    @Override
+    public boolean isRoundDropAndAgain() {
+        return round.isDropAndAgain();
     }
 
     @Override
@@ -199,7 +221,7 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
             // just drop
         } else {
 
-            player.addResource(card.getCostType(), -card.getCostCount());
+            owner.addResource(card.getCostType(), -card.getCostCount());
 
             for (CardAction cardAction : card.getCardActions()) {
                 Boolean conditionCheck = Optional.ofNullable(cardAction.getCondition()).map(c -> c.check(owner, enemy)).orElse(true);
@@ -241,15 +263,17 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
     }
 
     private Player getCurrentPlayer() {
-        return player;
+        return round.isUserTurn() ? user : opponent;
     }
 
     private Player getOpponent() {
-        return player == user ? opponent : user;
+        return getCurrentPlayer() == user ? opponent : user;
     }
 
     private void executeOneAction(Player target, ActionDetail actionDetail) {
         PlayResource playRes = actionDetail.getPlayResource();
+
+        System.out.println("execute target:" + target.getName() + "; " + actionDetail);
 
         if (playRes == PlayResource.DAMAGE) {
             target.damage(actionDetail.getCount());
@@ -280,6 +304,9 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
                     owner.setResource(playRes, enemy.getResource(playRes));
                     enemy.setResource(playRes, last);
                     break;
+                case DROP_ONE:
+                    // специальный режим
+                    break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + actionDetail.getCommand());
             }
@@ -290,6 +317,7 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
      * Добавить ресурсы в начале хода
      */
     private void executeIncome() {
+        Player player = getCurrentPlayer();
         player.addResource(PlayResource.BRICK_COUNT, player.getResource(PlayResource.BRICK_INCOME));
         player.addResource(PlayResource.GEM_COUNT, player.getResource(PlayResource.GEM_INCOME));
         player.addResource(PlayResource.BEAST_COUNT, player.getResource(PlayResource.BEAST_INCOME));
@@ -329,6 +357,8 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
         System.out.println("------ END GAME -----");
         System.out.println("winner" + winner.getName());
         round = RoundEnum.NOGAME;
+
+        Player player = getCurrentPlayer();
 
         if (standoff) {
             player.endGame(EndGameResult.STANDOFF);
