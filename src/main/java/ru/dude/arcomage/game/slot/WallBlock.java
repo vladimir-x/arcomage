@@ -43,7 +43,7 @@ public class WallBlock implements Rendereble {
 
             @Override
             public void update() {
-                updateByXYText(bodyTextureRect.x, bodyTextureRect.y);
+                updateXY(bodyTextureRect.x, bodyTextureRect.y);
             }
         };
     }

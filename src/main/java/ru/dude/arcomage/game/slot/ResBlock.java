@@ -8,7 +8,6 @@ package ru.dude.arcomage.game.slot;
 import com.badlogic.gdx.graphics.Color;
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.data.PlayResource;
-import ru.dude.arcomage.game.data.ResourceType;
 import ru.dude.arcomage.game.desk.ResPanel;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -51,9 +50,10 @@ public class ResBlock implements Rendereble {
             @Override
             public void update() {
                 Rectangle rectOwner = ResBlock.this.getRectangle();
-                updateByXYText(rectOwner.x + 5f, rectOwner.y + rectOwner.height / 4f);
+                updateXY(rectOwner.x + 5f, rectOwner.y + rectOwner.height * 19 / 88);
             }
         };
+        this.incomeBlock.vAlign = TextBlock.VAlign.TOP;
 
         this.currentCountBlock = new TextBlock() {
 
@@ -65,9 +65,10 @@ public class ResBlock implements Rendereble {
             @Override
             public void update() {
                 Rectangle rectOwner = ResBlock.this.getRectangle();
-                updateByXYText(rectOwner.x, rectOwner.y);
+                updateXY(rectOwner.x, rectOwner.y);
             }
         };
+        this.currentCountBlock.vAlign = TextBlock.VAlign.TOP;
 
     }
 

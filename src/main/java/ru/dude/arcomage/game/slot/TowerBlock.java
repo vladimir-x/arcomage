@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.data.PlayResource;
 import ru.dude.arcomage.game.desk.HpPanel;
-import ru.dude.arcomage.game.desk.ResPanel;
 import ru.dude.arcomage.game.desk.Zones;
 import ru.dude.arcomage.game.interfaces.Rendereble;
 
@@ -39,7 +38,7 @@ public class TowerBlock implements Rendereble {
         towerHpBlock = new TextBlock() {
             @Override
             public void update() {
-                updateByXYText(bodyTextureRect.x, bodyTextureRect.y);
+                updateXY(bodyTextureRect.x, bodyTextureRect.y);
             }
 
             @Override

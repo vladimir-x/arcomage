@@ -8,7 +8,6 @@ package ru.dude.arcomage.game.slot;
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.desk.ResPanel;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
@@ -20,20 +19,18 @@ public class NameBlock extends TextBlock {
 
     public NameBlock(ResPanel owner) {
         this.owner = owner;
+        this.hasBackground = true;
+        this.hAlign = HAlign.LEFT;
+        this.vAlign = VAlign.TOP;
     }
 
     @Override
     public void update() {
-        float topSlotY = owner.resSlots[0].getRectangle().y + owner.resSlots[0].getRectangle().height;
-        float topResPanelY = owner.getRectangle().y + owner.getRectangle().height;
-        
+
         float centrX = owner.getRectangle().x + owner.getRectangle().width / 2.f;
-        float centrY = topSlotY + (topResPanelY - topSlotY) / 2.f;
-        
-        
-        BitmapFont.TextBounds tb = AppImpl.resources.font.getBounds(text);
-        
-        rect = new Rectangle(centrX -tb.width/2.f, centrY - tb.height/2.f, tb.width, tb.height);
+        float topSlotY = owner.resSlots[0].getRectangle().y + owner.resSlots[0].getRectangle().height ;
+
+        updateXY(centrX, topSlotY );
     }
 
     @Override

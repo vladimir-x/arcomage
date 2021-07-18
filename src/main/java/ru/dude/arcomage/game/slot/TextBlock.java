@@ -20,9 +20,30 @@ import ru.dude.arcomage.game.render.RenderUtil;
  */
 public abstract class TextBlock implements Rendereble {
 
+    public enum HAlign {
+        LEFT, CENTER, RIGHT
+    }
+
+    public enum VAlign {
+        BOTTOM, CENTER, TOP
+    }
+
+
     protected Rectangle rect;
 
+    protected float x;
+
+    protected float y;
+
     protected String text;
+
+    // выравнивание относительно x
+    protected HAlign hAlign = HAlign.CENTER;
+
+    // выравнивание относительно y
+    protected VAlign vAlign = VAlign.BOTTOM;
+
+    protected boolean hasBackground = false;
 
     public TextBlock() {
     }
@@ -32,12 +53,16 @@ public abstract class TextBlock implements Rendereble {
     @Override
     public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
 
-        updateByXYText(rect.x, rect.y);
+        text = updateTextOnRender();
 
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.BLACK);
-        renderer.rect(rect.x, rect.y, rect.width, rect.height);
-        renderer.end();
+        recalculate();
+
+        if (hasBackground) {
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.setColor(Color.BLACK);
+            renderer.rect(rect.x, rect.y, rect.width, rect.height);
+            renderer.end();
+        }
 
         RenderUtil.renderBorderRect(renderer, Color.ORANGE, rect);
         
@@ -47,10 +72,27 @@ public abstract class TextBlock implements Rendereble {
 
     }
 
-    protected void updateByXYText(float x, float y){
-        text = updateTextOnRender();
+
+    private void recalculate() {
         BitmapFont.TextBounds tb = AppImpl.resources.font.getBounds(text);
-        rect = new Rectangle(x, y, tb.width, tb.height);
+
+        float currX =
+                hAlign == HAlign.LEFT ? x - tb.width/2 :
+                        hAlign == HAlign.CENTER ? x :
+                                hAlign == HAlign.RIGHT ? x + tb.width/2 : 0;
+
+
+        float currY =
+                vAlign == VAlign.BOTTOM ? y - tb.height :
+                        vAlign == VAlign.CENTER ? y - tb.height / 2f :
+                                vAlign == VAlign.TOP ? y : 0;
+
+        rect = new Rectangle(currX, currY, tb.width, tb.height);
+    }
+
+    protected void updateXY(float x, float y){
+        this.x = x;
+        this.y = y;
     }
 
     public String getText() {

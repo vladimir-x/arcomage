@@ -41,6 +41,8 @@ public class Resource {
 
     public BitmapFont font;
 
+    public String dropAndAgainMessage;
+
     public Resource() {
 
         //фоны
@@ -117,6 +119,9 @@ public class Resource {
         readActions(AppImpl.settings.deckActions);
         readRegions(new Texture(AppImpl.settings.deckTexture));
 
+        //текстовые строки
+
+        dropAndAgainMessage = "SELECT CARD TO DROP";
     }
 
     /**

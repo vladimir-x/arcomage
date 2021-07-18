@@ -7,10 +7,7 @@ package ru.dude.arcomage.game.desk;
 
 import ru.dude.arcomage.game.AppImpl;
 import ru.dude.arcomage.game.interfaces.Actionable;
-import ru.dude.arcomage.game.slot.ActiveSlot;
-import ru.dude.arcomage.game.slot.DeckSlot;
-import ru.dude.arcomage.game.slot.FlySlot;
-import ru.dude.arcomage.game.slot.PlayedSlot;
+import ru.dude.arcomage.game.slot.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -34,12 +31,15 @@ public class Board extends Deskzone implements Actionable {
     ArrayList<PlayedSlot> playedSlots;
     PlayedSlot lastSlot;
 
+    DropMessageBlock dropAndAgainMessage;
+
     public Board(Zones zone) {
         super(zone);
         discardSlot = new DeckSlot(this);
         deckSlot = new DeckSlot(this);
         activeSlot = new ActiveSlot(this);
         playedSlots = new ArrayList<>();
+        dropAndAgainMessage = new DropMessageBlock(this);
         makeEmptySlot();
     }
 
@@ -50,6 +50,7 @@ public class Board extends Deskzone implements Actionable {
         discardSlot.update();
         deckSlot.update();
         activeSlot.update();
+        dropAndAgainMessage.update();
 
         for (PlayedSlot playedSlot : playedSlots) {
             playedSlot.update();
@@ -73,6 +74,10 @@ public class Board extends Deskzone implements Actionable {
         deckSlot.render(renderer, spriteBatch);
         activeSlot.render(renderer, spriteBatch);
 
+
+        if (AppImpl.control.isRoundDropAndAgain()){
+            dropAndAgainMessage.render(renderer, spriteBatch);
+        }
     }
 
     public void makeEmptySlot() {
