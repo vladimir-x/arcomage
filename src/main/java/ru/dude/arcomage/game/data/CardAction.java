@@ -42,22 +42,6 @@ public class CardAction {
         return ca;
     }
 
-    public static CardAction ownerAddResIf(PlayResource playResource, Integer compareValue, Integer ifEqual, Integer ifNotEqual) {
-        return withCondition(
-                ActionCondition.ownerEq(playResource, compareValue),
-                ActionDetail.ownerAdd(playResource, ifEqual),
-                ActionDetail.ownerAdd(playResource, ifNotEqual)
-        );
-    }
-
-    public static CardAction ownerAdd(PlayResource playResource, Integer value) {
-        return withoutCondition(ActionDetail.ownerAdd(playResource, value));
-    }
-
-    public static CardAction enemyAdd(PlayResource playResource, Integer value) {
-        return withoutCondition(ActionDetail.enemyAdd(playResource, value));
-    }
-
     /**
      * Парсинг одного действия
      * @param oneActionLine

@@ -118,9 +118,9 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
     }
 
     private void startTurn() {
-        checkWin();
-
         if (round != RoundEnum.NOGAME) {
+            checkWin();
+
             System.out.println("play:" + getCurrentPlayer().getName() + " hand: " + getCurrentPlayer().getCardTitles());
             board.clearPrevStep();
             animPool.setOnAnimateComlete(() -> hand.takeCard());
@@ -355,10 +355,10 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
      */
     private void endGame(Player winner,Player looser, boolean standoff){
         System.out.println("------ END GAME -----");
-        System.out.println("winner" + winner.getName());
-        round = RoundEnum.NOGAME;
-
+        System.out.println("winner: " + winner.getName());
         Player player = getCurrentPlayer();
+
+        round = RoundEnum.NOGAME;
 
         if (standoff) {
             player.endGame(EndGameResult.STANDOFF);

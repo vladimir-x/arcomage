@@ -15,7 +15,8 @@ public class ActionCondition {
     ActiontTarget rightOperandTarget;
 
     // Сравниваемый ресурс
-    PlayResource compareResource;
+    PlayResource leftCompareResource;
+    PlayResource rightCompareResource;
     CompareType compareType;
 
     Integer leftConstantValue;
@@ -29,8 +30,8 @@ public class ActionCondition {
      */
     public boolean check(Player owner, Player enemy) {
 
-        Integer leftValue = selectOperandValue(owner, enemy, leftOperandTarget, leftConstantValue);
-        Integer rightValue = selectOperandValue(owner, enemy, rightOperandTarget, rightConstantValue);
+        Integer leftValue = selectOperandValue(owner, enemy, leftOperandTarget, leftCompareResource, leftConstantValue);
+        Integer rightValue = selectOperandValue(owner, enemy, rightOperandTarget, rightCompareResource, rightConstantValue);
 
         int cmp = Integer.compare(leftValue, rightValue);
         switch (compareType){
@@ -45,7 +46,7 @@ public class ActionCondition {
 
     }
 
-    private Integer selectOperandValue(Player owner, Player enemy, ActiontTarget operandTarget, Integer constantValue){
+    private Integer selectOperandValue(Player owner, Player enemy, ActiontTarget operandTarget, PlayResource compareResource, Integer constantValue){
         switch (operandTarget) {
             case OWNER:
                 return owner.getResource(compareResource);
@@ -57,23 +58,13 @@ public class ActionCondition {
         throw new IllegalArgumentException(operandTarget + " not supported");
     }
 
-
-    public static ActionCondition ownerEq(PlayResource compareResource, Integer constantValue) {
-        ActionCondition ac = new ActionCondition();
-        ac.compareResource = compareResource;
-        ac.compareType = CompareType.EQ;
-        ac.leftOperandTarget = ActiontTarget.OWNER;
-        ac.rightOperandTarget = ActiontTarget.CONST;
-        ac.rightConstantValue = constantValue;
-        return ac;
-    }
-
     public static ActionCondition parse(String line) {
         String[] parts = line.split("\\.");
 
         ActionCondition ac = new ActionCondition();
         ac.leftOperandTarget = ActiontTarget.valueOf(parts[0]);
-        ac.compareResource = PlayResource.valueOf(parts[1]);
+        ac.leftCompareResource = PlayResource.valueOf(parts[1]);
+        ac.rightCompareResource = ac.leftCompareResource;
         ac.compareType = CompareType.valueOf(parts[2]);
         String rightPart = parts[3];
         if (rightPart.equals(ActiontTarget.ENEMY.name()) || rightPart.equals(ActiontTarget.OWNER.name())){
@@ -81,6 +72,9 @@ public class ActionCondition {
         } else {
             ac.rightOperandTarget = ActiontTarget.CONST;
             ac.rightConstantValue = Integer.valueOf(rightPart);
+        }
+        if (rightPart.length() > 4) {
+            ac.rightCompareResource = PlayResource.valueOf(parts[4]);
         }
         return ac;
     }

@@ -39,22 +39,6 @@ public class ActionDetail {
         return count;
     }
 
-    public static ActionDetail ownerAdd(PlayResource addResource, Integer countAdd){
-        ActionDetail ad = new ActionDetail();
-        ad.actiontTarget = ActiontTarget.OWNER;
-        ad.command = Command.ADD;
-        ad.playResource = addResource;
-        return ad;
-    }
-
-    public static ActionDetail enemyAdd(PlayResource addResource, Integer countAdd){
-        ActionDetail ad = new ActionDetail();
-        ad.actiontTarget = ActiontTarget.ENEMY;
-        ad.command = Command.SET_INT;
-        ad.playResource = addResource;
-        return ad;
-    }
-
 
     public static ActionDetail parse(String line) {
 
