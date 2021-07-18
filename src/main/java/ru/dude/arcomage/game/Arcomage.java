@@ -38,7 +38,7 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
 
     public Arcomage() {
 
-        user = new User("user");
+        user = new User("user", this::alertEndGameUser);
         opponent = new Computer("computer");
 
         animPool = new AnimPool();
@@ -368,12 +368,25 @@ public abstract class Arcomage implements Rendereble, Actionable, GameControlabl
             looser.endGame(EndGameResult.LOOSE);
         }
 
-        if (standoff) {
-            showEndGameDialog("НИЧЬЯ");
-        }else if (winner == player) {
-            showEndGameDialog("Перемога !!! wup-wup-wup :)");
-        } else {
-            showEndGameDialog("Defeat :(");
+    }
+
+    /**
+     * оповестить игрока User об окончании игры
+     * @param endGameResult
+     */
+    private void alertEndGameUser(EndGameResult endGameResult){
+        switch (endGameResult) {
+            case WIN:
+                showEndGameDialog("Перемога !!! wup-wup-wup :)");
+                break;
+            case LOOSE:
+                showEndGameDialog("Defeat :(");
+                break;
+            case STANDOFF:
+                showEndGameDialog("НИЧЬЯ");
+                break;
+            case NOTHING:
+                break;
         }
     }
 

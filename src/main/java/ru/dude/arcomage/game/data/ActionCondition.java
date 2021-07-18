@@ -73,7 +73,7 @@ public class ActionCondition {
             ac.rightOperandTarget = ActiontTarget.CONST;
             ac.rightConstantValue = Integer.valueOf(rightPart);
         }
-        if (rightPart.length() > 4) {
+        if (parts.length > 4) {
             ac.rightCompareResource = PlayResource.valueOf(parts[4]);
         }
         return ac;

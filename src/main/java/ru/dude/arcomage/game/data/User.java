@@ -6,6 +6,7 @@
 package ru.dude.arcomage.game.data;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 /**
  *
@@ -14,8 +15,14 @@ import java.util.ArrayList;
 public class User extends Player {
 
 
-    public User(String name) {
+    /**
+     * Функция вызвается при завершении игры
+     */
+    private Consumer<EndGameResult> endGameAlertFunction;
+
+    public User(String name, Consumer<EndGameResult> endGameAlertFunction) {
         super(name);
+        this.endGameAlertFunction = endGameAlertFunction;
     }
 
     @Override
@@ -31,6 +38,10 @@ public class User extends Player {
     @Override
     public void endGame(EndGameResult end) {
         System.out.println("user is " + end.name());
+
+        if (endGameAlertFunction != null) {
+            endGameAlertFunction.accept(end);
+        }
     }
 
 }
